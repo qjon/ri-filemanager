@@ -1,0 +1,15 @@
+.modal.image-crop-window(data-ng-controller="editFileController as efCtrl")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.btn.close(type="button", ng-click="$hide()")
+                    i.fa.fa-times
+                h4.modal-title {{ 'IMAGE_EDIT'| translate }}
+            .modal-body
+                div(style="max-height: 400px; overflow: hidden; scroll: auto;")
+                    img(ng-src="{{ file.src }}", crop="", file="file")
+            .modal-footer
+                .btn-group.pull-left
+                    button.btn.btn-primary(ng-repeat="s in efCtrl.sizeList", ng-class="{'active': efCtrl.isSize(s)}", ng-click="efCtrl.setSize(s)") {{ s.name }}
+                button.btn.btn-primary(ng-click="file.crop(); $hide()") {{ 'SAVE'| translate }}
+                button.btn.btn-danger(ng-click="$hide()") {{ 'CANCEL'| translate }}

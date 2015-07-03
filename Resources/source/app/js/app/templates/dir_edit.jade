@@ -1,0 +1,20 @@
+.modal(data-ng-controller="editDirController as de")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.btn.close(type="button", ng-click="$hide()")
+                    i.fa.fa-times
+                h4 {{'DIR_NAME_CHANGE' | translate}} "{{ de.orgName }}"
+            .modal-body
+                .alert.alert-danger(ng-show="folder_add.$invalid && folder_add.$dirty")
+                    p {{'VALID_DIR_NAME_CAN_NOT_BE_EMPTY' | translate}}
+                form.form.form-horizontal(name="folder_add", novalidate, style="margin: 10px;")
+                    .form-group
+                        input.form-control(type="text", name="folder_name", ng-model="de.folderName", placeholder="{{'DIR_NAME' | translate}}", required)
+            .modal-footer
+                button.btn.btn-success(ng-disabled="folder_add.$invalid || de.folderName == de.orgName", ng-click="de.dir.save(de.folderName, $hide, $hide)")
+                    i.fa.fa-check.
+                        {{'SAVE' | translate}}
+                button.btn.btn-danger(ng-click="$hide()")
+                    i.fa.fa-times.
+                        {{'CANCEL' | translate}}

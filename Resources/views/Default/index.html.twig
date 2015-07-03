@@ -1,0 +1,46 @@
+{% stylesheets
+    '@RIFileManagerBundle/Resources/public/js/components/bootstrap-additions/bootstrap-additions.min.css'
+    '@RIFileManagerBundle/Resources/public/js/components/cropper/cropper.min.css'
+    '@RIFileManagerBundle/Resources/public/js/components/angular-motion/angular-motion.css'
+    '@RIFileManagerBundle/Resources/public/css/main.min.css'
+%}
+<link rel="stylesheet" href="{{ asset_url }}" media="screen" type="text/css" />
+{% endstylesheets %}
+{% javascripts
+    '@RIFileManagerBundle/Resources/public/js/components/lodash/lodash.compat.js'
+    '@RIFileManagerBundle/Resources/public/js/components/angular/angular.js'
+    '@RIFileManagerBundle/Resources/public/js/components/angular-route/angular-route.js'
+    '@RIFileManagerBundle/Resources/public/js/components/angular-animate/angular-animate.js'
+    '@RIFileManagerBundle/Resources/public/js/components/angular-resource/angular-resource.js'
+    '@RIFileManagerBundle/Resources/public/js/components/angular-strap/angular-strap.js'
+    '@RIFileManagerBundle/Resources/public/js/components/angular-strap/angular-strap.tpl.js'
+    '@RIFileManagerBundle/Resources/public/js/components/angular-translate/angular-translate.js'
+    '@RIFileManagerBundle/Resources/public/js/components/angular-translate-loader-static-files/angular-translate-loader-static-files.js'
+    '@RIFileManagerBundle/Resources/public/js/components/flow.js/flow.js'
+    '@RIFileManagerBundle/Resources/public/js/components/ng-flow/ng-flow.js'
+    '@RIFileManagerBundle/Resources/public/js/components/cropper/cropper.min.js'
+    '@RIFileManagerBundle/Resources/public/js/app.min.js'
+    '@RIFileManagerBundle/Resources/public/js/template.js'
+%}
+<script src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+<script>
+    var fm = angular.module('fm', ['filemanager'])
+            .config(['configProviderProvider', 'urlProviderProvider', function (ConfigProvider, urlProvider) {
+                ConfigProvider.setConfig({{ filemanager_configuration|json_encode|raw }})
+                urlProvider.setUrl({
+                    loadFolder: '/app_dev.php/admin/filemanager/api/directory',
+                    addFolder: '/app_dev.php/admin/filemanager/api/directory/add',
+                    cropImage: '/app_dev.php/admin/filemanager/api/file/crop',
+                    deleteFile: '/app_dev.php/admin/filemanager/api/file/remove',
+                    deleteFolder: '/app_dev.php/admin/filemanager/api/directory/remove',
+                    updateFolder: '/app_dev.php/admin/filemanager/api/directory/save'
+                });
+            }]);
+</script>
+
+<div class="filemanager" ng-app="fm">
+    <h1>{% verbatim %}{{'FILEMANAGER' | translate}}{% endverbatim %}</h1>
+    <div class="animation" ng-view  style="width: 100%;"></div>
+</div>

@@ -1,0 +1,25 @@
+{
+    "name" : "ri/filemanager",
+    "description" : "File manager",
+    "type" : "symfony-bundle",
+    "authors" : [{
+        "name" : "Rafał Ignaszewski",
+        "email" : "rafal@ignaszewski.pl"
+    }],
+    "keywords" : [
+        "filemanager tinymce"
+    ],
+    "license" : [
+        "MIT"
+    ],
+    "require" : {
+        "stfalcon/tinymce-bundle": ">=0.3.7",
+        "friendsofsymfony/jsrouting-bundle": "dev-master"
+    },
+    "autoload" : {
+        "psr-0" : {
+            "RI\\FileManagerBundle" : ""
+        }
+    },
+    "target-dir": "RI/FileManagerBundle"
+}

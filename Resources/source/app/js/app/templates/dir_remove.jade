@@ -1,0 +1,17 @@
+.modal(data-ng-controller="removeDirController as rd")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.btn.close(type="button", ng-click="$hide()")
+                    i.fa.fa-times
+                h4 {{'DIR_REMOVE' | translate}}
+            .modal-body
+                .alert.alert-danger(ng-if="rd.errorString")
+                    p DIR_HAS_NOT_BEEN_REMOVED. {{ rd.errorString }}
+                .alert.alert-warning(ng-if="!rd.errorString")
+                    p(translate="{{'DIR_REMOVE_QUESTION'}}", translate-values="{folderName: rd.removedDir.name}")
+            .modal-footer
+                button.btn.btn-success(ng-if="!rd.errorString", ng-click="rd.removedDir.remove($hide, rd.showAlert)")
+                    i.fa.fa-check {{'YES' | translate}}, {{'DELETE' | translate}}
+                button.btn.btn-danger(ng-click="$hide()")
+                    i.fa.fa-times {{'CANCEL' | translate}}

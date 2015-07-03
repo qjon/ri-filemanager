@@ -1,0 +1,52 @@
+services:
+  ri.filemanager.repository.file:
+    class: RI\FileManagerBundle\Entity\FileRepository
+    factory_service: doctrine.orm.entity_manager
+    factory_method: getRepository
+    arguments: [RIFileManagerBundle:File]
+
+  ri.filemanager.repository.directory:
+    class: RI\FileManagerBundle\Entity\DirectoryRepository
+    factory_service: doctrine.orm.entity_manager
+    factory_method: getRepository
+    arguments: [RIFileManagerBundle:Directory]
+
+  ri.filemanager.manager.upload_directory_manager:
+    class: RI\FileManagerBundle\Manager\UploadDirectoryManager
+    arguments: [%kernel.root_dir%, %ri.filemanager.upload_dir%]
+
+  ri.filemanager.model.crop_image_model:
+    class: RI\FileManagerBundle\Model\CropImageModel
+    arguments: [@doctrine.orm.default_entity_manager, %kernel.root_dir%]
+
+  ri.filemanager.data_provider.directory_data_provider:
+    class: RI\FileManagerBundle\DataProvider\DirectoryDataProvider
+    arguments: [@doctrine.orm.default_entity_manager]
+
+  ri.filemanager.data_provider.file_data_provider:
+    class: RI\FileManagerBundle\DataProvider\FileDataProvider
+    arguments: [@doctrine.orm.default_entity_manager]
+
+  ri.filemanager.model.file_model:
+    class: RI\FileManagerBundle\Model\FileModel
+    arguments: [@doctrine.orm.default_entity_manager, @ri.filemanager.manager.upload_directory_manager, %kernel.root_dir%, %ri.filemanager.resize%, %ri.filemanager.resize_max_width%]
+
+  ri.filemanager.model.move_selection_model:
+    class: RI\FileManagerBundle\Model\Selection\MoveSelectionModel
+    arguments: [@ri.filemanager.repository.file, @ri.filemanager.repository.directory, @ri.filemanager.data_provider.directory_data_provider]
+
+  ri.filemanager.model.copy_selection_model:
+    class: RI\FileManagerBundle\Model\Selection\CopySelectionModel
+    arguments:
+      - @ri.filemanager.repository.file
+      - @ri.filemanager.repository.directory
+      - @ri.filemanager.data_provider.directory_data_provider
+      - @doctrine.orm.default_entity_manager
+      - @ri.filemanager.manager.upload_directory_manager
+  ri.filemanager.model.delete_selection_model:
+    class: RI\FileManagerBundle\Model\Selection\DeleteSelectionModel
+    arguments:
+      - @ri.filemanager.repository.file
+      - @ri.filemanager.repository.directory
+      - @doctrine.orm.default_entity_manager
+
