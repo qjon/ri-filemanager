@@ -11,4 +11,4 @@ install:
   - npm i
   - grunt bower
   - grunt build
-  - grunt karma
+  - grunt karma-dev
