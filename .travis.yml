@@ -9,6 +9,6 @@ install:
   - cd Resources/source
   - npm install -g grunt-cli
   - npm i
-  - grunt build
   - grunt bower
+  - grunt build
   - grunt karma
