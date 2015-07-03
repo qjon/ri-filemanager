@@ -3,11 +3,12 @@ node_js:
   - "0.12"
 cache:
   directories:
-    - node_modules
-    - bower_components
+    - Resources/source/node_modules
+    - Resources/source/bower_components
 install:
   - cd Resources/source
   - npm install -g grunt-cli
   - npm i
+  - grunt build
   - grunt bower
   - grunt karma
