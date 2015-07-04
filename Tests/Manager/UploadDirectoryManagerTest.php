@@ -21,6 +21,8 @@ class UploadDirectoryManagerTest extends \PHPUnit_Framework_TestCase
 {
     const FILENAME = 'hello_world.jpg';
     const NEW_FILENAME = '790f1bfea8585c9bc2e7b6267cb212e1.jpg';
+    const UPLOAD_DIR = '/tmp/';
+    const KERNEL_DIR = '/tmp/kernel';
 
     /**
      * @var UploadDirectoryManager
@@ -37,7 +39,7 @@ class UploadDirectoryManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->uploadDirectoryManager = new UploadDirectoryManager(__DIR__ . '/../../../../../../../web/uploads');
+        $this->uploadDirectoryManager = new UploadDirectoryManager(self::KERNEL_DIR, self::UPLOAD_DIR);
         $this->uploadDirectoryManagerReflection = new \ReflectionClass('RI\FileManagerBundle\Manager\UploadDirectoryManager');
     }
 
@@ -63,7 +65,7 @@ class UploadDirectoryManagerTest extends \PHPUnit_Framework_TestCase
         $method = $this->uploadDirectoryManagerReflection->getMethod('createDestinationDir');
         $method->setAccessible(true);
 
-        $subDirExpected = sprintf('%s/%s/%s/%s/7/79', UploadDirectoryManager::uploadDir, $date->format("y"), $date->format("m"), $date->format("d"));
+        $subDirExpected = sprintf('%s/%s/%s/%s/7/79', self::UPLOAD_DIR , $date->format("y"), $date->format("m"), $date->format("d"));
         $subDir = $method->invokeArgs($this->uploadDirectoryManager, array($newFilename));
 
         $this->assertEquals($subDirExpected, $subDir);
@@ -83,3 +85,4 @@ class UploadDirectoryManagerTest extends \PHPUnit_Framework_TestCase
         return $method->invokeArgs($this->uploadDirectoryManager, array($uploadedFile->getClientOriginalName(), $uploadedFile->getExtension()));
     }
 }
+
