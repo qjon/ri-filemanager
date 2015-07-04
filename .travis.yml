@@ -1,14 +1,10 @@
-language: node_js
-node_js:
-  - "0.12"
-cache:
-  directories:
-    - Resources/source/node_modules
-    - Resources/source/bower_components
-install:
-  - cd Resources/source
-  - npm install -g grunt-cli
-  - npm i
-  - grunt bower
-  - grunt build
-  - grunt karma-dev
+language: php
+ 
+php:
+  - 5.4
+  - 5.5
+ 
+before_script:
+  - wget http://getcomposer.org/composer.phar
+  - php composer.phar install
+  - phpunit -c ./
