@@ -26,3 +26,4 @@ install:
   - grunt bower
   - grunt build
   - grunt karma-dev
+  - cd ../..
