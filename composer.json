@@ -1,6 +1,6 @@
 {
-    "name" : "ri/filemanager",
-    "description" : "File manager",
+    "name" : "qjon/ri-filemanager",
+    "description" : "File manager bundle",
     "type" : "symfony-bundle",
     "authors" : [{
         "name" : "Rafał Ignaszewski",
@@ -9,10 +9,12 @@
     "keywords" : [
         "filemanager tinymce"
     ],
-    "license" : [
-        "MIT"
-    ],
+    "license" : "MIT",
     "require" : {
+	"symfony/symfony": "2.6.*",
+        "doctrine/orm": "~2.2,>=2.2.3,<2.5",
+        "doctrine/dbal": "<2.5",
+        "doctrine/doctrine-bundle": "~1.2",
         "stfalcon/tinymce-bundle": ">=0.3.7",
         "friendsofsymfony/jsrouting-bundle": "dev-master"
     },

@@ -9,8 +9,6 @@
  */
 namespace RI\FileManagerBundle\Tests;
 
-require_once(__DIR__ . "/../../../../../../app/AppKernel.php");
-
 /**
  * Class BaseTestCase
  */
