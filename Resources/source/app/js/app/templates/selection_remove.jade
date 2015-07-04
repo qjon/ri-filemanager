@@ -1,0 +1,21 @@
+.modal(data-ng-controller="selectionRemoveController as sr")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.btn.close(type="button", ng-click="$hide()")
+                    i.fa.fa-times
+                h4 {{'SELECTION_REMOVE' | translate}}
+            .modal-body
+                .alert.alert-warning(ng-if="!sr.errorString")
+                    p {{'SELECTION_REMOVE_QUESTION_PART_1' | translate}}
+                        ul
+                            li(ng-repeat="dir in sr.dirs")
+                                strong {{ dir.name }}
+                            li(ng-repeat="file in sr.files")
+                                strong {{ file.name }}
+                    |  {{'SELECTION_REMOVE_QUESTION_PART_2' | translate}}
+            .modal-footer
+                button.btn.btn-success(ng-if="!rd.errorString", ng-click="sr.copyPasteService.remove($hide)")
+                    i.fa.fa-check {{'YES' | translate}}, {{'DELETE' | translate}}
+                button.btn.btn-danger(ng-click="$hide()")
+                    i.fa.fa-times {{'CANCEL' | translate}}

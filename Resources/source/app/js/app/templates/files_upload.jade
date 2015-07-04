@@ -1,0 +1,20 @@
+.modal.upload-modal(data-ng-controller="fileUploadController as fu")
+    .modal-dialog(style="max-width: 858px;")
+        .modal-content
+            .modal-header
+                button.btn.close(type="button", ng-click="fu.fileUploadService.hideAndClear()")
+                    i.fa.fa-times
+                h3.modal-title {{'FILE_UPLOAD' | translate}}
+            .modal-body(style="max-height: 400px; overflow: auto")
+                .thumb.thumb-file.img-thumbnail(ng-repeat="file in fu.fileUploadService.getFlow().files | orderBy:'name'")
+                    img.thumb-image(ng-if="fu.fileUploadService.isImage(file)", flow-img="file")
+                    img.thumb-image.thumb-icon(ng-if="!fu.fileUploadService.isImage(file)", ng-src="{{ fu.fileUploadService.getThumbnail(file) }}")
+                    .thumb-name(data-ng-bind="file.name")
+                    .progress-bar.progress-bar-primary(role="progressbar", style="width: {{file.percent}}%; height: 20px;")
+                        .sr-only {{file.percent}}%
+            .modal-footer
+                button.btn.btn-success(ng-click="fu.fileUploadService.uploadFiles()")
+                    i.fa.fa-upload.fa-button-icon {{'UPLOAD_FILES' | translate}}
+                button.btn.btn-danger(ng-click="fu.fileUploadService.hideAndClear()")
+                    i.fa.fa-times.
+                        {{'CANCEL' | translate}}
