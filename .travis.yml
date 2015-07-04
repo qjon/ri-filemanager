@@ -1,7 +1,6 @@
 language: php
  
 php:
-  - 5.4
   - 5.5
 
 cache:
@@ -12,4 +11,4 @@ cache:
 before_script:
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
-  - phpunit -c ./
+
