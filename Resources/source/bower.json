@@ -28,6 +28,9 @@
             "css": "dist/**/*.min.css",
             "fonts": "dist/**/glyphicons*"
         },
+        "bootstrap-additions": {
+            "": "dist/*.min.css"
+        },
         "font-awesome-bower": {
             "css": "**/*.css",
             "fonts": "**/*-webfont*"
