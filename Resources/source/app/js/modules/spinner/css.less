@@ -1,0 +1,34 @@
+/*
+ * This file is part of the RIFilemanagerBundle package.
+ *
+ * (c) Rafal Ignaszewski <https://github.com/qjon>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+.spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(100, 100, 100, 0.2);
+    z-index: 10000;
+    border: 1px solid rgba(100, 100, 100, 0.7);
+    border-radius: 3px;
+
+    .fa {
+        position: fixed;
+        top: 50%;
+        left:50%;
+        font-size: 120px;
+        margin-top: -60px;
+        margin-left: -60px;
+
+        -webkit-animation: spin 2s infinite linear;
+        -moz-animation: spin 2s infinite linear;
+        -ms-animation: spin 2s infinite linear;
+        -o-animation: spin 2s infinite linear;
+        animation: spin 2s infinite linear;
+    }
+}

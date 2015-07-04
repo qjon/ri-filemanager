@@ -1,0 +1,21 @@
+.modal(data-ng-controller="addDirController as addDirCtrl")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.btn.close(type="button", ng-click="$hide()")
+                    i.fa.fa-times
+                h4 {{'CREATE_DIR' | translate}}
+            .modal-body
+                .alert.alert-danger(ng-show="folder_add.$invalid && folder_add.$dirty")
+                    p.
+                        {{'VALID_DIR_NAME_CAN_NOT_BE_EMPTY' | translate}}
+                form.form.form-horizontal(name="folder_add", novalidate, style="margin: 10px;")
+                    .form-group
+                        input.form-control(type="text", name="folder_name", ng-model="addDirCtrl.folderName", placeholder="{{'DIR_NAME' | translate}}", required)
+            .modal-footer
+                button.btn.btn-success(ng-disabled="folder_add.$invalid", ng-click="addDirCtrl.addFolder()")
+                    i.fa.fa-check.
+                        {{'CREATE' | translate}}
+                button.btn.btn-danger(ng-click="$hide()")
+                    i.fa.fa-times.
+                        {{'CANCEL' | translate}}

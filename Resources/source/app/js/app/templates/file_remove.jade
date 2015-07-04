@@ -1,0 +1,19 @@
+.modal(data-ng-controller="removeFileController as rf")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.btn.close(type="button", ng-click="$hide()")
+                    i.fa.fa-times
+                h4 {{ 'FILE_REMOVE'| translate }}
+            .modal-body
+                .alert.alert-danger(ng-if="rf.errorString")
+                    p {{ rf.errorString }}
+                .alert.alert-warning(ng-if="!rf.errorString")
+                    p(translate="FILE_REMOVE_QUESTION", translate-values="{fileName: rf.file.name}")
+            .modal-footer
+                button.btn.btn-success(ng-if="!rf.errorString", ng-click="rf.file.remove($hide, rf.showAlert)")
+                    i.fa.fa-check.
+                        {{ 'YES'| translate }}, {{ 'DELETE'| translate }}
+                button.btn.btn-danger(ng-click="$hide()")
+                    i.fa.fa-times.
+                        {{ 'CANCEL'| translate }}

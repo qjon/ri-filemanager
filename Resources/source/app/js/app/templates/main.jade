@@ -1,0 +1,78 @@
+div(id="toppage", flow-init="{query: {dirId: mainCtrl.dirStructure.currentDir.id}}", flow-file-progress="mainCtrl.fileUploadService.uploadProgress($flow, $file)", flow-file-success="mainCtrl.fileUploadService.fileUploadComplete($flow, $file, $message)", flow-files-submitted="mainCtrl.fileUploadService.openUploadFileDialog($event, $flow)", flow-complete="mainCtrl.fileUploadService.hideAndClear()")
+    .spinner(spinner="")
+    .row.nav-row
+        .col-sm-12.col-md-4.text-left
+            .btn-group
+                button.btn.btn-default(data-template="/templates/dir_add.html", data-placement="center", bs-modal="modal", container="body", backdrop="false", title="{{ 'CREATE_DIR' | translate }}")
+                    i.fa.fa-plus
+                    i.fa.fa-folder-o
+                button.btn.btn-default(type="file", flow-btn, title="{{ 'UPLOAD_FILES' | translate }}")
+                    i.fa.fa-plus
+                    i.fa.fa-files-o
+            .btn-group(ng-if="!mainCtrl.selection.isEmptySelection()", dropdown="")
+                button.btn.btn-default(type="button", ng-class="{active: mainCtrl.copyPaste.isCutSelected()}", ng-click="mainCtrl.copyPaste.setCut()",)
+                    i.fa.fa-cut
+                button.btn.btn-default(type="button", ng-class="{active: mainCtrl.copyPaste.isCopySelected()}", ng-click="mainCtrl.copyPaste.setCopy()")
+                    i.fa.fa-copy
+                button.btn.btn-default(type="button", ng-disabled="mainCtrl.copyPaste.isNotSelected()", ng-click="mainCtrl.copyPaste.doAction(mainCtrl.dirStructure.currentDir.id)")
+                    i.fa.fa-paste
+                button.btn.btn-primary(ng-show="mainCtrl.callbackService.isFileCallback()", ng-click="mainCtrl.callbackService.fileCallback($event, mainCtrl.selection.getFiles())", title="{{'USE_SELECTED_FILES' | translate}}")
+                    i.fa.fa-image
+                button.btn.btn-danger(ng-click="mainCtrl.copyPaste.openRemoveDialog($event)")
+                    i.fa.fa-trash-o
+                button.btn.btn-warning(ng-click="mainCtrl.selection.clear()")
+                    i.fa.fa-eraser
+        .col-sm-12.col-md-7
+            .btn-group
+                button.btn.btn-default(ng-click="mainCtrl.fileTypeFilter.setFilterName(false)", ng-class="{'active': mainCtrl.fileTypeFilter.isActiveFilter(false)}", title="{{'ALL_FILE_TYPES'| translate}}")
+                    i.fa.fa-file-o
+                button.btn.btn-default(ng-click="mainCtrl.fileTypeFilter.setFilterName('images')", ng-class="{'active': mainCtrl.fileTypeFilter.isActiveFilter('images')}", title="{{'TYPE_IMAGE'| translate}}")
+                    i.fa.fa-picture-o
+                button.btn.btn-default(ng-click="mainCtrl.fileTypeFilter.setFilterName('audio')", ng-class="{'active': mainCtrl.fileTypeFilter.isActiveFilter('audio')}", title="{{'TYPE_AUDIO'| translate}}")
+                    i.fa.fa-music
+                button.btn.btn-default(ng-click="mainCtrl.fileTypeFilter.setFilterName('video')", ng-class="{'active': mainCtrl.fileTypeFilter.isActiveFilter('video')}", title="{{'TYPE_WIDEO'| translate}}")
+                    i.fa.fa-video-camera
+                button.btn.btn-default(ng-click="mainCtrl.fileTypeFilter.setFilterName('archive')", ng-class="{'active': mainCtrl.fileTypeFilter.isActiveFilter('archive')}", title="{{'TYPE_ZIP'| translate}}")
+                    i.fa.fa-archive
+                .input-group
+                    input.form-control(ng-model="mainCtrl.search", type="text", placeholder="{{'FILTER' | translate}}")
+                    span.btn.btn-default.input-group-addon
+                        i.fa.fa-search
+        .col-sm-12.col-md-1
+            .btn-group.pull-right
+                button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown") {{mainCtrl.getLanguageSymbol()}}
+                    .caret
+                ul.dropdown-menu
+                    li
+                        a(ng-click="mainCtrl.setLanguage('pl_PL')") {{'LANG_PL' | translate}} ({{'LANG_PL_SYMBOL' | translate}})
+                    li
+                        a(ng-click="mainCtrl.setLanguage('en_EN')") {{'LANG_EN' | translate}} ({{'LANG_EN_SYMBOL' | translate}})
+    <div class="sub-view" ui-view></div>
+    .panel.panel-default.main-panel
+        .panel-body
+            ul.breadcrumb
+                li.link(ng-if="mainCtrl.dirStructure.currentDir.id > 0", ng-click="mainCtrl.routingChangeService.goToFolder($event, 0)").
+                    {{'HOME' | translate }}
+                li.link(ng-repeat="parent in mainCtrl.dirStructure.currentDir.parentsList", ng-click="mainCtrl.routingChangeService.goToFolder($event, parent.id)").
+                    {{ parent.name }}
+                li.current.
+                    {{ mainCtrl.dirStructure.currentDir.name }}
+            .thumb.thumb-folder.img-thumbnail(ng-repeat="dir in mainCtrl.dirStructure.currentDir.dirs | filter:{'name': mainCtrl.search } | orderBy:'name'", ng-click="$event.stopPropagation();mainCtrl.routingChangeService.goToFolder($event, dir.id);mainCtrl.selection.toggleFolder($event, dir)", ng-class="{selected: mainCtrl.selection.isSelectedFolder(dir.id)}")
+                i.thumb-image.fa.fa-folder-o
+                .thumb-name(data-ng-bind="dir.name")
+                .menu.folder-menu
+                    i.fa.fa-edit(ng-click="dir.openDialogEditFolder($event, dir)", title="{{'EDIT' | translate}}")
+                    i.fa.fa-trash-o(ng-click="dir.openDialogRemoveFolder($event)", title="{{'DELETE' | translate}}")
+                i.fa.fa-check.selection-mark(ng-show="mainCtrl.selection.isSelectedFolder(dir.id)")
+            .thumb.thumb-file.img-thumbnail(ng-repeat="file in mainCtrl.dirStructure.currentDir.files | fileMime:mainCtrl.fileTypeFilter.getCurrentFilterMimeList() | filter:{'name': mainCtrl.search } | orderBy:'name'", ng-click="mainCtrl.selection.toggleFile($event, file)", ng-class="{selected: mainCtrl.selection.isSelectedFile(file.id)}")
+                .thumb-image(ng-if="file.isImage()")
+                    img(ng-src="{{ file.src }}")
+                img.thumb-image.thumb-icon(ng-if="!file.isImage()", ng-src="{{ file.icon }}")
+                .thumb-name(data-ng-bind="file.name")
+                .menu.file-menu
+                    i.fa.fa-download(ng-click="mainCtrl.routingChangeService.downloadFile(file, $event)")
+                    i.fa.fa-edit(ng-show="file.isImage()", ng-click="file.openEditDialog($event)")
+                    i.fa.fa-image(ng-show="file.isImage() && mainCtrl.callbackService.isFileCallback() && mainCtrl.selection.isEmptySelection()", ng-click="mainCtrl.callbackService.fileCallback($event, file)")
+                    i.fa.fa-link(ng-show="!file.isImage() && mainCtrl.callbackService.isFileCallback() && mainCtrl.selection.isEmptySelection()", ng-click="mainCtrl.callbackService.fileCallback($event, file)")
+                    i.fa.fa-trash-o(ng-click="file.openRemoveDialog($event)")
+                i.fa.fa-check.selection-mark(ng-show="mainCtrl.selection.isSelectedFile(file.id)")
