@@ -1,0 +1,260 @@
+/*
+ * This file is part of the RIFilemanagerBundle package.
+ *
+ * (c) Rafal Ignaszewski <https://github.com/qjon>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+/*
+ * This file is part of the RIFilemanagerBundle package.
+ *
+ * (c) Rafal Ignaszewski <https://github.com/qjon>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+.spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(100, 100, 100, 0.2);
+  z-index: 10000;
+  border: 1px solid rgba(100, 100, 100, 0.7);
+  border-radius: 3px;
+}
+.spinner .fa {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  font-size: 120px;
+  margin-top: -60px;
+  margin-left: -60px;
+  -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -ms-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+.filemanager {
+  position: relative;
+}
+.filemanager .nav-row {
+  margin: 0 0 10px 0;
+}
+.filemanager .nav-row div:first-child {
+  margin-left: 0;
+  padding-left: 0;
+}
+.filemanager .nav-row div:last-child {
+  margin-right: 0;
+  padding-right: 0;
+}
+.filemanager .btn {
+  height: 34px;
+}
+.filemanager .btn .fa {
+  margin-right: 5px;
+}
+.filemanager .btn .fa:last-child {
+  margin-right: 2px;
+}
+.filemanager .breadcrumb .link {
+  cursor: pointer;
+  color: #2A6496;
+}
+.filemanager .breadcrumb .current {
+  color: #bbb;
+}
+.filemanager .main-panel .thumb,
+.filemanager .upload-modal .thumb {
+  width: 180px;
+  height: 140px;
+  margin: 15px 10px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.filemanager .main-panel .thumb:hover,
+.filemanager .upload-modal .thumb:hover {
+  border: 1px solid #ff0000;
+}
+.filemanager .main-panel .thumb:hover .menu,
+.filemanager .upload-modal .thumb:hover .menu {
+  top: 0;
+}
+.filemanager .main-panel .thumb:hover .menu i,
+.filemanager .upload-modal .thumb:hover .menu i {
+  opacity: 1;
+}
+.filemanager .main-panel .thumb .thumb-image,
+.filemanager .upload-modal .thumb .thumb-image {
+  height: 100px;
+  text-align: center;
+}
+.filemanager .main-panel .thumb .thumb-image img,
+.filemanager .upload-modal .thumb .thumb-image img {
+  width: 100%;
+  max-height: 100px;
+}
+.filemanager .main-panel .thumb .thumb-image .fa,
+.filemanager .upload-modal .thumb .thumb-image .fa {
+  font-size: 100px;
+}
+.filemanager .main-panel .thumb .thumb-name,
+.filemanager .upload-modal .thumb .thumb-name {
+  height: 30px;
+  line-height: 30px;
+  background-color: #eeeeee;
+  border-radius: 3px;
+  padding: 0 3px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+.filemanager .main-panel .thumb.thumb-folder,
+.filemanager .upload-modal .thumb.thumb-folder,
+.filemanager .main-panel .thumb.thumb-file,
+.filemanager .upload-modal .thumb.thumb-file {
+  text-align: center;
+}
+.filemanager .main-panel .thumb.thumb-folder .thumb-image.fa,
+.filemanager .upload-modal .thumb.thumb-folder .thumb-image.fa,
+.filemanager .main-panel .thumb.thumb-file .thumb-image.fa,
+.filemanager .upload-modal .thumb.thumb-file .thumb-image.fa {
+  font-size: 110px;
+}
+.filemanager .main-panel .thumb.thumb-file .thumb-image,
+.filemanager .upload-modal .thumb.thumb-file .thumb-image {
+  width: 170px;
+  border-radius: 3px;
+}
+.filemanager .main-panel .thumb.thumb-file .thumb-image.thumb-icon,
+.filemanager .upload-modal .thumb.thumb-file .thumb-image.thumb-icon {
+  width: 80px;
+  height: 80px;
+  margin: 10px 50px;
+}
+.filemanager .main-panel .thumb .menu,
+.filemanager .upload-modal .thumb .menu {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 25%;
+}
+.filemanager .main-panel .thumb .menu i,
+.filemanager .upload-modal .thumb .menu i {
+  display: block;
+  width: 100%;
+  height: 20%;
+  font-size: 18px;
+  padding: 5px 0;
+  background-color: rgba(204, 204, 204, 0.6);
+  opacity: 0;
+  -webkit-transition: all linear 200ms;
+  -moz-transition: all linear 200ms;
+  -ms-transition: all linear 200ms;
+  -o-transition: all linear 200ms;
+  transition: all linear 200ms;
+}
+.filemanager .main-panel .thumb .menu i:hover,
+.filemanager .upload-modal .thumb .menu i:hover {
+  color: #ff0000;
+  background-color: rgba(204, 204, 204, 0.9);
+}
+.filemanager .main-panel .thumb .menu i.disabled,
+.filemanager .upload-modal .thumb .menu i.disabled {
+  color: #808080;
+  background-color: #eeeeee;
+}
+.filemanager .main-panel .thumb .menu i.disabled:hover,
+.filemanager .upload-modal .thumb .menu i.disabled:hover {
+  color: #808080;
+  background-color: #eeeeee;
+}
+.filemanager .main-panel .thumb.selected,
+.filemanager .upload-modal .thumb.selected {
+  border: 1px solid #ffa500;
+}
+.filemanager .main-panel .thumb.selected .fa-check,
+.filemanager .upload-modal .thumb.selected .fa-check {
+  color: #ffa500;
+  opacity: 1;
+  background: none;
+}
+.filemanager .upload-panel .thumb {
+  height: auto;
+}
+.filemanager .sub-view {
+  overflow: hidden;
+}
+.filemanager .sub-view[ui-view].ng-enter {
+  opacity: 0;
+  max-height: 0;
+}
+.filemanager .sub-view[ui-view].ng-enter-active {
+  opacity: 1;
+  max-height: 600px;
+}
+.filemanager .sub-view[ui-view].ng-leave {
+  opacity: 1;
+}
+.filemanager .sub-view[ui-view].ng-leave-active {
+  opacity: 0;
+}
+.filemanager .selection {
+  width: 230px;
+}
+.filemanager .selection .divider {
+  clear: both;
+}
+.filemanager .selection .selection-item {
+  float: left;
+  margin: 2px;
+  width: 70px;
+  height: 40px;
+  position: relative;
+}
+.filemanager .selection .selection-item .selection-image,
+.filemanager .selection .selection-item .selection-folder {
+  width: 100%;
+  height: 100%;
+}
+.filemanager .selection .selection-item .selection-folder {
+  text-align: center;
+}
+.filemanager .selection .selection-item .selection-folder .fa {
+  font-size: 40px;
+}
+.filemanager .selection .selection-item .selection-button {
+  display: none;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0 19px;
+  color: #ff0000;
+  background: rgba(100, 100, 100, 0.4);
+  font-size: 40px;
+}
+.filemanager .selection .selection-item:hover .selection-button {
+  display: block;
+}
+.filemanager .selection-mark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #ffa500;
+  font-size: 18px;
+  padding: 5px 0;
+  width: 25%;
+}
+.image-crop-window img {
+  max-height: 600px;
+}
+.pointer {
+  cursor: pointer;
+}
