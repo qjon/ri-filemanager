@@ -16,7 +16,7 @@
         "doctrine/dbal": "<2.5",
         "doctrine/doctrine-bundle": "~1.2",
         "stfalcon/tinymce-bundle": ">=0.3.7",
-        "friendsofsymfony/jsrouting-bundle": "dev-master"
+        "friendsofsymfony/jsrouting-bundle": "1.5.4"
     },
     "autoload" : {
         "psr-0" : {
