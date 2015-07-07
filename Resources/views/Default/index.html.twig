@@ -1,11 +1,10 @@
-{% stylesheets
-    '@RIFileManagerBundle/Resources/public/js/components/bootstrap-additions/bootstrap-additions.min.css'
-    '@RIFileManagerBundle/Resources/public/js/components/cropper/cropper.min.css'
-    '@RIFileManagerBundle/Resources/public/js/components/angular-motion/angular-motion.css'
-    '@RIFileManagerBundle/Resources/public/css/main.min.css'
-%}
-<link rel="stylesheet" href="{{ asset_url }}" media="screen" type="text/css" />
-{% endstylesheets %}
+<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/bootstrap.min.css') }}" media="screen" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/bootstrap-additions.min.css') }}" media="screen" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/font-awesome.css') }}" media="screen" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/cropper.min.css') }}" media="screen" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/angular-motion.min.css') }}" media="screen" type="text/css" />
+<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/main.min.css') }}" media="screen" type="text/css" />
+
 {% javascripts
     '@RIFileManagerBundle/Resources/public/js/lib.min.js'
     '@RIFileManagerBundle/Resources/public/js/app.min.js'
@@ -19,12 +18,12 @@
             .config(['configProviderProvider', 'urlProviderProvider', function (ConfigProvider, urlProvider) {
                 ConfigProvider.setConfig({{ filemanager_configuration|json_encode|raw }})
                 urlProvider.setUrl({
-                    loadFolder: '/app_dev.php/admin/filemanager/api/directory',
-                    addFolder: '/app_dev.php/admin/filemanager/api/directory/add',
-                    cropImage: '/app_dev.php/admin/filemanager/api/file/crop',
-                    deleteFile: '/app_dev.php/admin/filemanager/api/file/remove',
-                    deleteFolder: '/app_dev.php/admin/filemanager/api/directory/remove',
-                    updateFolder: '/app_dev.php/admin/filemanager/api/directory/save'
+                    loadFolder: '{{ path('ri_filemanager_api_index') }}',
+                    addFolder: '{{ path('ri_filemanager_api_directory_add') }}',
+                    cropImage: '{{ path('ri_filemanager_api_file_edit') }}',
+                    deleteFile: '{{ path('ri_filemanager_api_file_delete') }}',
+                    deleteFolder: '{{ path('ri_filemanager_api_directory_remove') }}',
+                    updateFolder: '{{ path('ri_filemanager_api_directory_add') }}'
                 });
             }]);
 </script>

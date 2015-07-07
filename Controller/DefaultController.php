@@ -28,9 +28,11 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $dimensions = $this->get('service_container')->getParameter('ri.filemanager.dimensions');
+        $configuration = array(
+            'availableDimensions' => $this->get('service_container')->getParameter('ri.filemanager.dimensions')
+        );
 
-        return $this->render('RIFileManagerBundle:Default:index.html.twig', array('image_edit_dimensions' => $dimensions));
+        return $this->render('RIFileManagerBundle:Default:index.html.twig', array('filemanager_configuration' => $configuration));
     }
 
     public function pageAction()
