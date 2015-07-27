@@ -12,8 +12,8 @@ namespace RI\FileManagerBundle\Controller;
 
 use RI\FileManagerBundle\Entity\Directory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DirectoryController
@@ -24,86 +24,91 @@ class DirectoryController extends Controller
 {
     const HOME_DIRECTORY_NAME = 'Home';
 
+
     /**
      * @param Request $request
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function addAction(Request $request)
     {
-        $name = $request->request->get('name');
-        $parentId = $request->request->get('dir_id');
-        $parentDirectory = $this->getDoctrine()->getRepository('RIFileManagerBundle:Directory')->find($parentId);
+        $data = json_decode($request->getContent());
+        $parentDirectory = $this->getDoctrine()->getRepository('RIFileManagerBundle:Directory')->find($data->dir_id);
 
         $directory = new Directory();
-        $directory->setName($name);
+        $directory->setName($data->name);
         $directory->setParent($parentDirectory);
 
         $this->getDoctrine()->getManager()->persist($directory);
         $this->getDoctrine()->getManager()->flush();
 
-        return new Response(json_encode($this->get('ri.filemanager.data_provider.directory_data_provider')->convertDirectoryEntityToArray($directory)));
+        return new JsonResponse($this->get('ri.filemanager.data_provider.directory_data_provider')->convertDirectoryEntityToArray($directory));
     }
 
     /**
-     * @param Request $request
+     * Return list of directories
      *
-     * @return Response
+     * @param int $id
+     *
+     * @return JsonResponse
      */
-    public function listAction(Request $request)
+    public function listAction($id)
     {
+        $id = (integer) $id;
         $directoryDataProvider = $this->get('ri.filemanager.data_provider.directory_data_provider');
         $filesDataProvider = $this->get('ri.filemanager.data_provider.file_data_provider');
-        $directoryId = (integer) $request->request->get('dir_id', 0);
 
-        if ($directoryId === 0) {
+        if ($id === 0) {
             $responseData = array(
-                'id' => $directoryId,
-                'dir_id' => (integer) $directoryId,
+                'id' => $id,
+                'dir_id' => $id,
                 'name' => self::HOME_DIRECTORY_NAME,
                 'dirs' => $directoryDataProvider->getRootSubDirectories(),
                 'files' => $filesDataProvider->getRootDirectoryFiles(),
                 'parentsList' => array()
             );
         } else {
-            $directory = $this->getDoctrine()->getRepository('RIFileManagerBundle:Directory')->find($directoryId);
+            $directory = $this->getDoctrine()->getRepository('RIFileManagerBundle:Directory')->find($id);
             $responseData = $directoryDataProvider->convertDirectoryEntityToArray($directory);
-            $responseData['dirs'] = $directoryDataProvider->getDirectorySubDirectories($directoryId);
+            $responseData['dirs'] = $directoryDataProvider->getDirectorySubDirectories($id);
             $responseData['parentsList'] = $directoryDataProvider->getDirectoryParentsList($directory);
-            $responseData['files'] = $filesDataProvider->getFilesFromDirectory($directoryId);
+            $responseData['files'] = $filesDataProvider->getFilesFromDirectory($id);
         }
 
-        return new Response(json_encode($responseData));
+        return new JsonResponse($responseData);
     }
 
+
     /**
+     * @param int     $id
      * @param Request $request
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function saveAction(Request $request)
+    public function saveAction($id, Request $request)
     {
-        $name = $request->request->get('name');
-        $directoryId = $request->request->get('dir_id');
-        $directory = $this->getDoctrine()->getRepository('RIFileManagerBundle:Directory')->find($directoryId);
+        $data = json_decode($request->getContent());
+        $directory = $this->getDoctrine()->getRepository('RIFileManagerBundle:Directory')->find($id);
 
-        $directory->setName($name);
+        $directory->setName($data->name);
 
         $this->getDoctrine()->getManager()->flush();
 
-        return new Response(json_encode($this->get('ri.filemanager.data_provider.directory_data_provider')->convertDirectoryEntityToArray($directory)));
+        return new JsonResponse($this->get('ri.filemanager.data_provider.directory_data_provider')->convertDirectoryEntityToArray($directory));
     }
 
+
     /**
-     * @param Request $request
+     * Remove directory
      *
-     * @return Response
+     * @param $id
+     *
+     * @return JsonResponse
      */
-    public function removeAction(Request $request)
+    public function removeAction($id)
     {
         $response = array();
-        $directoryId = $request->request->get('dir_id');
-        $directory = $this->getDoctrine()->getRepository('RIFileManagerBundle:Directory')->find($directoryId);
+        $directory = $this->getDoctrine()->getRepository('RIFileManagerBundle:Directory')->find($id);
 
         try {
             if (count($directory->getChildren()) > 0) {
@@ -127,6 +132,6 @@ class DirectoryController extends Controller
             );
         }
 
-        return new Response(json_encode($response));
+        return new JsonResponse($response);
     }
 }

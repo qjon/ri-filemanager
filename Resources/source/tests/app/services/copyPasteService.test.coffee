@@ -9,6 +9,7 @@ describe 'CopyPasteService', ->
   selectionServiceMock = null
   dirStructureMock = null
   spinnerServiceMock = null
+  urlService = null
 
   beforeEach ->
     filesIds = [1, 7, 12]
@@ -31,6 +32,9 @@ describe 'CopyPasteService', ->
       show: jasmine.createSpy()
       hide: jasmine.createSpy()
 
+    urlServiceMock =
+      generate: jasmine.createSpy()
+
     module('filemanager');
 
     module ($provide) ->
@@ -39,6 +43,7 @@ describe 'CopyPasteService', ->
       $provide.value 'dirStructureService', dirStructureMock
       $provide.value 'SpinnerService', spinnerServiceMock
       $provide.value 'modalService', modalServiceMock
+#      $provide.value 'urlService', urlServiceMock
       return
 #
 #      copyPasteService = new CopyPaste $httpMock, modalServiceMock, selectionServiceMock, dirStructureMock, spinnerServiceMock
@@ -158,7 +163,7 @@ describe 'CopyPasteService', ->
       spyOn copyPasteService, 'responseCallbackFunction'
 
       $httpMock.whenGET('/bundles/rifilemanager/translations/lang_en_EN.json').respond {}
-      $httpMock.whenPUT('/admin/filemanager/api/copy/selection').respond 200, responseMock
+      $httpMock.whenPUT('ri_filemanager_api_copy_selection').respond 200, responseMock
 
       copyPasteService.copy dirId
 
@@ -187,7 +192,7 @@ describe 'CopyPasteService', ->
       spyOn copyPasteService, 'responseCallbackFunction'
 
       $httpMock.whenGET('/bundles/rifilemanager/translations/lang_en_EN.json').respond {}
-      $httpMock.whenPUT('/admin/filemanager/api/delete/selection').respond 200, responseMock
+      $httpMock.whenPUT('ri_filemanager_api_delete_selection').respond 200, responseMock
 
       copyPasteService.remove callback
 
@@ -205,9 +210,8 @@ describe 'CopyPasteService', ->
         data:
           success: true
 
-
       $httpMock.whenGET('/bundles/rifilemanager/translations/lang_en_EN.json').respond {}
-      $httpMock.whenPUT('/admin/filemanager/api/move/selection').respond 200, responseMock
+      $httpMock.whenPUT('ri_filemanager_api_move_selection').respond 200, responseMock
 
       spyOn copyPasteService, 'responseCallbackFunction'
 

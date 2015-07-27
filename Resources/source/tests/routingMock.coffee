@@ -1,0 +1,3 @@
+Routing =
+  generate: (p) ->
+    p

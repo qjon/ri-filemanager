@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 ###
 class DirObj extends Factory
-  constructor: ($http, modalService, SpinnerService, urlProvider) ->
+  constructor: ($http, modalService, SpinnerService, urlService) ->
     parent = null
     structure = null
 
@@ -57,7 +57,8 @@ class DirObj extends Factory
       ###
       remove: (callbackSuccess, callbackError) ->
         SpinnerService.show();
-        $http.post urlProvider.deleteFolder, {dir_id: @id}
+        url = urlService.generate 'ri_filemanager_api_directory_remove', {id: @id}
+        $http.delete url
           .success (data) =>
             if !data.error
               _.remove @getDirStructure().currentDir.dirs, {id: parseInt @id}
@@ -78,7 +79,8 @@ class DirObj extends Factory
       ###
       save: (name, callbackSuccess, callbackError) ->
         SpinnerService.show();
-        $http.post urlProvider.updateFolder, {dir_id: @id, name: name}
+        url = urlService.generate 'ri_filemanager_api_directory_edit', {id: @id}
+        $http.put url, {name: name}
           .success (data) =>
             @name = name
             SpinnerService.hide()

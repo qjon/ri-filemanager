@@ -15,6 +15,7 @@ class Configuration extends Config
     )
 
     $translateProvider.preferredLanguage 'en_EN'
+    $translateProvider.useSanitizeValueStrategy null
 
     $routeProvider
       .when(
@@ -33,12 +34,12 @@ class Configuration extends Config
       )
 
     flowFactoryProvider.defaults =
-      target: '/admin/filemanager/api/file/upload',
-      permanentErrors: [404, 500, 501],
-      testChunks: false,
-      progressCallbacksInterval: 1,
-      speedSmoothingFactor: 1,
-      chunkSize: 64 * 1024 * 1024,
+      target: Routing.generate 'ri_filemanager_api_file_upload',
+      permanentErrors: [404, 500, 501]
+      testChunks: false
+      progressCallbacksInterval: 1
+      speedSmoothingFactor: 1
+      chunkSize: 64 * 1024 * 1024
       forceChunkSize: false
 
     $provide.decorator('flowImgDirective', ($delegate) ->

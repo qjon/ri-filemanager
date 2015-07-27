@@ -45,11 +45,14 @@ This tool is ready to use, you dont need to do anything
     {
         $bundles = array(
            ...
+            new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new RI\FileManagerBundle\RIFileManagerBundle(),
         );
 
         ...
     }
+    
+The first bundle is used to use Symfony routing in JS, the second is our filemanager bundle.  
     
 3) Add routing
     

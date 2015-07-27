@@ -86,7 +86,7 @@ describe 'dirStructureService', ->
       files: []
 
     beforeEach ->
-      @$httpBackend.whenPOST(@urlProviderMock.loadFolder, {dir_id: 4}).respond @resultMock
+      @$httpBackend.whenGET('ri_filemanager_api_index').respond @resultMock
       @dirStructureService.load(4)
       @$httpBackend.flush()
 
@@ -95,7 +95,7 @@ describe 'dirStructureService', ->
       @$httpBackend.verifyNoOutstandingRequest()
 
     it 'should show spinner and then hide spinner if respond status 200', ->
-      @$httpBackend.whenPOST(@urlProviderMock.addFolder).respond createdObj
+      @$httpBackend.whenPOST('ri_filemanager_api_directory_add').respond createdObj
       @dirStructureService.addFolder 'New folder name'
       @$httpBackend.flush()
 
@@ -103,7 +103,7 @@ describe 'dirStructureService', ->
       expect(@spinnerServiceMock.hide.calls.count()).toBe 2
 
     it 'should show spinner and then hide spinner if respond status is not 200', ->
-      @$httpBackend.whenPOST(@urlProviderMock.addFolder).respond 500, {}
+      @$httpBackend.whenPOST('ri_filemanager_api_directory_add').respond 500, {}
       @dirStructureService.addFolder 'New folder name'
       @$httpBackend.flush()
 
@@ -111,7 +111,7 @@ describe 'dirStructureService', ->
       expect(@spinnerServiceMock.hide.calls.count()).toBe 2
 
     it 'should have add new dir with id 10', ->
-      @$httpBackend.whenPOST(@urlProviderMock.addFolder).respond createdObj
+      @$httpBackend.whenPOST('ri_filemanager_api_directory_add').respond createdObj
       @dirStructureService.addFolder 'New folder name'
       @$httpBackend.flush()
 
@@ -120,7 +120,7 @@ describe 'dirStructureService', ->
 
     it 'should call success callback function', ->
       callbackFunction = jasmine.createSpy()
-      @$httpBackend.whenPOST(@urlProviderMock.addFolder).respond createdObj
+      @$httpBackend.whenPOST('ri_filemanager_api_directory_add').respond createdObj
       @dirStructureService.addFolder 'New folder name', callbackFunction
       @$httpBackend.flush()
 
@@ -129,7 +129,7 @@ describe 'dirStructureService', ->
     it 'should call error callback function if set', ->
       callbackFunction = jasmine.createSpy()
       errorCallbackFunction = jasmine.createSpy()
-      @$httpBackend.whenPOST(@urlProviderMock.addFolder).respond 500, createdObj
+      @$httpBackend.whenPOST('ri_filemanager_api_directory_add').respond 500, createdObj
       @dirStructureService.addFolder 'New folder name', callbackFunction, errorCallbackFunction
       @$httpBackend.flush()
 
@@ -138,7 +138,7 @@ describe 'dirStructureService', ->
     it 'should not call error callback function if not set', ->
       callbackFunction = jasmine.createSpy()
       errorCallbackFunction = jasmine.createSpy()
-      @$httpBackend.whenPOST(@urlProviderMock.addFolder).respond 500, createdObj
+      @$httpBackend.whenPOST('ri_filemanager_api_directory_add').respond 500, createdObj
       @dirStructureService.addFolder 'New folder name', callbackFunction
       @$httpBackend.flush()
 
@@ -148,7 +148,7 @@ describe 'dirStructureService', ->
   describe 'getFileById', ->
 
     beforeEach ->
-      @$httpBackend.whenPOST(@urlProviderMock.loadFolder, {dir_id: 4}).respond @resultMock
+      @$httpBackend.whenGET('ri_filemanager_api_index').respond @resultMock
       @dirStructureService.load(4)
       @$httpBackend.flush()
 
@@ -162,7 +162,7 @@ describe 'dirStructureService', ->
   describe 'getSubDirById', ->
 
     beforeEach ->
-      @$httpBackend.whenPOST(@urlProviderMock.loadFolder, {dir_id: 4}).respond @resultMock
+      @$httpBackend.whenGET('ri_filemanager_api_index').respond @resultMock
       @dirStructureService.load(4)
       @$httpBackend.flush()
 
@@ -176,7 +176,7 @@ describe 'dirStructureService', ->
   describe 'load', ->
 
     beforeEach ->
-      @$httpBackend.whenPOST(@urlProviderMock.loadFolder, {dir_id: 4}).respond @resultMock
+      @$httpBackend.whenGET('ri_filemanager_api_index').respond @resultMock
       @dirStructureService.load(4)
       @$httpBackend.flush()
 
@@ -192,7 +192,7 @@ describe 'dirStructureService', ->
   describe 'reload', ->
 
     beforeEach ->
-      @$httpBackend.whenPOST(@urlProviderMock.loadFolder, {dir_id: 4}).respond @resultMock
+      @$httpBackend.whenGET('ri_filemanager_api_index').respond @resultMock
       @dirStructureService.load(4)
       @$httpBackend.flush()
 

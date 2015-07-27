@@ -1,0 +1,25 @@
+ri_filemanager_api_file_upload:
+    pattern: /file
+    defaults: { _controller: RIFileManagerBundle:File:upload }
+    requirements:
+      _method: POST
+    options:
+      expose: true
+
+ri_filemanager_api_file_delete:
+    pattern: /file/{id}
+    defaults: { _controller: RIFileManagerBundle:File:remove }
+    requirements:
+      _method: DELETE
+      id: \d+
+    options:
+      expose: true
+
+ri_filemanager_api_file_edit:
+    pattern: /file/{id}
+    defaults: { _controller: RIFileManagerBundle:File:cropImage }
+    requirements:
+      _method: PUT
+      id: \d+
+    options:
+      expose: true

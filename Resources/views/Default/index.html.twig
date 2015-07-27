@@ -1,34 +1,10 @@
-<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/bootstrap.min.css') }}" media="screen" type="text/css" />
-<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/bootstrap-additions.min.css') }}" media="screen" type="text/css" />
-<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/font-awesome.css') }}" media="screen" type="text/css" />
-<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/cropper.min.css') }}" media="screen" type="text/css" />
-<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/angular-motion.min.css') }}" media="screen" type="text/css" />
-<link rel="stylesheet" href="{{ asset('bundles/rifilemanager/css/main.min.css') }}" media="screen" type="text/css" />
-
-{% javascripts
-    '@RIFileManagerBundle/Resources/public/js/lib.min.js'
-    '@RIFileManagerBundle/Resources/public/js/app.min.js'
-    '@RIFileManagerBundle/Resources/public/js/template.js'
-%}
-<script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-
-<script>
-    var fm = angular.module('fm', ['filemanager'])
-            .config(['configProviderProvider', 'urlProviderProvider', function (ConfigProvider, urlProvider) {
-                ConfigProvider.setConfig({{ filemanager_configuration|json_encode|raw }})
-                urlProvider.setUrl({
-                    loadFolder: '{{ path('ri_filemanager_api_index') }}',
-                    addFolder: '{{ path('ri_filemanager_api_directory_add') }}',
-                    cropImage: '{{ path('ri_filemanager_api_file_edit') }}',
-                    deleteFile: '{{ path('ri_filemanager_api_file_delete') }}',
-                    deleteFolder: '{{ path('ri_filemanager_api_directory_remove') }}',
-                    updateFolder: '{{ path('ri_filemanager_api_directory_add') }}'
-                });
-            }]);
-</script>
-
-<div class="filemanager" ng-app="fm">
-    <h1>{% verbatim %}{{'FILEMANAGER' | translate}}{% endverbatim %}</h1>
-    <div class="animation" ng-view  style="width: 100%;"></div>
-</div>
+<html>
+<head>
+    <title>Filemanager</title>
+    {% include 'RIFileManagerBundle:Default:css.html.twig' %}
+    {% include 'RIFileManagerBundle:Default:javascript_min.html.twig' %}
+</head>
+<body>
+    {% include 'RIFileManagerBundle:Default:filemanager.html.twig' %}
+</body>
+</html>
