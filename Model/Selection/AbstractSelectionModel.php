@@ -63,6 +63,10 @@ abstract class AbstractSelectionModel
      */
     public function getDirectoryById($id)
     {
+        if ((integer)$id === 0) {
+            return null;
+        }
+
         $directory = $this->directoryRepository->find($id);
 
         if (empty($directory)) {
