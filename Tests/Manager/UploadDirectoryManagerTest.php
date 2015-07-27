@@ -84,5 +84,15 @@ class UploadDirectoryManagerTest extends \PHPUnit_Framework_TestCase
 
         return $method->invokeArgs($this->uploadDirectoryManager, array($uploadedFile->getClientOriginalName(), $uploadedFile->getExtension()));
     }
+
+
+
+    /**
+     * Prepare objects
+     */
+    public function tearDown()
+    {
+        system('rm -rf /tmp/web');
+    }
 }
 
