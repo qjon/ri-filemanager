@@ -77,15 +77,15 @@ class MoveSelectionModelTest extends BaseTestCase
      *
      * @expectedException \RI\FileManagerBundle\Exceptions\CopyMoveSelectionException
      */
-    public function testMove_ShouldReturnException_IfNoDestinationDir()
+    public function testMove_ShouldReturnException_IfNoDestinationDirAndIsNonZeroValue()
     {
         $this->directoryRepositoryMock
             ->expects($this->once())
             ->method('find')
-            ->with(null)
+            ->with(-1)
             ->will($this->returnValue(null));
 
-        $this->moveSelectionModel->move(null, array(self::FILE_ID_1), array());
+        $this->moveSelectionModel->move(-1, array(self::FILE_ID_1), array());
     }
 
     /**
