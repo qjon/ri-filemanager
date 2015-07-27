@@ -46,18 +46,17 @@ class FileController extends Controller
 
 
     /**
-     * @param Request $request
+     * @param int $id
      *
      * @return JsonResponse
      */
-    public function removeAction(Request $request)
+    public function removeAction($id)
     {
-        $fileId = $request->request->get('file_id', 0);
         $response = array();
 
         try {
             $webDir = $this->get('service_container')->getParameter('kernel.root_dir') . '/../web';
-            $file = $this->getDoctrine()->getRepository('RIFileManagerBundle:File')->find($fileId);
+            $file = $this->getDoctrine()->getRepository('RIFileManagerBundle:File')->find($id);
             unlink($webDir . $file->getPath());
             $this->getDoctrine()->getManager()->remove($file);
             $this->getDoctrine()->getManager()->flush();
@@ -74,25 +73,21 @@ class FileController extends Controller
     }
 
     /**
+     * @param int     $id
      * @param Request $request
      *
      * @return JsonResponse
      */
-    public function cropImageAction(Request $request)
+    public function cropImageAction($id, Request $request)
     {
         $response = array('success' => false);
-
-        $fileId = $request->get('id');
-        $posX = $request->get('x');
-        $posY = $request->get('y');
-        $width = $request->get('width');
-        $height = $request->get('height');
+        $data = json_decode($request->getContent());
 
         try {
-            $file = $this->getDoctrine()->getRepository('RIFileManagerBundle:File')->find($fileId);
+            $file = $this->getDoctrine()->getRepository('RIFileManagerBundle:File')->find($id);
             $cropModel = $this->get('ri.filemanager.model.crop_image_model');
             $cropModel->setFile($file);
-            $cropModel->crop($posX, $posY, $width, $height);
+            $cropModel->crop($data->x, $data->y, $data->width, $data->height);
 
             $response['success'] = true;
 

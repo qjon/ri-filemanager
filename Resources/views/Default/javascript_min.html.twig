@@ -1,3 +1,5 @@
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
 {% javascripts
     '@RIFileManagerBundle/Resources/public/js/lib.min.js'
     '@RIFileManagerBundle/Resources/public/js/app.min.js'

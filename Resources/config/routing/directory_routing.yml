@@ -1,0 +1,34 @@
+ri_filemanager_api_index:
+    pattern: /directory/{id}
+    defaults: { _controller: RIFileManagerBundle:Directory:list }
+    requirements:
+      _method: GET
+      id: \d+
+    options:
+      expose: true
+
+ri_filemanager_api_directory_add:
+    pattern: /directory
+    defaults: { _controller: RIFileManagerBundle:Directory:add }
+    requirements:
+      _method: POST
+    options:
+      expose: true
+
+ri_filemanager_api_directory_edit:
+    pattern: /directory/{id}
+    defaults: { _controller: RIFileManagerBundle:Directory:save }
+    requirements:
+      _method: PUT
+      id: \d+
+    options:
+      expose: true
+
+ri_filemanager_api_directory_remove:
+    pattern: /directory/remove/{id}
+    defaults: { _controller: RIFileManagerBundle:Directory:remove }
+    requirements:
+      _method: DELETE
+      id: \d+
+    options:
+      expose: true

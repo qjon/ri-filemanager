@@ -1,3 +1,18 @@
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+api_directory:
+    resource: "@RIFileManagerBundle/Resources/config/routing/directory_routing.yml"
+    prefix: '/api'
+
+api_files:
+    resource: "@RIFileManagerBundle/Resources/config/routing/file_routing.yml"
+    prefix: '/api'
+
+api_selection:
+    resource: "@RIFileManagerBundle/Resources/config/routing/selection_routing.yml"
+    prefix: '/api/selection'
+
 ri_filemanager_index:
     pattern: /index
     defaults: { _controller: RIFileManagerBundle:Default:index }
@@ -12,55 +27,3 @@ ri_filemanager_tinymce:
     pattern: /tinyce
     defaults: { _controller: RIFileManagerBundle:Default:tinyMCE }
 
-ri_filemanager_api_index:
-    pattern: /api/directory
-    defaults: { _controller: RIFileManagerBundle:Directory:list }
-    requirements:
-      _method: POST
-
-ri_filemanager_api_directory_add:
-    pattern: /api/directory/add
-    defaults: { _controller: RIFileManagerBundle:Directory:add }
-    requirements:
-      _method: POST
-
-ri_filemanager_api_directory_edit:
-    pattern: /api/directory/save
-    defaults: { _controller: RIFileManagerBundle:Directory:save }
-    requirements:
-
-ri_filemanager_api_directory_remove:
-    pattern: /api/directory/remove
-    defaults: { _controller: RIFileManagerBundle:Directory:remove }
-    requirements:
-      _method: POST
-
-ri_filemanager_api_file_upload:
-    pattern: /api/file/upload
-    defaults: { _controller: RIFileManagerBundle:File:upload }
-    requirements:
-      _method: POST
-
-ri_filemanager_api_file_delete:
-    pattern: /api/file/remove
-    defaults: { _controller: RIFileManagerBundle:File:remove }
-
-ri_filemanager_api_file_edit:
-    pattern: /api/file/crop
-    defaults: { _controller: RIFileManagerBundle:File:cropImage }
-
-
-ri_filemanager_api_move_selection:
-    pattern: /api/move/selection
-    defaults: { _controller: RIFileManagerBundle:Default:moveSelection }
-    methods: PUT
-
-ri_filemanager_api_copy_selection:
-    pattern: /api/copy/selection
-    defaults: { _controller: RIFileManagerBundle:Default:copySelection }
-    methods: PUT
-
-ri_filemanager_api_delete_selection:
-    pattern: /api/delete/selection
-    defaults: { _controller: RIFileManagerBundle:Default:deleteSelection }
-    methods: PUT

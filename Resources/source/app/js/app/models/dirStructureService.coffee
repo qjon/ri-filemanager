@@ -7,18 +7,19 @@
  * file that was distributed with this source code.
 ###
 class DirStructure extends Service
-  constructor: ($q, $http, DirObj, FileObj, SpinnerService, urlProvider) ->
+  constructor: ($q, $http, DirObj, FileObj, SpinnerService, urlService) ->
     @currentDir = false
     @$q = $q
     @$http = $http
     @dirObj = DirObj
     @fileObj = FileObj
     @spinnerService = SpinnerService
-    @url = urlProvider
+    @url = urlService
 
   addFolder: (name, callbackSuccess, callbackError) ->
     @spinnerService.show();
-    request = @$http.post @url.addFolder, {'dir_id': @currentDir.id, name: name}
+    url = @url.generate 'ri_filemanager_api_directory_add'
+    request = @$http.post url, {'dir_id': @currentDir.id, name: name}
     request.success (data) =>
       dir = new @dirObj data, @currentDir, @
       @currentDir.dirs.push dir
@@ -43,8 +44,10 @@ class DirStructure extends Service
     if @currentDir != false and parseInt(dirId, 10) == @currentDir.id
       return @
 
+    url = @url.generate 'ri_filemanager_api_index', {id: dirId}
+
     @spinnerService.show();
-    @$http.post @url.loadFolder, {'dir_id': dirId}
+    @$http.get url
       .success (data) =>
         currentDir = new @dirObj data
         dirs = []

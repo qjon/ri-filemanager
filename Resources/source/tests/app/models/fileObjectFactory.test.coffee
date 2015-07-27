@@ -131,7 +131,7 @@ describe 'fileObjectFactory', ->
 
       beforeEach ->
         @fileObj.setCropData 10, 20, width, height
-        $httpBackend.whenPOST(urlProviderMock.cropFile, {id: 7, x: 10, y: 20, width: width, height: height})
+        $httpBackend.whenPUT('ri_filemanager_api_file_edit', {id: 7, x: 10, y: 20, width: width, height: height})
           .respond(
             success: true
           )
@@ -173,7 +173,7 @@ describe 'fileObjectFactory', ->
 
       it 'nothing should have changed if response.success is false', ->
         @fileObj.setCropData 10, 20, width, height
-        $httpBackend.whenPOST(urlProviderMock.cropFile, {id: 7, x: 10, y: 20, width: width, height: height})
+        $httpBackend.whenPUT('ri_filemanager_api_file_edit')
           .respond(
             success: false
           )
@@ -221,7 +221,7 @@ describe 'fileObjectFactory', ->
       spyOn(_, 'remove')
       callbackSuccessFunction = jasmine.createSpy()
 
-      $httpBackend.whenPOST(urlProviderMock.deleteFile, {file_id: 7})
+      $httpBackend.whenDELETE('ri_filemanager_api_file_delete')
       .respond(
         success: true
       )
@@ -235,7 +235,7 @@ describe 'fileObjectFactory', ->
     it 'should remove file and run callback', ->
       spyOn(_, 'remove')
 
-      $httpBackend.whenPOST(urlProviderMock.deleteFile, {file_id: 7})
+      $httpBackend.whenDELETE('ri_filemanager_api_file_delete')
       .respond(
         success: true
       )
@@ -248,7 +248,7 @@ describe 'fileObjectFactory', ->
 
     it 'should not remove file and run error callback', ->
 
-      $httpBackend.whenPOST(urlProviderMock.deleteFile, {file_id: 7})
+      $httpBackend.whenDELETE('ri_filemanager_api_file_delete')
         .respond(
           error: 'Some error msg'
         )
@@ -259,7 +259,7 @@ describe 'fileObjectFactory', ->
         error: 'Some error msg'
 
     it 'should not remove file and not run error callback if not set', ->
-      $httpBackend.whenPOST(urlProviderMock.deleteFile, {file_id: 7})
+      $httpBackend.whenDELETE('ri_filemanager_api_file_delete')
         .respond(
           error: 'Some error msg'
         )
@@ -267,7 +267,7 @@ describe 'fileObjectFactory', ->
       $httpBackend.flush()
 
     it 'should not remove file and run error callback if response status is not 200', ->
-      $httpBackend.whenPOST(urlProviderMock.deleteFile, {file_id: 7})
+      $httpBackend.whenDELETE('ri_filemanager_api_file_delete')
       .respond(500, {error: 'Some error msg'})
       @fileObj.remove callbackSuccessFunction, callbackErrorFunction
       $httpBackend.flush()
@@ -276,7 +276,7 @@ describe 'fileObjectFactory', ->
         error: 'Some error msg'
 
     it 'should not remove file and not run error callback if not set when response status is not 200', ->
-      $httpBackend.whenPOST(urlProviderMock.deleteFile, {file_id: 7})
+      $httpBackend.whenDELETE('ri_filemanager_api_file_delete')
       .respond(500, {error: 'Some error msg'})
       @fileObj.remove callbackSuccessFunction
       $httpBackend.flush()

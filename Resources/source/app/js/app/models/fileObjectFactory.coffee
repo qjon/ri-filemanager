@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 ###
 class FileObj extends Factory
-  constructor: ($http, modalService, fileTypesService, fileIconsService, SpinnerService, urlProvider) ->
+  constructor: ($http, modalService, fileTypesService, fileIconsService, SpinnerService, urlService) ->
     structure = null
     return class FileObj
       constructor: (data, dir, dirStructure) ->
@@ -36,7 +36,8 @@ class FileObj extends Factory
 
       crop: ->
         if @cropData.width > 0 and @cropData.height > 0
-          $http.post urlProvider.cropImage, {
+          url = urlService.generate 'ri_filemanager_api_file_edit', {id: @id}
+          $http.put url, {
               id: @id
               x: @cropData.x
               y: @cropData.y
@@ -74,7 +75,8 @@ class FileObj extends Factory
         fileId = @id;
 
         SpinnerService.show();
-        $http.post urlProvider.deleteFile, {'file_id': fileId}
+        url = urlService.generate 'ri_filemanager_api_file_delete', {id: fileId}
+        $http.delete url
           .success (data) =>
             if not data.error
               _.remove @getDirStructure().currentDir.files, {id: parseInt(fileId)}
