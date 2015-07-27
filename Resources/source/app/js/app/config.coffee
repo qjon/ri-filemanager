@@ -34,10 +34,11 @@ class Configuration extends Config
       )
 
     flowFactoryProvider.defaults =
-      target: Routing.generate 'ri_filemanager_api_file_upload',
+      target: Routing.generate 'ri_filemanager_api_file_upload'
+      uploadMethod: 'POST'
       permanentErrors: [404, 500, 501]
       testChunks: false
-      progressCallbacksInterval: 1
+      progressCallbacksInterval: 0
       speedSmoothingFactor: 1
       chunkSize: 64 * 1024 * 1024
       forceChunkSize: false

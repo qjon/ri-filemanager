@@ -79,7 +79,7 @@ class CopySelectionModel extends AbstractSelectionModel
      *
      * @throws CopyMoveSelectionException
      */
-    private function copyFiles(Directory $targetDir, array $filesIds = array())
+    private function copyFiles(Directory $targetDir = null, array $filesIds = array())
     {
         foreach ($filesIds as $fileId) {
             $file = $this->getFileById($fileId);
@@ -94,7 +94,7 @@ class CopySelectionModel extends AbstractSelectionModel
      *
      * @throws CopyMoveSelectionException
      */
-    private function copyFolders(Directory $targetDir, array $foldersIds = array())
+    private function copyFolders(Directory $targetDir = null, array $foldersIds = array())
     {
         if (!empty($foldersIds)) {
             $targetDirParents = $this->directoryProvider->getDirectoryParentsList($targetDir, false);
@@ -143,7 +143,7 @@ class CopySelectionModel extends AbstractSelectionModel
      * @return File
      * @throws CopyMoveSelectionException
      */
-    private function copyFile(Directory $directory, File $file)
+    private function copyFile(Directory $directory = null, File $file)
     {
         $newFile = clone($file);
         $newFile->setDirectory($directory);
