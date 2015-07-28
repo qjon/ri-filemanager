@@ -180,6 +180,23 @@ module.exports = function (grunt) {
                     '<%= pkg.options.dist %>js/components/cropper/cropper.min.js'
                 ],
                 dest: '<%= pkg.options.dist %>js/lib.min.js'
+            },
+            angular: {
+                src: [
+                    '<%= pkg.options.dist %>js/components/lodash/lodash.compat.js',
+                    '<%= pkg.options.dist %>js/components/angular/angular.js',
+                    '<%= pkg.options.dist %>js/components/angular-route/angular-route.js',
+                    '<%= pkg.options.dist %>js/components/angular-animate/angular-animate.js',
+                    '<%= pkg.options.dist %>js/components/angular-resource/angular-resource.js',
+                    '<%= pkg.options.dist %>js/components/angular-strap/angular-strap.js',
+                    '<%= pkg.options.dist %>js/components/angular-strap/angular-strap.tpl.js',
+                    '<%= pkg.options.dist %>js/components/angular-translate/angular-translate.js',
+                    '<%= pkg.options.dist %>js/components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+                    '<%= pkg.options.dist %>js/components/flow.js/flow.js',
+                    '<%= pkg.options.dist %>js/components/ng-flow/ng-flow.js',
+                    '<%= pkg.options.dist %>js/components/cropper/cropper.min.js'
+                ],
+                dest: '<%= pkg.options.dist %>js/lib_ang.min.js'
             }
         },
         usebanner: {

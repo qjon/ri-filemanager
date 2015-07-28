@@ -82,30 +82,10 @@ The first bundle is used to use Symfony routing in JS, the second is our fileman
                 width: 1200
                 height: 400
                 
-- __upload_dir__ (string) - name of dir in _web_ directory when will be upload all files
-- __resize__ (bool) - all uploaded image will be resized if they are too large
-- __resize_max_width__ (int) - works only with _resize_ = _true_
-- __dimensions__ (array) - predefined list of available crop dimensions
-                    
-### Dev mode
-1) Install nodejs
-2) Install grunt-cli as global
-
-    npm install grunt-cli
-    
-3) Install all dependences
-
-    cd vendor/qjon/ri-filemanager/RI/FileManagerBundle/Resources/source
-    
-    npm install
-    
-    grunt
-    
-        
-* upload_dir (string) - folder in "web" folder in which the bundle will be stored uploaded files
-* resize (bool) - should the api resized uploaded files if are too big
-* reszie_max_width (int) - max image width (if resize is set to true)
-* dimensions (array) - list of available dimensions (used in crop images) 
+* __upload_dir__ (string) - name of dir in _web_ directory when will be upload all files
+* __resize__ (bool) - all uploaded image will be resized if they are too large
+* __resize_max_width__ (int) - works only with _resize_ = _true_
+* __dimensions__ (array) - predefined list of available crop dimensions
 
 ## Usage
 ##### Standalone version
