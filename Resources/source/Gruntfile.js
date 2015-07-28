@@ -42,6 +42,29 @@ module.exports = function (grunt) {
                 }
             }
         },
+        copy: {
+            css: {
+                expand: true,
+                flatten: true,
+                src: [
+                    '<%= pkg.options.src %>/../bower_components/bootstrap/dist/css/bootstrap.min.css',
+                    '<%= pkg.options.src %>/../bower_components/font-awesome-bower/css/font-awesome.css',
+                    '<%= pkg.options.src %>/../bower_components/bootstrap-additions/dist/bootstrap-additions.min.css',
+                    '<%= pkg.options.src %>/../bower_components/cropper/dist/cropper.min.css',
+                    '<%= pkg.options.src %>/../bower_components/angular-motion/dist/angular-motion.min.css'
+                ],
+                dest: '<%= pkg.options.dist %>/css/'
+            },
+            fonts: {
+                expand: true,
+                flatten: true,
+                src: [
+                    '<%= pkg.options.src %>/../bower_components/bootstrap/dist/fonts/*',
+                    '<%= pkg.options.src %>/../bower_components/font-awesome-bower/fonts/*'
+                ],
+                dest: '<%= pkg.options.dist %>/fonts/'
+            }
+        },
         coffee: {
             dev: {
                 expand: true,
@@ -157,6 +180,23 @@ module.exports = function (grunt) {
                     '<%= pkg.options.dist %>js/components/cropper/cropper.min.js'
                 ],
                 dest: '<%= pkg.options.dist %>js/lib.min.js'
+            },
+            angular: {
+                src: [
+                    '<%= pkg.options.dist %>js/components/lodash/lodash.compat.js',
+                    '<%= pkg.options.dist %>js/components/angular/angular.js',
+                    '<%= pkg.options.dist %>js/components/angular-route/angular-route.js',
+                    '<%= pkg.options.dist %>js/components/angular-animate/angular-animate.js',
+                    '<%= pkg.options.dist %>js/components/angular-resource/angular-resource.js',
+                    '<%= pkg.options.dist %>js/components/angular-strap/angular-strap.js',
+                    '<%= pkg.options.dist %>js/components/angular-strap/angular-strap.tpl.js',
+                    '<%= pkg.options.dist %>js/components/angular-translate/angular-translate.js',
+                    '<%= pkg.options.dist %>js/components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
+                    '<%= pkg.options.dist %>js/components/flow.js/flow.js',
+                    '<%= pkg.options.dist %>js/components/ng-flow/ng-flow.js',
+                    '<%= pkg.options.dist %>js/components/cropper/cropper.min.js'
+                ],
+                dest: '<%= pkg.options.dist %>js/lib_ang.min.js'
             }
         },
         usebanner: {
@@ -213,7 +253,7 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
 
 
-    grunt.registerTask('build', ['bower', 'clean', 'less', 'ngClassify', 'coffee:prod', 'uglify', 'jade', 'ngtemplates', 'usebanner']);
+    grunt.registerTask('build', ['bower', 'clean', 'less', 'ngClassify', 'coffee:prod', 'uglify', 'jade', 'ngtemplates', 'usebanner', 'copy']);
     grunt.registerTask('dev', ['build', 'watch']);
     grunt.registerTask('karma-dev', ['ngClassify', 'coffee:dev', 'karma']);
     grunt.registerTask('default', ['build']);

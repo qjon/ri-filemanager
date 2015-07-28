@@ -1,0 +1,21 @@
+ri_filemanager_api_move_selection:
+    pattern: /move
+    defaults: { _controller: RIFileManagerBundle:Selection:moveSelection }
+    requirements:
+      _method: PUT
+    options:
+      expose: true
+
+ri_filemanager_api_copy_selection:
+    pattern: /copy
+    defaults: { _controller: RIFileManagerBundle:Selection:copySelection }
+    methods: PUT
+    options:
+      expose: true
+
+ri_filemanager_api_delete_selection:
+    pattern: /delete
+    defaults: { _controller: RIFileManagerBundle:Selection:deleteSelection }
+    methods: PUT
+    options:
+      expose: true

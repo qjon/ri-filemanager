@@ -258,3 +258,6 @@
 .pointer {
   cursor: pointer;
 }
+.modal-backdrop {
+  z-index: 10;
+}

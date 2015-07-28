@@ -28,14 +28,20 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $dimensions = $this->get('service_container')->getParameter('ri.filemanager.dimensions');
+        $configuration = array(
+            'availableDimensions' => $this->get('service_container')->getParameter('ri.filemanager.dimensions')
+        );
 
-        return $this->render('RIFileManagerBundle:Default:index.html.twig', array('image_edit_dimensions' => $dimensions));
+        return $this->render('RIFileManagerBundle:Default:index.html.twig', array('filemanager_configuration' => $configuration));
     }
 
     public function pageAction()
     {
-        return $this->render('RIFileManagerBundle:Default:page.html.twig');
+        $configuration = array(
+            'availableDimensions' => $this->get('service_container')->getParameter('ri.filemanager.dimensions')
+        );
+
+        return $this->render('RIFileManagerBundle:Default:page.html.twig', array('filemanager_configuration' => $configuration));
     }
 
     /**
@@ -47,116 +53,14 @@ class DefaultController extends Controller
     }
 
     /**
-     * @param Request $request
-     *
-     * @return JsonResponse
+     * @return array
      */
-    public function moveSelectionAction(Request $request)
+    public function exampleTinyMCEAction()
     {
-        $data = array('success' => true);
+        $configuration = array(
+            'availableDimensions' => $this->get('service_container')->getParameter('ri.filemanager.dimensions')
+        );
 
-        if (!$request->isXmlHttpRequest()) {
-            throw new AccessDeniedHttpException("Non ajax request");
-        }
-
-        $this->getDoctrine()->getConnection()->beginTransaction();
-        try
-        {
-            $destDirId = $request->get('destDirId', 0);
-            $dirs = $request->get('dirs', array());
-            $files = $request->get('files', array());
-
-            $modelSelectionModel = $this->get('ri.filemanager.model.move_selection_model');
-            $data['success'] = $modelSelectionModel->move($destDirId, $files, $dirs);
-
-            $this->getDoctrine()->getManager()->flush();
-            $this->getDoctrine()->getConnection()->commit();
-
-
-        } catch (\Exception $exception) {
-            $this->getDoctrine()->getConnection()->rollBack();
-            $data['success'] = false;
-            $data['msg'] = $exception->getMessage();
-        }
-
-        return new JsonResponse($data);
-    }
-
-
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function copySelectionAction(Request $request)
-    {
-        $data = array('success' => true);
-
-        if (!$request->isXmlHttpRequest()) {
-            throw new AccessDeniedHttpException("Non ajax request");
-        }
-
-        $this->getDoctrine()->getConnection()->beginTransaction();
-        try
-        {
-            $destDirId = $request->get('destDirId', 0);
-            $dirs = $request->get('dirs', array());
-            $files = $request->get('files', array());
-
-            $copySelectionModel = $this->get('ri.filemanager.model.copy_selection_model');
-            $data['success'] = $copySelectionModel->copy($destDirId, $files, $dirs);
-
-            $this->getDoctrine()->getManager()->flush();
-            $this->getDoctrine()->getConnection()->commit();
-
-
-        } catch (\Exception $exception) {
-            $this->getDoctrine()->getConnection()->rollBack();
-            $data['success'] = false;
-            $data['msg'] = $exception->getMessage();
-        }
-
-        return new JsonResponse($data);
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function deleteSelectionAction(Request $request)
-    {
-        $data = array('success' => true);
-
-        if (!$request->isXmlHttpRequest()) {
-            throw new AccessDeniedHttpException("Non ajax request");
-        }
-
-        $this->getDoctrine()->getConnection()->beginTransaction();
-        try
-        {
-            $dirs = $request->get('dirs', array());
-            $files = $request->get('files', array());
-
-            $deleteSelectionModel = $this->get('ri.filemanager.model.delete_selection_model');
-            $data['success'] = $deleteSelectionModel->delete($files, $dirs);
-
-            $this->getDoctrine()->getManager()->flush();
-            $this->getDoctrine()->getConnection()->commit();
-
-            $files = $deleteSelectionModel->getRemovedFiles();
-            $uploadedDirectoryManager = $this->get('ri.filemanager.manager.upload_directory_manager');
-            $absolutePath = $uploadedDirectoryManager->getAbsoluteUploadDir();
-            foreach ($files as $filePath) {
-                unlink($absolutePath . $filePath);
-            }
-
-        } catch (\Exception $exception) {
-            $this->getDoctrine()->getConnection()->rollBack();
-            $data['success'] = false;
-            $data['msg'] = $exception->getMessage();
-        }
-
-        return new JsonResponse($data);
+        return $this->render('RIFileManagerBundle:Default:exampleTinyMCE.html.twig', array('filemanager_configuration' => $configuration));
     }
 }

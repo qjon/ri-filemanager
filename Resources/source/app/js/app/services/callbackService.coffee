@@ -11,7 +11,7 @@ class Callback extends Service
     @configProvider = configProvider;
 
   isFileCallback: ->
-    angular.isFunction @configProvider.filesSelectCallback
+    !@configProvider.standAlone and angular.isFunction @configProvider.filesSelectCallback
 
   fileCallback: (event, file) ->
     filesData = [];
@@ -29,7 +29,7 @@ class Callback extends Service
     return
 
   isFolderCallback: ->
-    angular.isFunction @configProvider.dirSelectCallback
+    !@configProvider.standAlone and angular.isFunction @configProvider.dirSelectCallback
 
   folderCallback: (event, dir) ->
     event.stopPropagation()

@@ -5,6 +5,9 @@
     {% include 'RIFileManagerBundle:Default:javascript_min.html.twig' %}
 </head>
 <body>
-    {% include 'RIFileManagerBundle:Default:filemanager.html.twig' %}
+    <script src="{{ asset('/bundles/rifilemanager/js/tinymce_plugin.js') }}"></script>
+    <textarea class="tinymce" name="example" data-theme="advanced"></textarea>
+
+    {{ tinymce_init() }}
 </body>
 </html>

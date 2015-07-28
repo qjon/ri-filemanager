@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 ###
 class CopyPaste extends Service
-  constructor: ($http, modalService, selectionService, dirStructureService, SpinnerService) ->
+  constructor: ($http, modalService, selectionService, dirStructureService, SpinnerService, urlService) ->
     ###*
      * 0 - no action set
      * 1 - cut
@@ -21,6 +21,7 @@ class CopyPaste extends Service
     @selectionService = selectionService
     @dirStructure = dirStructureService
     @spinnerService = SpinnerService
+    @url = urlService
 
   ###*
    * Execute copy or move action
@@ -74,7 +75,7 @@ class CopyPaste extends Service
   copy: (destFolderId) ->
     @spinnerService.show()
 
-    @$http.put('/admin/filemanager/api/copy/selection', {
+    @$http.put(@url.generate('ri_filemanager_api_copy_selection'), {
       destDirId: destFolderId
       files: @selectionService.getFilesIds()
       dirs: @selectionService.getFoldersIds()
@@ -101,7 +102,7 @@ class CopyPaste extends Service
    ###
   remove: (callback) ->
     @spinnerService.show()
-    @$http.put('/admin/filemanager/api/delete/selection', {
+    @$http.put(@url.generate('ri_filemanager_api_delete_selection'), {
       files: @selectionService.getFilesIds()
       dirs: @selectionService.getFoldersIds()
     }, {
@@ -114,7 +115,7 @@ class CopyPaste extends Service
 
   move: (destFolderId) ->
     @spinnerService.show();
-    @$http.put('/admin/filemanager/api/move/selection', {
+    @$http.put(@url.generate('ri_filemanager_api_move_selection'), {
       destDirId: destFolderId
       files: @selectionService.getFilesIds()
       dirs: @selectionService.getFoldersIds()

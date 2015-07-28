@@ -1,7 +1,12 @@
 describe 'filemanagerConfig', ->
   filemanagerConfig = null
   filemanagerConfigProvider = null
+
+  onInsertMock =
+    oninsert: jasmine.createSpy()
+
   configDataMock =
+    standAlone: true
     fileIconTypesDir: '/abc'
     blankIconType: '_blank.png'
     mimeTypes:
@@ -46,3 +51,20 @@ describe 'filemanagerConfig', ->
       filemanagerConfigProvider.setConfig configDataMock
 
       expect(filemanagerConfig).toEqual configDataMock
+
+    describe 'fileSelectCallback', ->
+      it 'should call window manager functions', ->
+        file =
+          src: 'path/to/file'
+          name: 'filename'
+          width: 100
+          height: 50
+
+        top.tinymce.activeEditor.windowManager.getParams = jasmine.createSpy().and.returnValue onInsertMock
+        top.tinymce.activeEditor.windowManager.close = jasmine.createSpy()
+
+        filemanagerConfig.filesSelectCallback [file]
+
+        expect(top.tinymce.activeEditor.windowManager.getParams).toHaveBeenCalled()
+        expect(top.tinymce.activeEditor.windowManager.close).toHaveBeenCalled()
+        expect(onInsertMock.oninsert).toHaveBeenCalledWith file

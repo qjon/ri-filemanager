@@ -126,7 +126,8 @@ describe 'dirObjectFactory', ->
 
     it 'should call $http.post and remove dir from list', ->
       callbackSuccess = jasmine.createSpy()
-      $httpBackend.whenPOST urlProviderMock.deleteFolder
+
+      $httpBackend.whenDELETE 'ri_filemanager_api_directory_remove'
         .respond(
           success: true
         )
@@ -144,7 +145,7 @@ describe 'dirObjectFactory', ->
     it 'should call callbackSuccess if set', ->
       callbackSuccess = jasmine.createSpy()
 
-      $httpBackend.whenPOST urlProviderMock.deleteFolder
+      $httpBackend.whenDELETE 'ri_filemanager_api_directory_remove'
         .respond(
           success: true
         )
@@ -163,7 +164,7 @@ describe 'dirObjectFactory', ->
       callbackSuccess = jasmine.createSpy()
       callbackError = jasmine.createSpy()
 
-      $httpBackend.whenPOST urlProviderMock.deleteFolder
+      $httpBackend.whenDELETE 'ri_filemanager_api_directory_remove'
         .respond(
           success: false
           error: 'Some error'
@@ -182,7 +183,7 @@ describe 'dirObjectFactory', ->
       callbackSuccess = jasmine.createSpy()
       callbackError = jasmine.createSpy()
 
-      $httpBackend.whenPOST urlProviderMock.deleteFolder
+      $httpBackend.whenDELETE 'ri_filemanager_api_directory_remove'
         .respond(
           success: false
           error: 'Some error'
@@ -201,7 +202,7 @@ describe 'dirObjectFactory', ->
       callbackSuccess = jasmine.createSpy()
       callbackError = jasmine.createSpy()
 
-      $httpBackend.whenPOST urlProviderMock.deleteFolder
+      $httpBackend.whenDELETE 'ri_filemanager_api_directory_remove'
         .respond(
           404
           {
@@ -223,7 +224,7 @@ describe 'dirObjectFactory', ->
       callbackSuccess = jasmine.createSpy()
       callbackError = jasmine.createSpy()
 
-      $httpBackend.whenPOST urlProviderMock.deleteFolder
+      $httpBackend.whenDELETE 'ri_filemanager_api_directory_remove'
         .respond(
           404
           {
@@ -255,7 +256,8 @@ describe 'dirObjectFactory', ->
     it 'should call $http.post and save dir', ->
       callbackSuccess = jasmine.createSpy()
       newName = 'New name of the folder'
-      $httpBackend.whenPOST urlProviderMock.updateFolder
+
+      $httpBackend.whenPUT 'ri_filemanager_api_directory_edit'
         .respond(
           success: true
         )
@@ -271,7 +273,8 @@ describe 'dirObjectFactory', ->
 
     it 'should save dir and call calbackSuccess', ->
       callbackSuccess = jasmine.createSpy()
-      $httpBackend.whenPOST urlProviderMock.updateFolder
+
+      $httpBackend.whenPUT 'ri_filemanager_api_directory_edit'
         .respond(
           success: true
         )
@@ -289,7 +292,7 @@ describe 'dirObjectFactory', ->
       callbackSuccess = jasmine.createSpy()
       callbackError = jasmine.createSpy()
 
-      $httpBackend.whenPOST urlProviderMock.updateFolder
+      $httpBackend.whenPUT 'ri_filemanager_api_directory_edit'
         .respond(
           401
           {
@@ -311,7 +314,7 @@ describe 'dirObjectFactory', ->
       callbackSuccess = jasmine.createSpy()
       callbackError = jasmine.createSpy()
 
-      $httpBackend.whenPOST urlProviderMock.updateFolder
+      $httpBackend.whenPUT 'ri_filemanager_api_directory_edit'
         .respond(
           401
           {

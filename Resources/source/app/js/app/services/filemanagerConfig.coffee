@@ -12,6 +12,10 @@ class Config extends Provider
       ###
        * Dir to file types icons thumbnails
       ###
+      standAlone: true
+      ###
+       * Dir to file types icons thumbnails
+      ###
       fileIconTypesDir: '/bundles/rifilemanager/img/icons/'
       ###
        * Not found file icon
@@ -28,7 +32,14 @@ class Config extends Provider
       ###
        * Callback function execute after select file
       ###
-      filesSelectCallback: null
+      filesSelectCallback: (files) ->
+        file = files[0]
+        windowManager = top.tinymce.activeEditor.windowManager
+
+        windowManager.getParams().oninsert file
+        windowManager.close()
+        return
+
       ###
        * Callback function execute after select dir
       ###

@@ -1,28 +1,30 @@
 <html>
 <head>
-    {% include 'CMSAdminBundle:Default:css.html.twig' %}
     {% include 'RIFileManagerBundle:Default:styles_min.html.twig' %}
-    {% include 'RIFileManagerBundle:Default:javascript.html.twig' %}
+    {% include 'RIFileManagerBundle:Default:javascript_min.html.twig' %}
     <script>
         var fm = angular.module('fm', ['filemanager'])
                 .config(['configProviderProvider', function (configProviderProvider) {
                     configProviderProvider.setConfig({
-                        /**
-                         * Callback function execute after select file
-                         */
-                        filesSelectCallback: parent.filesSelectCallback,
-                        /**
-                         * Callback function execute after select dir
-                         */
-                        dirSelectCallback: null
+                        standAlone: false
+//                        /**
+//                         * Callback function execute after select file
+//                         */
+//                        filesSelectCallback: function (files) {
+//                            var file = files[0];
+//
+//                            top.tinymce.activeEditor.windowManager.getParams().oninsert(file.src, file.name, file.width, file.height);
+//                            top.tinymce.activeEditor.windowManager.close();
+//                        }
                     })
                 }]);
     </script>
 </head>
 <body>
-    <div class="filemanager" ng-app="fm">
-        <h1>Filemanager</h1>
-        <div class="animation" ng-view  style="width: 100%;"></div>
+    <div class="container">
+        <div class="filemanager" ng-app="fm">
+            <div class="animation" ng-view  style="width: 100%;"></div>
+        </div>
     </div>
 </body>
 </html>
