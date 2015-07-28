@@ -1,4 +1,4 @@
-# ri-filemanager
+# ri-filemanager ![alt=""](https://travis-ci.org/qjon/ri-filemanager.svg)
 Symfony2 filemanager bundle
 
 ## Requirements
