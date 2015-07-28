@@ -28,6 +28,7 @@ module.exports = function (config) {
             'app/js/modules/**/*.js',
             'temp/js/app/app.js',
             'temp/js/app/**/*.js',
+            'tests/topWindowMock.coffee',
             'tests/routingMock.coffee',
             'tests/**/*.test.js',
             'tests/**/*.test.coffee'

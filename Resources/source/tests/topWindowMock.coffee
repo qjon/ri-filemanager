@@ -1,0 +1,8 @@
+top = {
+  tinymce: {
+    activeEditor: {
+      windowManager: {
+      }
+    }
+  }
+}

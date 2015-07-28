@@ -37,7 +37,11 @@ class DefaultController extends Controller
 
     public function pageAction()
     {
-        return $this->render('RIFileManagerBundle:Default:page.html.twig');
+        $configuration = array(
+            'availableDimensions' => $this->get('service_container')->getParameter('ri.filemanager.dimensions')
+        );
+
+        return $this->render('RIFileManagerBundle:Default:page.html.twig', array('filemanager_configuration' => $configuration));
     }
 
     /**
@@ -46,5 +50,17 @@ class DefaultController extends Controller
     public function tinyMCEAction()
     {
         return $this->render('RIFileManagerBundle:Default:tinyMCE.html.twig');
+    }
+
+    /**
+     * @return array
+     */
+    public function exampleTinyMCEAction()
+    {
+        $configuration = array(
+            'availableDimensions' => $this->get('service_container')->getParameter('ri.filemanager.dimensions')
+        );
+
+        return $this->render('RIFileManagerBundle:Default:exampleTinyMCE.html.twig', array('filemanager_configuration' => $configuration));
     }
 }
