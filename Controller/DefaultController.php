@@ -24,6 +24,8 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class DefaultController extends Controller
 {
     /**
+     * Used as standalone version
+     *
      * @return array
      */
     public function indexAction()
@@ -35,6 +37,12 @@ class DefaultController extends Controller
         return $this->render('RIFileManagerBundle:Default:index.html.twig', array('filemanager_configuration' => $configuration));
     }
 
+
+    /**
+     * Used as tinymce plugin
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function pageAction()
     {
         $configuration = array(
@@ -42,14 +50,6 @@ class DefaultController extends Controller
         );
 
         return $this->render('RIFileManagerBundle:Default:page.html.twig', array('filemanager_configuration' => $configuration));
-    }
-
-    /**
-     * @return array
-     */
-    public function tinyMCEAction()
-    {
-        return $this->render('RIFileManagerBundle:Default:tinyMCE.html.twig');
     }
 
     /**

@@ -7,7 +7,7 @@
                 h4 {{'DIR_REMOVE' | translate}}
             .modal-body
                 .alert.alert-danger(ng-if="rd.errorString")
-                    p DIR_HAS_NOT_BEEN_REMOVED. {{ rd.errorString }}
+                    p {{'DIR_HAS_NOT_BEEN_REMOVED' | translate}}.
                 .alert.alert-warning(ng-if="!rd.errorString")
                     p(translate="{{'DIR_REMOVE_QUESTION'}}", translate-values="{folderName: rd.removedDir.name}")
             .modal-footer
