@@ -78,7 +78,7 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
     "      </div>\n" +
     "      <div class=\"modal-body\">\n" +
     "        <div ng-if=\"rd.errorString\" class=\"alert alert-danger\">\n" +
-    "          <p>DIR_HAS_NOT_BEEN_REMOVED. {{ rd.errorString }}</p>\n" +
+    "          <p>{{'DIR_HAS_NOT_BEEN_REMOVED' | translate}}.</p>\n" +
     "        </div>\n" +
     "        <div ng-if=\"!rd.errorString\" class=\"alert alert-warning\">\n" +
     "          <p translate=\"{{'DIR_REMOVE_QUESTION'}}\" translate-values=\"{folderName: rd.removedDir.name}\"></p>\n" +

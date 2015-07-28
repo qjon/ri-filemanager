@@ -13,6 +13,6 @@ class RemoveDir extends Controller
     @dirStructure = dirStructureService
     @errorString = ''
 
-  showAlert: (responseData) ->
+  showAlert: (responseData) =>
     @errorString = responseData.message
     return
