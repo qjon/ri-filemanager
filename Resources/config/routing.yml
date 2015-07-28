@@ -27,3 +27,6 @@ ri_filemanager_tinymce:
     pattern: /tinyce
     defaults: { _controller: RIFileManagerBundle:Default:tinyMCE }
 
+ri_filemanager_example_tinymce:
+    pattern: /example/tinymce
+    defaults: { _controller: RIFileManagerBundle:Default:exampleTinyMCE }

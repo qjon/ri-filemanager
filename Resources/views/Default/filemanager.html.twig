@@ -4,8 +4,9 @@
                 ConfigProvider.setConfig({{ filemanager_configuration|json_encode|raw }})
             }]);
 </script>
-
-<div class="filemanager" ng-app="fm">
-    <h1>{% verbatim %}{{'FILEMANAGER' | translate}}{% endverbatim %}</h1>
-    <div class="animation" ng-view  style="width: 100%;"></div>
+<div class="container">
+    <div class="filemanager" ng-app="fm">
+        <h1>{% verbatim %}{{'FILEMANAGER' | translate}}{% endverbatim %}</h1>
+        <div class="animation" ng-view  style="width: 100%;"></div>
+    </div>
 </div>
