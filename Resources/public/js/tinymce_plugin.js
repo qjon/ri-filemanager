@@ -8,7 +8,7 @@
  */
 function myFileBrowser(field_name, url, type, win) {
     tinyMCE.activeEditor.windowManager.open({
-        file: '/app_dev.php/filemanager/page',
+        file: Routing.generate('ri_filemanager_page'),
         title: 'RI FileManager',
         width: 1100,
         height: 450,

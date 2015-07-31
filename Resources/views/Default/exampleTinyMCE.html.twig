@@ -2,10 +2,9 @@
 <head>
     <title>Filemanager</title>
     {% include 'RIFileManagerBundle:Default:styles_min.html.twig' %}
-    {% include 'RIFileManagerBundle:Default:javascript_min.html.twig' %}
+    {% include 'RIFileManagerBundle:Default:javascript_tinymce.html.twig' %}
 </head>
 <body>
-    <script src="{{ asset('/bundles/rifilemanager/js/tinymce_plugin.js') }}"></script>
     <textarea class="tinymce" name="example" data-theme="advanced"></textarea>
 
     {{ tinymce_init() }}
