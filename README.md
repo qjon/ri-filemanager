@@ -30,13 +30,7 @@ This tool is ready to use, you dont need to do anything
     "require": {
         ...,
         "qjon/ri-filemanager": "dev-master"
-    },
-    "repositories": [
-        {
-          "type": "vcs",
-          "url": "https://github.com/qjon/ri-filemanager"
-        }
-    ]
+    }
 
 2) Add to AppKernel.php
     
@@ -132,9 +126,16 @@ If you have working example of TinyMce editor, you can attach _filemanager_ plug
                 file_browser_callback: 'myFileBrowser'
                 ...
 
-Then you should include tinymce plugin js file, which open select image dialog.
+Then you should include tinymce JS plugin file and routing files, which open select image dialog.
 
-    <script src="{{ asset('/bundles/rifilemanager/js/tinymce_plugin.js') }}"></script>
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script src="{{ asset('bundles/rifilemanager/js/tinymce_plugin.js') }}"></script>
+    
+or simple one line
+    
+    {% include 'RIFileManagerBundle:Default:javascript_tinymce.html.twig' %}
+
     
 After that you should change filemanager application configuration and set non stand alone version.
 
