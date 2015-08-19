@@ -54,7 +54,10 @@ class FileModelTest extends BaseTestCase
         $size = 123098;
         $mime = 'image/jpg';
 
-        $uploadedFileMock = $this->createMock('Symfony\Component\HttpFoundation\File\UploadedFile');
+        $uploadedFileMock = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')
+            ->enableOriginalConstructor()
+            ->setConstructorArgs([tempnam(sys_get_temp_dir(), ''), 'dummy'])
+            ->getMock();
 
         $directoryMock = $this->createMock('RI\FileManagerBundle\Entity\Directory');
 
