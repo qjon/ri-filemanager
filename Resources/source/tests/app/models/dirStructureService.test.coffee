@@ -203,3 +203,76 @@ describe 'dirStructureService', ->
       expect(@dirStructureService.currentDir.id).toEqual null
       expect(@dirStructureService.load).toHaveBeenCalledWith 4
 
+
+  describe 'searchFile', ->
+    successCallback = null
+    failureCallback = null
+    successResponse = null
+    failureResponse = null
+
+    beforeEach ->
+      successCallback = jasmine.createSpy()
+      failureCallback = jasmine.createSpy()
+      successResponse =
+        success: true
+        file:
+          id: 7
+          name: 'Some file'
+
+      failureResponse =
+        success: false
+
+    afterEach ->
+      @$httpBackend.verifyNoOutstandingExpectation()
+      @$httpBackend.verifyNoOutstandingRequest()
+
+    it 'should show spinner and then hide spinner if respond status 200', ->
+      @$httpBackend.whenGET('ri_filemanager_api_file_search').respond successResponse
+
+      @dirStructureService.searchFile '/some/path', successCallback, failureCallback
+
+      @$httpBackend.flush()
+
+      expect(@spinnerServiceMock.show).toHaveBeenCalled()
+      expect(@spinnerServiceMock.hide).toHaveBeenCalled()
+      expect(successCallback).toHaveBeenCalledWith successResponse.file
+
+    it 'should show spinner and then hide spinner if respond status is not 200', ->
+      @$httpBackend.whenGET('ri_filemanager_api_file_search').respond 404, failureResponse
+      @dirStructureService.searchFile '/some/path', successCallback, failureCallback
+
+      @$httpBackend.flush()
+
+      expect(@spinnerServiceMock.show).toHaveBeenCalled()
+      expect(@spinnerServiceMock.hide).toHaveBeenCalled()
+      expect(failureCallback).toHaveBeenCalledWith failureResponse
+
+    it 'should not call success function if is not set', ->
+      @$httpBackend.whenGET('ri_filemanager_api_file_search').respond successResponse
+      @dirStructureService.searchFile '/some/path', false, failureCallback
+      @$httpBackend.flush()
+
+      expect(successCallback.calls.count()).toEqual(0)
+
+
+    it 'should call error function if response is 200 and response.success is false', ->
+      @$httpBackend.whenGET('ri_filemanager_api_file_search').respond failureResponse
+      @dirStructureService.searchFile '/some/path', successCallback, failureCallback
+      @$httpBackend.flush()
+
+      expect(failureCallback).toHaveBeenCalled()
+
+    it 'should not call error function if response is 200 and response.success is false if errorCallback is not set', ->
+      @$httpBackend.whenGET('ri_filemanager_api_file_search').respond failureResponse
+      @dirStructureService.searchFile '/some/path', successCallback
+      @$httpBackend.flush()
+
+      expect(failureCallback.calls.count()).toEqual(0)
+
+
+    it 'should not call error function if response is 404 if errorCallback is not set', ->
+      @$httpBackend.whenGET('ri_filemanager_api_file_search').respond 404, failureResponse
+      @dirStructureService.searchFile '/some/path', successCallback
+      @$httpBackend.flush()
+
+      expect(failureCallback.calls.count()).toEqual(0)

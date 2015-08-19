@@ -39,7 +39,7 @@ class UploadDirectoryManager
      */
     public function __construct($kernelRootDir, $uploadsDir)
     {
-        $this->absoluteUploadDirPath = $kernelRootDir . '/../web';
+        $this->absoluteUploadDirPath = $this->getAbsoluteUploadDirPath($kernelRootDir);
         $this->uploadDir = $uploadsDir;
     }
 
@@ -98,5 +98,16 @@ class UploadDirectoryManager
         }
 
         return $this->uploadDir . $subDir;
+    }
+
+
+    /**
+     * @param $kernelRootDir
+     */
+    private function getAbsoluteUploadDirPath($kernelRootDir)
+    {
+        $dirs = explode('/', $kernelRootDir);
+        array_pop($dirs);
+        return '/' . implode($dirs) . '/web';
     }
 } 

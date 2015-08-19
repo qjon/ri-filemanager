@@ -72,8 +72,8 @@ class MoveSelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::move
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::getDirectoryById
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::move
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::getDirectoryById
      *
      * @expectedException \RI\FileManagerBundle\Exceptions\CopyMoveSelectionException
      */
@@ -89,7 +89,7 @@ class MoveSelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::move
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::move
      */
     public function testMove_ShouldReturnFalse_IfNoFilesAndDirectories()
     {
@@ -97,8 +97,8 @@ class MoveSelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::move
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::getDirectoryById
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::move
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::getDirectoryById
      *
      * @expectedException \RI\FileManagerBundle\Exceptions\CopyMoveSelectionException
      */
@@ -134,8 +134,8 @@ class MoveSelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::move
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::getDirectoryById
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::move
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::getDirectoryById
      *
      * @expectedException \RI\FileManagerBundle\Exceptions\CopyMoveSelectionException
      */
@@ -165,9 +165,10 @@ class MoveSelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::move
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::getDirectoryById
-     * @covers RI\FileManagerBundle\Model\MoveSelectionModel::getFileById
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::__construct
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::move
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::getDirectoryById
+     * @covers RI\FileManagerBundle\Model\Selection\MoveSelectionModel::getFileById
      */
     public function testMove_ShouldReturnTrue()
     {

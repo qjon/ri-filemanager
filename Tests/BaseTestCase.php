@@ -38,4 +38,33 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         $options = array_merge($options, array('command' => $command));
         return $this->_application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
     }
+
+
+    /**
+     * Helper for creating mock
+     * @param $className
+     *
+     * @return mixed
+     */
+    protected function createMock($className)
+    {
+        return $this->getMockBuilder($className)
+            ->disableOriginalConstructor()
+            ->getMock();
+    }
+
+
+    /**
+     * @param string $filename
+     *
+     * @return string
+     */
+    protected function prepareTestImage($filename)
+    {
+        $dir = __DIR__ . '/web/';
+        $testFilename = 'test_' . $filename;
+        copy($dir . $filename, $dir . $testFilename);
+
+        return $dir . $testFilename;
+    }
 }

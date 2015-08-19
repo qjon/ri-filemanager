@@ -9,6 +9,8 @@ node_js:
   - "0.12"
  
 before_script:
+  - printf "\n" | pecl install imagick
+  - php -m
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install
 

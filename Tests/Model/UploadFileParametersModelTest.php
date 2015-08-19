@@ -89,4 +89,58 @@ class UploadFileParametersModelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('2.31 ' . UploadedFileParametersModel::MB_UNIT, $this->uploadedFileParametersModel->getSizeNormalize());
     }
 
+
+    /**
+     * @covers: RI\FileManagerBundle\Model\UploadedFileParametersModel::serialize
+     */
+    public function testSerialize()
+    {
+        $width = 200;
+        $height = 100;
+        $size = 51203;
+        $mime = 'image/jpg';
+
+        $this->uploadedFileParametersModel->setWidth($width);
+        $this->uploadedFileParametersModel->setHeight($height);
+        $this->uploadedFileParametersModel->setSize($size);
+        $this->uploadedFileParametersModel->setMime($mime);
+
+        $expectedArray = array(
+            'width' => $width,
+            'height' => $height,
+            'mime' => $mime,
+            'size' => $size,
+            'sizeNormalized' => '50 KB'
+        );
+        $this->assertEquals(serialize($expectedArray), $this->uploadedFileParametersModel->serialize());
+    }
+
+
+    /**
+     * @covers: RI\FileManagerBundle\Model\UploadedFileParametersModel::unserialize
+     */
+    public function testUnserialize()
+    {
+        $width = 200;
+        $height = 100;
+        $size = 51203;
+        $mime = 'image/jpg';
+
+        $data = array(
+            'width' => $width,
+            'height' => $height,
+            'mime' => $mime,
+            'size' => $size,
+            'sizeNormalized' => '50 KB'
+        );
+
+        $this->uploadedFileParametersModel->unserialize(serialize($data));
+
+        $this->assertEquals($width, $this->uploadedFileParametersModel->getWidth());
+        $this->assertEquals($height, $this->uploadedFileParametersModel->getHeight());
+        $this->assertEquals($size, $this->uploadedFileParametersModel->getSize());
+        $this->assertEquals($mime, $this->uploadedFileParametersModel->getMime());
+        $this->assertEquals('50 KB', $this->uploadedFileParametersModel->getSizeNormalize());
+    }
+
 }

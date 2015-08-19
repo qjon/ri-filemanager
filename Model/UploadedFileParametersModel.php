@@ -61,6 +61,7 @@ class UploadedFileParametersModel implements \Serializable
 
     /**
      * @return int
+     * @codeCoverageIgnore
      */
     public function getHeight()
     {
@@ -69,6 +70,7 @@ class UploadedFileParametersModel implements \Serializable
 
     /**
      * @return int
+     * @codeCoverageIgnore
      */
     public function getWidth()
     {
@@ -77,6 +79,7 @@ class UploadedFileParametersModel implements \Serializable
 
     /**
      * @return string
+     * @codeCoverageIgnore
      */
     public function getMime()
     {
@@ -85,6 +88,7 @@ class UploadedFileParametersModel implements \Serializable
 
     /**
      * @return int
+     * @codeCoverageIgnore
      */
     public function getSize()
     {
@@ -93,6 +97,7 @@ class UploadedFileParametersModel implements \Serializable
 
     /**
      * @return string
+     * @codeCoverageIgnore
      */
     public function getSizeNormalize()
     {
@@ -101,6 +106,7 @@ class UploadedFileParametersModel implements \Serializable
 
     /**
      * @param integer $height
+     * @codeCoverageIgnore
      */
     public function setHeight($height)
     {
@@ -109,6 +115,7 @@ class UploadedFileParametersModel implements \Serializable
 
     /**
      * @param string $mime
+     * @codeCoverageIgnore
      */
     public function setMime($mime)
     {
@@ -117,6 +124,7 @@ class UploadedFileParametersModel implements \Serializable
 
     /**
      * @param integer $width
+     * @codeCoverageIgnore
      */
     public function setWidth($width)
     {

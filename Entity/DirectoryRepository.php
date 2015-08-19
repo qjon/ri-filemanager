@@ -11,6 +11,12 @@ namespace RI\FileManagerBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Class DirectoryRepository
+ * @package RI\FileManagerBundle\Entity
+ *
+ * @codeCoverageIgnore
+ */
 class DirectoryRepository extends EntityRepository
 {
 } 

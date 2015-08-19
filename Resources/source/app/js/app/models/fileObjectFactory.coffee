@@ -93,6 +93,7 @@ class FileObj extends Factory
             return
 
 
+
       setCropData: (x, y, width, height) ->
         @cropData.x = x
         @cropData.y = y

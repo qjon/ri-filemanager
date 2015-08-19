@@ -97,4 +97,33 @@ class FileController extends Controller
 
         return new JsonResponse($response);
     }
+
+
+    /**
+     * @param string $path
+     *
+     * @return JsonResponse
+     */
+    public function searchAction($path)
+    {
+        $response = array('success' => false);
+        $path = base64_decode($path);
+
+        try {
+            $checksum = $this->get('ri.filemanager.model.file_model')->getChecksum($path);
+            $file = $this->getDoctrine()->getRepository('RIFileManagerBundle:File')->findFileByChecksum($checksum, $path);
+
+            if (!$file) {
+                throw new \Exception('File not found');
+            }
+
+            $response['file'] = $this->get('ri.filemanager.data_provider.file_data_provider')->convertFileEntityToArray($file);
+            $response['success'] = true;
+
+        } catch (\Exception $exception) {
+            $response['msg'] = $exception->getMessage();
+        }
+
+        return new JsonResponse($response);
+    }
 }

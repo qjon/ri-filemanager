@@ -6,6 +6,8 @@ describe 'filemanagerConfig', ->
     oninsert: jasmine.createSpy()
 
   configDataMock =
+    allowChangeLanguage: true
+    defaultLanguage: 'en_EN'
     standAlone: true
     fileIconTypesDir: '/abc'
     blankIconType: '_blank.png'

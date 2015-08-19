@@ -20,17 +20,18 @@ function myFileBrowser(field_name, url, type, win) {
         window: win,
         input: field_name,
         type: type,
+        url: url,
         oninsert: function(file) {
             var inputs = win.document.getElementsByTagName('input');
             if (type === 'image') {
-                inputs[0].setAttribute('value', file.src);
-                inputs[1].setAttribute('value', file.name);
-                inputs[2].setAttribute('value', file.width);
-                inputs[3].setAttribute('value', file.height);
+                inputs[0].value = file.src;
+                inputs[1].value = file.name;
+                inputs[2].value = file.width;
+                inputs[3].value = file.height;
             } else {
-                inputs[0].setAttribute('value', file.src);
-                if (!inputs[1].getAttribute('value')) {
-                    inputs[1].setAttribute('value', file.name);
+                inputs[0].value = file.src;
+                if (!inputs[1].value) {
+                    inputs[1].value = file.name;
                 }
             }
         }

@@ -14,7 +14,11 @@ describe 'mainController', ->
     @$translateMock =
       use: jasmine.createSpy()
 
-    @mainController = new Main @scopeMock, @dirStructureMock, @fileTypesMock, @fileTypeFilterMock, @routingChangeServiceMock, @selectionServiceMock, @copyPasteServiceMock, @fileUploadServiceMock, @callbackServiceMock, @$translateMock
+    @configProviderMock = {
+      allowChangeLanguage: true
+    }
+
+    @mainController = new Main @scopeMock, @dirStructureMock, @fileTypesMock, @fileTypeFilterMock, @routingChangeServiceMock, @selectionServiceMock, @copyPasteServiceMock, @fileUploadServiceMock, @callbackServiceMock, @$translateMock, @configProviderMock
 
   describe 'constructor', ->
     it 'should set $scope', ->
@@ -41,6 +45,8 @@ describe 'mainController', ->
     it 'should set callbackService', ->
       expect(@mainController.callbackService).toEqual @callbackServiceMock
 
+    it 'should set allowChangeLanguage', ->
+      expect(@mainController.allowChangeLanguage).toEqual @configProviderMock.allowChangeLanguage
 
   describe 'setLanguage', ->
     it 'should call $translate.use', ->
