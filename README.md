@@ -66,6 +66,8 @@ The first bundle is used to use Symfony routing in JS, the second is our fileman
         upload_dir: /uploads
         resize: true
         resize_max_width: 1600
+        allow_change_language: true
+        default_language: pl_PL
         dimensions: 
             -
                 name: Crop size one
@@ -79,6 +81,8 @@ The first bundle is used to use Symfony routing in JS, the second is our fileman
 * __upload_dir__ (string) - name of dir in _web_ directory when will be upload all files
 * __resize__ (bool) - all uploaded image will be resized if they are too large
 * __resize_max_width__ (int) - works only with _resize_ = _true_
+* __allow_change_language__ (bool) - if _true_ display dropdown to change language, if _false_ the dropdown is not shown: default _true_
+* __default_language__ (string) - default language of the app (now available: en_EN, pl_PL), default: _en_EN_
 * __dimensions__ (array) - predefined list of available crop dimensions
 
 ## Usage
