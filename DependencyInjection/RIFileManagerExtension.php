@@ -18,6 +18,8 @@ use Symfony\Component\DependencyInjection\Loader;
  * This is the class that loads and manages your bundle configuration
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
+ *
+ * @codeCoverageIgnore
  */
 class RIFileManagerExtension extends Extension
 {
@@ -33,8 +35,19 @@ class RIFileManagerExtension extends Extension
         $container->setParameter('ri.filemanager.resize', $config['resize']);
         $container->setParameter('ri.filemanager.resize_max_width', $config['resize_max_width']);
         $container->setParameter('ri.filemanager.dimensions', $config['dimensions']);
+        $container->setParameter('ri.filemanager.js_config', $this->getJsConfig($config));
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+    }
+
+
+    private function getJsConfig(array $config)
+    {
+        return array(
+            'availableDimensions' => $config['dimensions'],
+            'allowChangeLanguage' => $config['allow_change_language'],
+            'defaultLanguage' => $config['default_language']
+        );
     }
 }

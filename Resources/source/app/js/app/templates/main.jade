@@ -38,7 +38,7 @@ div(id="toppage", flow-init="{query: {dirId: mainCtrl.dirStructure.currentDir.id
                     input.form-control(ng-model="mainCtrl.search", type="text", placeholder="{{'FILTER' | translate}}")
                     span.btn.btn-default.input-group-addon
                         i.fa.fa-search
-        .col-sm-12.col-md-1
+        .col-sm-12.col-md-1(ng-if="::mainCtrl.allowChangeLanguage")
             .btn-group.pull-right
                 button.btn.btn-default.dropdown-toggle(type="button", data-toggle="dropdown") {{mainCtrl.getLanguageSymbol()}}
                     .caret
@@ -57,14 +57,14 @@ div(id="toppage", flow-init="{query: {dirId: mainCtrl.dirStructure.currentDir.id
                     {{ parent.name }}
                 li.current.
                     {{ mainCtrl.dirStructure.currentDir.name }}
-            .thumb.thumb-folder.img-thumbnail(ng-repeat="dir in mainCtrl.dirStructure.currentDir.dirs | filter:{'name': mainCtrl.search } | orderBy:'name'", ng-click="$event.stopPropagation();mainCtrl.routingChangeService.goToFolder($event, dir.id);mainCtrl.selection.toggleFolder($event, dir)", ng-class="{selected: mainCtrl.selection.isSelectedFolder(dir.id)}")
+            .thumb.thumb-folder.img-thumbnail(ng-repeat="dir in mainCtrl.dirStructure.currentDir.dirs | filter:{'name': mainCtrl.search } | orderBy:'name' track by dir.id", ng-click="$event.stopPropagation();mainCtrl.routingChangeService.goToFolder($event, dir.id);mainCtrl.selection.toggleFolder($event, dir)", ng-class="{selected: mainCtrl.selection.isSelectedFolder(dir.id)}")
                 i.thumb-image.fa.fa-folder-o
                 .thumb-name(data-ng-bind="dir.name")
                 .menu.folder-menu
                     i.fa.fa-edit(ng-click="dir.openDialogEditFolder($event, dir)", title="{{'EDIT' | translate}}")
                     i.fa.fa-trash-o(ng-click="dir.openDialogRemoveFolder($event)", title="{{'DELETE' | translate}}")
                 i.fa.fa-check.selection-mark(ng-show="mainCtrl.selection.isSelectedFolder(dir.id)")
-            .thumb.thumb-file.img-thumbnail(ng-repeat="file in mainCtrl.dirStructure.currentDir.files | fileMime:mainCtrl.fileTypeFilter.getCurrentFilterMimeList() | filter:{'name': mainCtrl.search } | orderBy:'name'", ng-click="mainCtrl.selection.toggleFile($event, file)", ng-class="{selected: mainCtrl.selection.isSelectedFile(file.id)}")
+            .thumb.thumb-file.img-thumbnail(ng-repeat="file in mainCtrl.dirStructure.currentDir.files | fileMime:mainCtrl.fileTypeFilter.getCurrentFilterMimeList() | filter:{'name': mainCtrl.search } | orderBy:'name' track by file.id", ng-click="mainCtrl.selection.toggleFile($event, file)", ng-class="{selected: mainCtrl.selection.isSelectedFile(file.id)}")
                 .thumb-image(ng-if="file.isImage()")
                     img(ng-src="{{ file.src }}")
                 img.thumb-image.thumb-icon(ng-if="!file.isImage()", ng-src="{{ file.icon }}")

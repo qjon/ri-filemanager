@@ -34,7 +34,7 @@ class DirectoryDataProvider extends DataProviderAbstract
      */
     public function getDirectorySubDirectories($directoryId)
     {
-        $directories = $this->entityManager->getRepository('RIFileManagerBundle:Directory')->findByParent($directoryId);
+        $directories = $this->entityManager->getRepository('RIFileManagerBundle:Directory')->findBy(array('parent' => $directoryId));
 
         foreach ($directories as $key => $directory) {
             $directories[$key] = $this->convertDirectoryEntityToArray($directory);
@@ -51,9 +51,11 @@ class DirectoryDataProvider extends DataProviderAbstract
      */
     public function convertDirectoryEntityToArray(Directory $directory)
     {
+        $parent = $directory->getParent();
+
         return array(
             'id' => $directory->getId(),
-            'parent_id' => ($directory->getParent()) ? $directory->getParent()->getId() : 0,
+            'parent_id' => ($parent) ? $parent->getId() : 0,
             'name' => $directory->getName(),
             'createAt' => $directory->getCreateAt()
         );
@@ -68,13 +70,17 @@ class DirectoryDataProvider extends DataProviderAbstract
     public function getDirectoryParentsList(Directory $directory, $convert = true)
     {
         $parentsArray = array();
-        while ($directory->getParent()) {
-            $parent = $directory->getParent();
+        $parent = $directory->getParent();
+        while ($parent) {
             if ($convert) {
-                $parent = $this->convertDirectoryEntityToArray($parent);
+                $parentData = $this->convertDirectoryEntityToArray($parent);
+                array_unshift($parentsArray, $parentData);
             }
-            array_unshift($parentsArray, $parent);
-            $directory = $directory->getParent();
+            else
+            {
+                array_unshift($parentsArray, $parent);
+            }
+            $parent = $parent->getParent();
         }
 
         return $parentsArray;

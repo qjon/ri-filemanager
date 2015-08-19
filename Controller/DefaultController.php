@@ -10,7 +10,6 @@
 
 namespace RI\FileManagerBundle\Controller;
 
-use DoctrineExtensions\Versionable\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,11 +29,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $configuration = array(
-            'availableDimensions' => $this->get('service_container')->getParameter('ri.filemanager.dimensions')
-        );
-
-        return $this->render('RIFileManagerBundle:Default:index.html.twig', array('filemanager_configuration' => $configuration));
+        return $this->render('RIFileManagerBundle:Default:index.html.twig', array('filemanager_configuration' => $this->get('service_container')->getParameter('ri.filemanager.js_config')));
     }
 
 
@@ -45,11 +40,7 @@ class DefaultController extends Controller
      */
     public function pageAction()
     {
-        $configuration = array(
-            'availableDimensions' => $this->get('service_container')->getParameter('ri.filemanager.dimensions')
-        );
-
-        return $this->render('RIFileManagerBundle:Default:page.html.twig', array('filemanager_configuration' => $configuration));
+        return $this->render('RIFileManagerBundle:Default:page.html.twig', array('filemanager_configuration' => $this->get('service_container')->getParameter('ri.filemanager.js_config')));
     }
 
     /**
@@ -57,10 +48,6 @@ class DefaultController extends Controller
      */
     public function exampleTinyMCEAction()
     {
-        $configuration = array(
-            'availableDimensions' => $this->get('service_container')->getParameter('ri.filemanager.dimensions')
-        );
-
-        return $this->render('RIFileManagerBundle:Default:exampleTinyMCE.html.twig', array('filemanager_configuration' => $configuration));
+        return $this->render('RIFileManagerBundle:Default:exampleTinyMCE.html.twig', array('filemanager_configuration' => $this->get('service_container')->getParameter('ri.filemanager.js_config')));
     }
 }

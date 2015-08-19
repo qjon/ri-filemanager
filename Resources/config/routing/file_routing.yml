@@ -23,3 +23,11 @@ ri_filemanager_api_file_edit:
       id: \d+
     options:
       expose: true
+
+ri_filemanager_api_file_search:
+    pattern: /file/search/{path}
+    defaults: { _controller: RIFileManagerBundle:File:search }
+    requirements:
+      _method: GET
+    options:
+      expose: true

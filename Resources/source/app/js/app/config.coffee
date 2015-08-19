@@ -7,14 +7,13 @@
  * file that was distributed with this source code.
 ###
 class Configuration extends Config
-  constructor: ($provide, flowFactoryProvider, $routeProvider, $translateProvider) ->
+  constructor: ($provide, flowFactoryProvider, $routeProvider, $translateProvider, initDirProviderProvider) ->
 
     $translateProvider.useStaticFilesLoader(
       prefix: '/bundles/rifilemanager/translations/lang_'
       suffix: '.json'
     )
 
-    $translateProvider.preferredLanguage 'en_EN'
     $translateProvider.useSanitizeValueStrategy null
 
     $routeProvider
@@ -30,7 +29,11 @@ class Configuration extends Config
         }
       )
       .otherwise(
-        redirectTo: '/dir/0'
+        redirectTo: ->
+          if initDirProviderProvider.getFilePath()
+            return
+          else
+            return '/dir/0'
       )
 
     flowFactoryProvider.defaults =

@@ -153,6 +153,7 @@ module.exports = function (grunt) {
                     '<%= pkg.options.src %>js/modules/**/*.js',
                     '<%= pkg.options.temp %>js/app/app.js',
                     '<%= pkg.options.temp %>js/app/config.js',
+                    '<%= pkg.options.temp %>js/app/run.js',
                     '<%= pkg.options.temp %>js/app/filters/*.js',
                     '<%= pkg.options.temp %>js/app/directives/*.js',
                     '<%= pkg.options.temp %>js/app/models/*.js',

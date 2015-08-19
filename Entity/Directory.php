@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="rifilemanager_directories")
  * @ORM\Entity(repositoryClass="RI\FileManagerBundle\Entity\DirectoryRepository")
  * @ORM\HasLifecycleCallbacks
+ * @codeCoverageIgnore
  */
 class Directory
 {
@@ -158,13 +159,22 @@ class Directory
     }
 
     /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
      * Add children
      *
      * @param \RI\FileManagerBundle\Entity\Directory $children
-     *
      * @return Directory
      */
-    public function addChildren(\RI\FileManagerBundle\Entity\Directory $children)
+    public function addChild(\RI\FileManagerBundle\Entity\Directory $children)
     {
         $this->children[] = $children;
 
@@ -176,18 +186,8 @@ class Directory
      *
      * @param \RI\FileManagerBundle\Entity\Directory $children
      */
-    public function removeChildren(\RI\FileManagerBundle\Entity\Directory $children)
+    public function removeChild(\RI\FileManagerBundle\Entity\Directory $children)
     {
         $this->children->removeElement($children);
-    }
-
-    /**
-     * Get children
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getChildren()
-    {
-        return $this->children;
     }
 }

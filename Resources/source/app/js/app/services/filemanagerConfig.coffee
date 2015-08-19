@@ -8,7 +8,16 @@
 ###
 class Config extends Provider
   constructor: ->
+    @allowedLanguages = ['en_EN', 'pl_PL']
     @configData =
+      ###
+      Allow change language
+      ###
+      allowChangeLanguage: true
+      ###
+      Default language
+      ###
+      defaultLanguage: 'en_EN'
       ###
        * Dir to file types icons thumbnails
       ###
@@ -62,6 +71,8 @@ class Config extends Provider
 
   setConfig: (data) ->
     angular.extend @configData, data
+    @configData.allowChangeLanguage = !(data.allowChangeLanguage == false)
+    @configData.defaultLanguage = 'en_EN' if !data.defaultLanguage || (@allowedLanguages.indexOf(data.defaultLanguage) == -1)
 
   $get: ->
     @configData

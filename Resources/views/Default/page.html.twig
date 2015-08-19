@@ -6,7 +6,9 @@
         var fm = angular.module('fm', ['filemanager'])
                 .config(['configProviderProvider', function (configProviderProvider) {
                     configProviderProvider.setConfig({
-                        standAlone: false
+                        standAlone: false,
+                        defaultLanguage: 'pl_PL',
+                        allowChangeLanguage: false
 //                        /**
 //                         * Callback function execute after select file
 //                         */

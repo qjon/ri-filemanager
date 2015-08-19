@@ -15,9 +15,10 @@ use RI\FileManagerBundle\Model\UploadedFileParametersModel;
 /**
  * File
  *
- * @ORM\Table(name="rifilemanager_files")
+ * @ORM\Table(name="rifilemanager_files",indexes={@ORM\Index(name="checksum_idx", columns={"checksum"})})
  * @ORM\Entity(repositoryClass="RI\FileManagerBundle\Entity\FileRepository")
  * @ORM\HasLifecycleCallbacks
+ * @codeCoverageIgnore
  */
 class File
 {
@@ -63,6 +64,13 @@ class File
      * @ORM\Column(name="params", type="object")
      */
     private $params;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="checksum", type="string", length=32)
+     */
+    private $checksum;
 
     /**
      * @ORM\PrePersist
@@ -204,5 +212,28 @@ class File
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Set checksum
+     *
+     * @param string $checksum
+     * @return File
+     */
+    public function setChecksum($checksum)
+    {
+        $this->checksum = $checksum;
+
+        return $this;
+    }
+
+    /**
+     * Get checksum
+     *
+     * @return string 
+     */
+    public function getChecksum()
+    {
+        return $this->checksum;
     }
 }

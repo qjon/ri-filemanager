@@ -47,7 +47,7 @@ class CropImageModel
     public function __construct(EntityManager $entityManager, $rootDir)
     {
         $this->entityManager = $entityManager;
-        $this->pathToUploadDir = $rootDir . '/../web';
+        $this->pathToUploadDir = $rootDir . '/../web/';
     }
 
     /**

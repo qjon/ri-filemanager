@@ -70,14 +70,14 @@ class DeleteSelectionModelTest extends BaseTestCase
             ->getMock();
 
 
-        copy(__DIR__ . '/../../files/org_abc.jpg', __DIR__ . '/../../files/abc.jpg');
-        copy(__DIR__ . '/../../files/org_xyz.jpg', __DIR__ . '/../../files/xyz.jpg');
+        copy(__DIR__ . '/../../web/org_abc.jpg', __DIR__ . '/../../web/abc.jpg');
+        copy(__DIR__ . '/../../web/org_xyz.jpg', __DIR__ . '/../../web/xyz.jpg');
 
         $this->deleteSelectionModel = new DeleteSelectionModel($this->fileRepositoryMock, $this->directoryRepositoryMock, $this->entityManagerMock);
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\DeleteSelectionModel::delete
+     * @covers RI\FileManagerBundle\Model\Selection\DeleteSelectionModel::delete
      */
     public function testDelete_ShouldReturnFalse_IfNoFilesAndDirectories()
     {
@@ -85,7 +85,8 @@ class DeleteSelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\DeleteSelectionModel::delete
+     * @covers RI\FileManagerBundle\Model\Selection\DeleteSelectionModel::__construct
+     * @covers RI\FileManagerBundle\Model\Selection\DeleteSelectionModel::delete
      * @expectedException \RI\FileManagerBundle\Exceptions\RemoveDirException
      */
     public function testDelete_ShouldThrowException_IfFolderHasSomeFiles()
@@ -108,12 +109,19 @@ class DeleteSelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\DeleteSelectionModel::delete
+     * @covers RI\FileManagerBundle\Model\Selection\DeleteSelectionModel::delete
      * @expectedException \RI\FileManagerBundle\Exceptions\RemoveDirException
      */
     public function testDelete_ShouldThrowException_IfFolderHasSubfolders()
     {
         $this->setMocks();
+        $this->directories[self::DIR_ID_1]->addChild($this->directories[self::DIR_ID_1_1]);
+
+        $this->fileRepositoryMock
+            ->expects($this->once())
+            ->method('find')
+            ->with(self::FILE_ID_1)
+            ->will($this->returnValue($this->files[self::FILE_ID_1]));
 
         $this->directoryRepositoryMock
             ->expects($this->once())
@@ -125,13 +133,13 @@ class DeleteSelectionModelTest extends BaseTestCase
             ->expects($this->once())
             ->method('fetchFromDir')
             ->with($this->directories[self::DIR_ID_1])
-            ->will($this->returnValue(new ArrayCollection()));
+            ->will($this->returnValue(array()));
 
-        $this->deleteSelectionModel->delete(array(), array(self::DIR_ID_1));
+        $this->deleteSelectionModel->delete(array(self::FILE_ID_1), array(self::DIR_ID_1));
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\DeleteSelectionModel::delete
+     * @covers RI\FileManagerBundle\Model\Selection\DeleteSelectionModel::delete
      */
     public function testDelete_ShouldReturnTrue()
     {
@@ -163,6 +171,40 @@ class DeleteSelectionModelTest extends BaseTestCase
     }
 
     /**
+     * @covers RI\FileManagerBundle\Model\Selection\DeleteSelectionModel::delete
+     * @covers RI\FileManagerBundle\Model\Selection\DeleteSelectionModel::getRemovedFiles
+     */
+    public function testGetRemovedFiles_ShouldReturnTrue()
+    {
+        $this->setMocks();
+
+        $this->fileRepositoryMock
+            ->expects($this->once())
+            ->method('find')
+            ->with(self::FILE_ID_1)
+            ->will($this->returnValue($this->files[self::FILE_ID_1]));
+
+        $this->directoryRepositoryMock
+            ->expects($this->once())
+            ->method('find')
+            ->with(self::DIR_ID_1_1)
+            ->will($this->returnValue($this->directories[self::DIR_ID_1_1]));
+
+        $this->fileRepositoryMock
+            ->expects($this->once())
+            ->method('fetchFromDir')
+            ->with($this->directories[self::DIR_ID_1_1])
+            ->will($this->returnValue(array()));
+
+        $this->entityManagerMock
+            ->expects($this->exactly(2))
+            ->method('remove');
+
+        $this->deleteSelectionModel->delete(array(self::FILE_ID_1), array(self::DIR_ID_1_1));
+        $this->assertEquals(array($this->files[self::FILE_ID_1]->getPath()), $this->deleteSelectionModel->getRemovedFiles());
+    }
+
+    /**
      * Set necessary mocks
      */
     private function setMocks()
@@ -182,10 +224,10 @@ class DeleteSelectionModelTest extends BaseTestCase
 
         $file1 = new File();
         $file1->setDirectory($directory1);
-        $file1->setPath('/../../files/abc.jpg');
+        $file1->setPath('/../../web/abc.jpg');
         $file2 = new File();
         $file2->setDirectory($directory2);
-        $file2->setPath('/../../files/xyz.jpg');
+        $file2->setPath('/../../web/xyz.jpg');
 
         $this->files = array();
         $this->files[self::FILE_ID_1] = $file1;

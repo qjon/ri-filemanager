@@ -80,3 +80,22 @@ class DirStructure extends Service
     @currentDir.id = null
 
     @load dirId
+
+
+  searchFile: (path, callbackSuccess, callbackError) ->
+
+    @spinnerService.show();
+    url = @url.generate 'ri_filemanager_api_file_search', {path: path}
+    @$http.get url
+      .success (data) =>
+        if not data.error and data.success
+          callbackSuccess data.file if callbackSuccess
+        else
+          callbackError data if callbackError
+
+        @spinnerService.hide()
+        return
+      .error (data) =>
+        @spinnerService.hide()
+        callbackError data if callbackError
+        return

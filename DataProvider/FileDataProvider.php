@@ -37,7 +37,7 @@ class FileDataProvider extends DataProviderAbstract
      */
     public function getFilesFromDirectory($directoryId)
     {
-        $files = $this->entityManager->getRepository('RIFileManagerBundle:File')->findByDirectory($directoryId);
+        $files = $this->entityManager->getRepository('RIFileManagerBundle:File')->findBy(array('directory' => $directoryId));
 
         foreach ($files as $key => $file) {
             $files[$key] = $this->convertFileEntityToArray($file);
@@ -56,8 +56,10 @@ class FileDataProvider extends DataProviderAbstract
     public function convertFileEntityToArray(File $file)
     {
         $params = $file->getParams();
+        $directory = $file->getDirectory();
         $fileData = array(
             'id' => $file->getId(),
+            'dirId' => $directory ? $directory->getId() : 0,
             'name' => $file->getName(),
             'src' => $file->getPath(),
             'mime' => $params->getMime(),

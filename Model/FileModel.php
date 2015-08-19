@@ -83,6 +83,7 @@ class FileModel
         $file->setName($filename);
         $file->setDirectory($directory);
         $file->setPath($newFilePath);
+        $file->setChecksum($this->getChecksum($newFilePath));
         $file->setParams($fileParams);
 
         $this->entityManager->persist($file);
@@ -126,5 +127,17 @@ class FileModel
             $imagick->resizeimage($maxWidthHeight, $maxWidthHeight, \Imagick::FILTER_POINT, 1, true);
             $imagick->writeimage($path);
         }
+    }
+
+    /**
+     * Return checksum file
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function getChecksum($path)
+    {
+        return md5_file($this->webDir . $path);
     }
 } 

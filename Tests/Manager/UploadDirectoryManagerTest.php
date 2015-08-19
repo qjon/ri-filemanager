@@ -11,6 +11,7 @@ namespace RI\FileManagerBundle\Tests\Controller;
 
 use RI\FileManagerBundle\Manager\UploadDirectoryManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Unit tests for UploadDirectoryManager
@@ -21,7 +22,7 @@ class UploadDirectoryManagerTest extends \PHPUnit_Framework_TestCase
 {
     const FILENAME = 'hello_world.jpg';
     const NEW_FILENAME = '790f1bfea8585c9bc2e7b6267cb212e1.jpg';
-    const UPLOAD_DIR = '/tmp/';
+    const UPLOAD_DIR = '/upload';
     const KERNEL_DIR = '/tmp/kernel';
 
     /**
@@ -29,10 +30,6 @@ class UploadDirectoryManagerTest extends \PHPUnit_Framework_TestCase
      */
     protected $uploadDirectoryManager;
 
-    /**
-     * @var UploadDirectoryManager
-     */
-    protected $uploadDirectoryManagerReflection;
 
     /**
      * Prepare objects
@@ -40,52 +37,48 @@ class UploadDirectoryManagerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->uploadDirectoryManager = new UploadDirectoryManager(self::KERNEL_DIR, self::UPLOAD_DIR);
-        $this->uploadDirectoryManagerReflection = new \ReflectionClass('RI\FileManagerBundle\Manager\UploadDirectoryManager');
     }
 
     /**
-     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::generateNewFileName
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::__construct
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::getAbsoluteUploadDirPath
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::getAbsoluteUploadDir
      */
-    public function testGenerateNewFileName()
+    public function testGetAbsoluteUploadDir()
     {
-        $newFilename = $this->generateNewFilename();
-
-        $this->assertEquals(self::NEW_FILENAME, $newFilename);
+        $this->assertEquals('/tmp/web', $this->uploadDirectoryManager->getAbsoluteUploadDir());
     }
 
     /**
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::getNewPath
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::getAbsoluteUploadDirPath
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::generateNewFileName
      * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::createDestinationDir
-     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::generateNewFileName
      */
-    public function testCreateDestinationDir()
+    public function testGetNewPath()
     {
-        $newFilename = $this->generateNewFilename();
         $date = new \DateTime();
+        $expectedPath = sprintf('/upload/%s/%s/%s/7/79/790f1bfea8585c9bc2e7b6267cb212e1.jpg', $date->format('y'), $date->format('m'), $date->format('d'));
 
-        $method = $this->uploadDirectoryManagerReflection->getMethod('createDestinationDir');
-        $method->setAccessible(true);
-
-        $subDirExpected = sprintf('%s/%s/%s/%s/7/79', self::UPLOAD_DIR , $date->format("y"), $date->format("m"), $date->format("d"));
-        $subDir = $method->invokeArgs($this->uploadDirectoryManager, array($newFilename));
-
-        $this->assertEquals($subDirExpected, $subDir);
+        $this->assertEquals($expectedPath, $this->uploadDirectoryManager->getNewPath('hello_world.jpg'));
     }
 
     /**
-     * Return new filename
-     *
-     * @return string
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::getNewPath
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::getAbsoluteUploadDirPath
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::generateNewFileName
+     * @covers: RI\FileManagerBundle\Manager\UploadDirectoryManager::createDestinationDir
      */
-    private function generateNewFilename()
+    public function testGetNewPath_IfFileExist()
     {
-        $method = $this->uploadDirectoryManagerReflection->getMethod('generateNewFileName');
-        $method->setAccessible(true);
-        $uploadedFile = $photo = new UploadedFile(__DIR__ . '/hello_world.jpg', self::FILENAME, 'image/jpg', 123);
+        $date = new \DateTime();
+        $expectedPath = sprintf('/upload/%s/%s/%s/7/79/790f1bfea8585c9bc2e7b6267cb212e1.jpg', $date->format('y'), $date->format('m'), $date->format('d'));
+        $expectedPathSecondFile = sprintf('/upload/%s/%s/%s/7/79/8b912a2bf1302f5a1170d3e57d8f8caf.jpg', $date->format('y'), $date->format('m'), $date->format('d'));
 
-        return $method->invokeArgs($this->uploadDirectoryManager, array($uploadedFile->getClientOriginalName(), $uploadedFile->getExtension()));
+        $this->assertEquals($expectedPath, $this->uploadDirectoryManager->getNewPath('hello_world.jpg'));
+        copy(__DIR__ . '/hello_world.jpg', sprintf('/tmp/web/upload/%s/%s/%s/7/79/790f1bfea8585c9bc2e7b6267cb212e1.jpg', $date->format('y'), $date->format('m'), $date->format('d')));
+        $this->assertEquals($expectedPathSecondFile, $this->uploadDirectoryManager->getNewPath('hello_world.jpg'));
     }
-
-
 
     /**
      * Prepare objects

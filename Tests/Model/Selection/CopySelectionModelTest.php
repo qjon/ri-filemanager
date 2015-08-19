@@ -91,8 +91,9 @@ class CopySelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::move
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::getDirectoryById
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::__construct
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copy
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::getDirectoryById
      *
      * @expectedException \RI\FileManagerBundle\Exceptions\CopyMoveSelectionException
      */
@@ -108,7 +109,7 @@ class CopySelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::move
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copy
      */
     public function testCopy_ShouldReturnFalse_IfNoFilesAndDirectories()
     {
@@ -116,8 +117,8 @@ class CopySelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::move
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::getDirectoryById
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copy
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::getDirectoryById
      *
      * @expectedException \RI\FileManagerBundle\Exceptions\CopyMoveSelectionException
      */
@@ -163,8 +164,8 @@ class CopySelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::move
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::getDirectoryById
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copy
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::getDirectoryById
      *
      * @expectedException \RI\FileManagerBundle\Exceptions\CopyMoveSelectionException
      */
@@ -194,15 +195,14 @@ class CopySelectionModelTest extends BaseTestCase
     }
 
     /**
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::move
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::copyFolders
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::getDirectoryById
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::getFileById
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::copyFiles
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::copyFile
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::copyFileOnDisk
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::copyFolderRecursive
-     * @covers RI\FileManagerBundle\Model\CopySelectionModel::copyFolders
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copy
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copyFolders
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::getDirectoryById
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::getFileById
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copyFiles
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copyFile
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copyFileOnDisk
+     * @covers RI\FileManagerBundle\Model\Selection\CopySelectionModel::copyFolderRecursive
      */
     public function testCopy_ShouldReturnTrue()
     {
@@ -252,7 +252,7 @@ class CopySelectionModelTest extends BaseTestCase
             ->expects($this->at(0))
             ->method('getNewPath')
             ->with('abc.jpg')
-            ->will($this->returnValue('/../../files/abc_1.jpg'));
+            ->will($this->returnValue('/../../web/abc_1.jpg'));
 
         $this->uploadDirectoryManagerMock
             ->expects($this->at(1))
@@ -263,7 +263,7 @@ class CopySelectionModelTest extends BaseTestCase
             ->expects($this->at(2))
             ->method('getNewPath')
             ->with('xyz.jpg')
-            ->will($this->returnValue('/../../files/xyz_1.jpg'));
+            ->will($this->returnValue('/../../web/xyz_1.jpg'));
 
         $this->uploadDirectoryManagerMock
             ->expects($this->at(3))
@@ -296,10 +296,10 @@ class CopySelectionModelTest extends BaseTestCase
 
         $file1 = new File();
         $file1->setDirectory($directory1);
-        $file1->setPath('/../../files/abc.jpg');
+        $file1->setPath('/../../web/abc.jpg');
         $file2 = new File();
         $file2->setDirectory($directory2);
-        $file2->setPath('/../../files/xyz.jpg');
+        $file2->setPath('/../../web/xyz.jpg');
 
         $this->files = array();
         $this->files[self::FILE_ID_1] = $file1;

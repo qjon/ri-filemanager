@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 ###
 class Main extends Controller
-  constructor: ($scope, dirStructureService, fileTypesService, fileTypeFilterService, routingChangeService, selectionService, copyPasteService, uploadService, callbackService, $translate) ->
+  constructor: ($scope, dirStructureService, fileTypesService, fileTypeFilterService, routingChangeService, selectionService, copyPasteService, uploadService, callbackService, $translate, configProvider) ->
     @$scope = $scope
     @dirStructure = dirStructureService
     @fileTypeFilter = fileTypeFilterService
@@ -19,6 +19,8 @@ class Main extends Controller
     @fileUploadService = uploadService
     @callbackService = callbackService
     @search = ''
+
+    @allowChangeLanguage = configProvider.allowChangeLanguage
 
   setLanguage: (lang) ->
     @$translate.use lang
