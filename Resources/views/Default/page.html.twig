@@ -5,20 +5,7 @@
     <script>
         var fm = angular.module('fm', ['filemanager'])
                 .config(['configProviderProvider', function (configProviderProvider) {
-                    configProviderProvider.setConfig({
-                        standAlone: false,
-                        defaultLanguage: 'pl_PL',
-                        allowChangeLanguage: false
-//                        /**
-//                         * Callback function execute after select file
-//                         */
-//                        filesSelectCallback: function (files) {
-//                            var file = files[0];
-//
-//                            top.tinymce.activeEditor.windowManager.getParams().oninsert(file.src, file.name, file.width, file.height);
-//                            top.tinymce.activeEditor.windowManager.close();
-//                        }
-                    })
+                    configProviderProvider.setConfig({{ filemanager_configuration|json_encode|raw }});
                 }]);
     </script>
 </head>

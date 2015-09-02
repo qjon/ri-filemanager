@@ -40,7 +40,9 @@ class DefaultController extends Controller
      */
     public function pageAction()
     {
-        return $this->render('RIFileManagerBundle:Default:page.html.twig', array('filemanager_configuration' => $this->get('service_container')->getParameter('ri.filemanager.js_config')));
+        $config = $this->get('service_container')->getParameter('ri.filemanager.js_config');
+        $config['standAlone'] = false;
+        return $this->render('RIFileManagerBundle:Default:page.html.twig', array('filemanager_configuration' => $config));
     }
 
     /**
