@@ -11,7 +11,7 @@ function myFileBrowser(field_name, url, type, win) {
         file: Routing.generate('ri_filemanager_page'),
         title: 'RI FileManager',
         width: 1100,
-        height: 450,
+        height: 700,
         resizable: "yes",
         plugins: "media",
         inline: "yes",
@@ -22,7 +22,7 @@ function myFileBrowser(field_name, url, type, win) {
         type: type,
         url: url,
         oninsert: function(file) {
-            var inputs = win.document.getElementsByTagName('input');
+            var inputs = win.document.getElementsByClassName('mce-textbox');
             if (type === 'image') {
                 inputs[0].value = file.src;
                 inputs[1].value = file.name;
