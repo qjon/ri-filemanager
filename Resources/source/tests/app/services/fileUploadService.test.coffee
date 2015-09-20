@@ -8,12 +8,17 @@ describe 'uploadService', ->
   fileIconsMock = null
   flowMock = null
   eventMock = null
+  growlMock = null
+  configProviderMock = null
+
   fileOne =
     id: 1
     name: 'File 1'
+    type: 'image/jpeg'
   fileTwo =
     id: 2
     name: 'File 2'
+    type: 'image/png'
   files = [fileOne, fileTwo]
 
   beforeEach ->
@@ -23,7 +28,8 @@ describe 'uploadService', ->
     fileObjMockConstructor = jasmine.createSpy()
     flowMock =
       upload: jasmine.createSpy()
-      cancel: jasmine.createSpy()
+      cancel: jasmine.createSpy(),
+      files: [fileOne, fileTwo]
     dirStructureMock =
       currentDir:
         files: files
@@ -35,12 +41,35 @@ describe 'uploadService', ->
     fileIconsMock =
       getIconPath: jasmine.createSpy()
 
-    fileUploadService = new Upload modalServiceMock, dirStructureMock, fileObjMock, fileIconsMock
+    growlMock =
+      error: jasmine.createSpy()
+
+    configProviderMock =
+      availableMimeTypes: ['image/jpeg', 'image/png']
+
+    fileUploadService = new Upload modalServiceMock, dirStructureMock, fileObjMock, fileIconsMock, configProviderMock, growlMock
 
     fileUploadService.openUploadFileDialog eventMock, flowMock
 
   afterEach ->
     expect(modalServiceMock.open).toHaveBeenCalledWith eventMock, '/templates/files_upload.html'
+
+  describe 'beforeAddFile', ->
+    it 'should return true', ->
+      fileMock =
+        file:
+          type: 'image/jpeg'
+
+      expect(fileUploadService.beforeAddFile fileMock).toBeTruthy()
+
+    it 'should return false', ->
+      fileMock =
+        file:
+          name: 'Some file.pdf'
+          type: 'application/pdf'
+
+      expect(fileUploadService.beforeAddFile fileMock).toBeFalsy()
+      expect(growlMock.error).toHaveBeenCalledWith fileMock.file.name + ' (' + fileMock.file.type + ')', {title: 'UNAVAILABLE_MIME_TYPE'}
 
   describe 'uploadProgress', ->
     it 'should set file new percent value', ->
@@ -87,6 +116,16 @@ describe 'uploadService', ->
     it 'should set $flow', ->
       expect(fileUploadService.getFlow()).toEqual flowMock
 
+    it 'should not create modalDialog', ->
+      flowMock2 =
+        files: []
+      modalServiceMock2 =
+        open: jasmine.createSpy()
+      fileUploadService2 = new Upload modalServiceMock2, {}, {}, {}, {}, {}
+      fileUploadService2.openUploadFileDialog eventMock, flowMock2
+
+      expect(fileUploadService2.modalDialog).toBeNull()
+
   describe 'uploadFiles', ->
     it 'should call $flow.upload', ->
       fileUploadService.uploadFiles()
@@ -94,14 +133,21 @@ describe 'uploadService', ->
       expect(flowMock.upload).toHaveBeenCalled()
 
   describe 'hideAndClear', ->
-    beforeEach ->
+    it 'should call ModalDialog.hide', ->
       fileUploadService.hideAndClear()
 
-    it 'should call ModalDialog.hide', ->
       expect(modalDialogMock.hide).toHaveBeenCalled()
 
     it 'should call $flow.cancel', ->
+      fileUploadService.hideAndClear()
+
       expect(flowMock.cancel).toHaveBeenCalled()
+
+    it 'should not call ModalDialog.hide if files.length equal 0', ->
+
+      fileUploadService.modalDialog = false
+      fileUploadService.hideAndClear()
+      expect(modalDialogMock.hide).not.toHaveBeenCalled()
 
   describe 'isImage', ->
     it 'should return true', ->
@@ -123,6 +169,7 @@ describe 'uploadService', ->
       flowFile =
         file:
           name: 'house.jpg'
+          type: 'image/jpeg'
 
       fileUploadService.getThumbnail flowFile
       expect(fileIconsMock.getIconPath).toHaveBeenCalledWith 'jpg'

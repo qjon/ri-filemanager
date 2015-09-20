@@ -29,7 +29,7 @@ services:
 
   ri.filemanager.model.file_model:
     class: RI\FileManagerBundle\Model\FileModel
-    arguments: [@doctrine.orm.default_entity_manager, @ri.filemanager.manager.upload_directory_manager, %kernel.root_dir%, %ri.filemanager.resize%, %ri.filemanager.resize_max_width%]
+    arguments: [@doctrine.orm.default_entity_manager, @ri.filemanager.manager.upload_directory_manager, %kernel.root_dir%, %ri.filemanager.resize%, %ri.filemanager.resize_max_width%, %ri.filemanager.allow_mime_types%]
 
   ri.filemanager.model.move_selection_model:
     class: RI\FileManagerBundle\Model\Selection\MoveSelectionModel
@@ -43,6 +43,7 @@ services:
       - @ri.filemanager.data_provider.directory_data_provider
       - @doctrine.orm.default_entity_manager
       - @ri.filemanager.manager.upload_directory_manager
+
   ri.filemanager.model.delete_selection_model:
     class: RI\FileManagerBundle\Model\Selection\DeleteSelectionModel
     arguments:

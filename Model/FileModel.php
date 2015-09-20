@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManager;
 use RI\FileManagerBundle\Entity\Directory;
 use RI\FileManagerBundle\Entity\File;
 use RI\FileManagerBundle\Manager\UploadDirectoryManager;
+use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -42,6 +43,8 @@ class FileModel
      */
     private $doResize;
 
+    private $allowMimeTypes;
+
     /**
      * @param EntityManager          $entityManager
      * @param UploadDirectoryManager $uploadDirectoryManager
@@ -49,13 +52,14 @@ class FileModel
      * @param bool                   $doResize
      * @param int                    $maxResizeWidth
      */
-    public function __construct(EntityManager $entityManager, UploadDirectoryManager $uploadDirectoryManager, $rootDir, $doResize, $maxResizeWidth)
+    public function __construct(EntityManager $entityManager, UploadDirectoryManager $uploadDirectoryManager, $rootDir, $doResize, $maxResizeWidth, array $allowMimeTypes)
     {
         $this->entityManager = $entityManager;
         $this->uploadDirectoryManager = $uploadDirectoryManager;
         $this->webDir = $rootDir . '/../web';
         $this->doResize = $doResize;
         $this->maxResizeWidth = $maxResizeWidth;
+        $this->allowMimeTypes = $allowMimeTypes;
     }
 
     /**
@@ -67,6 +71,11 @@ class FileModel
      */
     public function save($filename, UploadedFile $uploadedFile, Directory $directory = null)
     {
+        if(!$this->isAllowMimeTypes($uploadedFile))
+        {
+            throw new UploadException(sprintf('File type %s is not allowed to upload', $uploadedFile->getMimeType()));
+        }
+
         $newFilePath = $this->uploadDirectoryManager->getNewPath($filename);
         $size = $uploadedFile->getSize();
         $mimeType = $uploadedFile->getMimeType();
@@ -139,5 +148,21 @@ class FileModel
     public function getChecksum($path)
     {
         return md5_file($this->webDir . $path);
+    }
+
+
+    /**
+     * @param UploadedFile $uploadedFile
+     *
+     * @return bool
+     */
+    protected function isAllowMimeTypes(UploadedFile $uploadedFile)
+    {
+        if(empty($this->allowMimeTypes))
+        {
+            return true;
+        }
+
+        return in_array($uploadedFile->getMimeType(), $this->allowMimeTypes);
     }
 } 

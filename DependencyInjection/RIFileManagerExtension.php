@@ -36,6 +36,8 @@ class RIFileManagerExtension extends Extension
         $container->setParameter('ri.filemanager.resize_max_width', $config['resize_max_width']);
         $container->setParameter('ri.filemanager.dimensions', $config['dimensions']);
         $container->setParameter('ri.filemanager.js_config', $this->getJsConfig($config));
+        $container->setParameter('ri.filemanager.allow_mime_types', $this->allAllowedFileTypes($config));
+
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -47,7 +49,19 @@ class RIFileManagerExtension extends Extension
         return array(
             'availableDimensions' => $config['dimensions'],
             'allowChangeLanguage' => $config['allow_change_language'],
-            'defaultLanguage' => $config['default_language']
+            'defaultLanguage' => $config['default_language'],
+            'mimeTypes' => $config['mime_types']
         );
+    }
+
+
+    /**
+     * @param array $config
+     *
+     * @return array
+     */
+    private function allAllowedFileTypes(array $config)
+    {
+        return array_merge($config['mime_types']['images'], $config['mime_types']['audio'], $config['mime_types']['video'], $config['mime_types']['archive'], $config['mime_types']['others']);
     }
 }

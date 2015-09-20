@@ -175,8 +175,9 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
 
   $templateCache.put('/templates/main.html',
     "\n" +
-    "<div id=\"toppage\" flow-init=\"{query: {dirId: mainCtrl.dirStructure.currentDir.id}}\" flow-file-progress=\"mainCtrl.fileUploadService.uploadProgress($flow, $file)\" flow-file-success=\"mainCtrl.fileUploadService.fileUploadComplete($flow, $file, $message)\" flow-files-submitted=\"mainCtrl.fileUploadService.openUploadFileDialog($event, $flow)\" flow-complete=\"mainCtrl.fileUploadService.hideAndClear()\">\n" +
+    "<div id=\"toppage\" flow-init=\"{query: {dirId: mainCtrl.dirStructure.currentDir.id}}\" flow-file-progress=\"mainCtrl.fileUploadService.uploadProgress($flow, $file)\" flow-file-success=\"mainCtrl.fileUploadService.fileUploadComplete($flow, $file, $message)\" flow-files-submitted=\"mainCtrl.fileUploadService.openUploadFileDialog($event, $flow)\" flow-file-added=\"mainCtrl.fileUploadService.beforeAddFile($file)\" flow-complete=\"mainCtrl.fileUploadService.hideAndClear()\">\n" +
     "  <div spinner=\"\" class=\"spinner\"></div>\n" +
+    "  <div growl=\"growl\" class=\"growl\"></div>\n" +
     "  <div class=\"row nav-row\">\n" +
     "    <div class=\"col-sm-12 col-md-4 text-left\">\n" +
     "      <div class=\"btn-group\">\n" +

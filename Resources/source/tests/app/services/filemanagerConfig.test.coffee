@@ -5,33 +5,36 @@ describe 'filemanagerConfig', ->
   onInsertMock =
     oninsert: jasmine.createSpy()
 
-  configDataMock =
-    allowChangeLanguage: true
-    defaultLanguage: 'en_EN'
-    standAlone: true
-    fileIconTypesDir: '/abc'
-    blankIconType: '_blank.png'
-    mimeTypes:
-      images: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/png']
-      audio: ['audio/mpeg', 'audio/x-ms-wma', 'audio/vnd.rn-realaudio', 'audio/x-wav']
-      video: ['video/mpeg', 'video/mp4', 'video/quicktime', 'video/x-ms-wmv']
-      archive: ['application/zip']
-    filesSelectCallback: null
-    dirSelectCallback: null
-    availableDimensions: [
-      {
-        name: 'Artykuł'
-        width: 750
-        height: 300
-      }
-      {
-        name: 'Slider'
-        width: 1140
-        height: 350
-      }
-    ]
+  configDataMock = null
 
   beforeEach ->
+
+    configDataMock =
+      allowChangeLanguage: true
+      defaultLanguage: 'en_EN'
+      standAlone: true
+      fileIconTypesDir: '/abc'
+      blankIconType: '_blank.png'
+      mimeTypes:
+        images: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/png']
+        audio: ['audio/mpeg', 'audio/x-ms-wma', 'audio/vnd.rn-realaudio', 'audio/x-wav']
+        video: ['video/mpeg', 'video/mp4', 'video/quicktime', 'video/x-ms-wmv']
+        archive: ['application/zip'],
+        others: []
+      filesSelectCallback: null
+      dirSelectCallback: null
+      availableDimensions: [
+        {
+          name: 'Artykuł'
+          width: 750
+          height: 300
+        }
+        {
+          name: 'Slider'
+          width: 1140
+          height: 350
+        }
+      ]
     filemanagerConfigProvider = new Config()
     filemanagerConfig = filemanagerConfigProvider.$get()
     return
@@ -40,16 +43,29 @@ describe 'filemanagerConfig', ->
   describe 'provider', ->
     describe 'setConfig', ->
       it 'should extend data', ->
-        config =
-          abc: 'xyz'
-
         spyOn(angular, 'extend')
-        filemanagerConfigProvider.setConfig config
+        filemanagerConfigProvider.setConfig configDataMock
 
         expect(angular.extend).toHaveBeenCalled()
 
+      it 'should set default language EN', ->
+        configDataMock =
+          mimeTypes:
+            images: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/png']
+            audio: ['audio/mpeg', 'audio/x-ms-wma', 'audio/vnd.rn-realaudio', 'audio/x-wav']
+            video: ['video/mpeg', 'video/mp4', 'video/quicktime', 'video/x-ms-wmv']
+            archive: ['application/zip'],
+            others: []
+
+        filemanagerConfigProvider.setConfig configDataMock
+        expect(filemanagerConfigProvider.configData.defaultLanguage).toEqual 'en_EN'
+
   describe 'service', ->
     it 'should return correct service', ->
+      configDataMock.availableMimeTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/png',
+                                           'audio/mpeg', 'audio/x-ms-wma', 'audio/vnd.rn-realaudio', 'audio/x-wav',
+                                           'video/mpeg', 'video/mp4', 'video/quicktime', 'video/x-ms-wmv',
+                                           'application/zip']
       filemanagerConfigProvider.setConfig configDataMock
 
       expect(filemanagerConfig).toEqual configDataMock

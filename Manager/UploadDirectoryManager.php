@@ -102,12 +102,14 @@ class UploadDirectoryManager
 
 
     /**
-     * @param $kernelRootDir
+     * @param string $kernelRootDir
+     * @return string
      */
     private function getAbsoluteUploadDirPath($kernelRootDir)
     {
         $dirs = explode('/', $kernelRootDir);
         array_pop($dirs);
-        return '/' . implode($dirs) . '/web';
+
+        return implode('/', $dirs) . '/web';
     }
 } 

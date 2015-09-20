@@ -8,4 +8,4 @@
 ###
 class filemanager extends App
   constructor: ->
-    return ['mgcrea.ngStrap', 'riSpinner', 'ngRoute', 'ngAnimate', 'flow', 'templates', 'pascalprecht.translate']
+    return ['mgcrea.ngStrap', 'riSpinner', 'ngRoute', 'ngAnimate', 'flow', 'templates', 'pascalprecht.translate', 'angular-growl']
