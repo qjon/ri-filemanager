@@ -73,6 +73,16 @@ class Config extends Provider
     angular.extend @configData, data
     @configData.allowChangeLanguage = !(data.allowChangeLanguage == false)
     @configData.defaultLanguage = 'en_EN' if !data.defaultLanguage || (@allowedLanguages.indexOf(data.defaultLanguage) == -1)
+    @flatMimeTypesData data.mimeTypes
+
+  flatMimeTypesData: (mimeTypes) ->
+    types = mimeTypes.images
+    types = types.concat mimeTypes.audio
+    types = types.concat mimeTypes.video
+    types = types.concat mimeTypes.archive
+    types = types.concat mimeTypes.others
+    @configData.availableMimeTypes = types
 
   $get: ->
     @configData
+

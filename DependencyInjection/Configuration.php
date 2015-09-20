@@ -66,6 +66,18 @@ class Configuration implements ConfigurationInterface
             ->variableNode('default_language')
             ->defaultValue('en_EN')
             ->end();
+        $rootNode
+            ->children()
+                ->arrayNode('mime_types')
+                    ->children()
+                        ->variableNode('images')->defaultValue(array())->end()
+                        ->variableNode('audio')->defaultValue(array())->end()
+                        ->variableNode('video')->defaultValue(array())->end()
+                        ->variableNode('archive')->defaultValue(array())->end()
+                        ->variableNode('others')->defaultValue(array())->end()
+                    ->end()
+                ->end()
+            ->end();
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

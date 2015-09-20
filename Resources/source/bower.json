@@ -18,6 +18,7 @@
         "angular-motion": "*",
         "angular-translate": "2.7.2",
         "angular-translate-loader-static-files": "2.7.2",
+        "angular-growl-2": "0.7.5",
         "lodash": "2.4.*",
         "ng-flow": "*",
         "cropper": "0.7.9"

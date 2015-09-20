@@ -252,6 +252,13 @@
   padding: 5px 0;
   width: 25%;
 }
+.filemanager .growl {
+  position: absolute;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  min-width: 400px;
+}
 .image-crop-window img {
   max-height: 600px;
 }

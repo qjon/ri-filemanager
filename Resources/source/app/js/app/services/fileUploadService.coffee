@@ -7,14 +7,23 @@
  * file that was distributed with this source code.
 ###
 class Upload extends Service
-  constructor: (modalService, dirStructureService, FileObj, fileIconsService) ->
+  constructor: (modalService, dirStructureService, FileObj, fileIconsService, configProvider, growl) ->
     @$flow = null
     @modalDialog = null
     @dirStructureService = dirStructureService
     @fileObj = FileObj
-    @fileIconService = fileIconsService
     @modalService = modalService
     @fileIconsService = fileIconsService
+    @configProvider = configProvider
+    @growl = growl
+
+  beforeAddFile: ($file) ->
+    mimeType = $file.file.type
+    isAvailable = @configProvider.availableMimeTypes.length == 0 || @configProvider.availableMimeTypes.indexOf(mimeType) > -1
+
+    @growl.error $file.file.name + ' (' + mimeType + ')', {title: 'UNAVAILABLE_MIME_TYPE'} if !isAvailable
+
+    return isAvailable
 
   getFlow: ->
     @$flow
@@ -53,7 +62,8 @@ class Upload extends Service
    ###
   openUploadFileDialog: (event, flow) ->
     @$flow = flow;
-    @modalDialog = @modalService.open event, '/templates/files_upload.html'
+
+    @modalDialog = @modalService.open event, '/templates/files_upload.html' if flow.files.length > 0
 
     @
 
@@ -68,7 +78,7 @@ class Upload extends Service
    * Hide modal and clear $flow
    ###
   hideAndClear: ->
-    @modalDialog.hide()
+    @modalDialog.hide() if @modalDialog
     @$flow.cancel()
     @$flow = undefined
 

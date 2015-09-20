@@ -32,5 +32,6 @@
   "LANG_PL": "Polish",
   "LANG_PL_SYMBOL": "PL",
   "LANG_EN": "English",
-  "LANG_EN_SYMBOL": "EN"
+  "LANG_EN_SYMBOL": "EN",
+  "UNAVAILABLE_MIME_TYPE": "Unavailable file type"
 }

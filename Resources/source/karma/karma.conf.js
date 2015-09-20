@@ -17,6 +17,7 @@ module.exports = function (config) {
             'bower_components/angular-strap/dist/angular-strap.min.js',
             'bower_components/angular-strap/dist/angular-strap.tpl.min.js',
             'bower_components/angular-translate/angular-translate.js',
+            'bower_components/angular-growl-2/build/angular-growl.js',
             'bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
             'bower_components/flow.js/dist/flow.js',
             'bower_components/ng-flow/dist/ng-flow.js',

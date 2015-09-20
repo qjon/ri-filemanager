@@ -1,4 +1,7 @@
-# ri-filemanager ![alt=""](https://travis-ci.org/qjon/ri-filemanager.svg)
+# ri-filemanager ![alt=""](https://travis-ci.org/qjon/ri-filemanager.svg) 
+{<img src="https://coveralls.io/repos/qjon/ri-filemanager/badge.svg?branch=version-1.1.0&service=github" alt="Coverage Status" />}
+
+
 Symfony2 filemanager bundle
 
 ## Requirements
@@ -13,6 +16,7 @@ Symfony2 filemanager bundle
 * angular-strap
 * angular-translate
 * angular-translate-loader-static-files
+* angular-growl-2
 * ng-flow
 * cropper
 
@@ -68,6 +72,13 @@ The first bundle is used to use Symfony routing in JS, the second is our fileman
         resize_max_width: 1600
         allow_change_language: true
         default_language: pl_PL
+        mime_types:
+            images: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/png']
+            audio: ['audio/mpeg', 'audio/x-ms-wma', 'audio/vnd.rn-realaudio', 'audio/x-wav']
+            video: ['video/mpeg', 'video/mp4', 'video/quicktime', 'video/x-ms-wmv']
+            archive: ['application/zip']
+            others:
+                - 'application/pdf'
         dimensions: 
             -
                 name: Crop size one
@@ -83,6 +94,12 @@ The first bundle is used to use Symfony routing in JS, the second is our fileman
 * __resize_max_width__ (int) - works only with _resize_ = _true_
 * __allow_change_language__ (bool) - if _true_ display dropdown to change language, if _false_ the dropdown is not shown: default _true_
 * __default_language__ (string) - default language of the app (now available: en_EN, pl_PL), default: _en_EN_
+* __mime_types__ (array) - list of all file types which can be uploaded (if nothing set all file types are available)
+    * __image__ (array) - list of mime file types which should be interpreted as image type
+    * __audio__ (array) - list of mime file types which should be interpreted as audio type
+    * __video__ (array) - list of mime file types which should be interpreted as video type
+    * __archive__ (array) - list of mime file types which should be interpreted as archive type
+    * __others__ (array) - list of mime file types which should be available for upload and does not match to any above categories
 * __dimensions__ (array) - predefined list of available crop dimensions
 
 ## Usage

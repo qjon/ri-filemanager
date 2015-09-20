@@ -178,6 +178,7 @@ module.exports = function (grunt) {
                     '<%= pkg.options.dist %>js/components/angular-translate-loader-static-files/angular-translate-loader-static-files.js',
                     '<%= pkg.options.dist %>js/components/flow.js/flow.js',
                     '<%= pkg.options.dist %>js/components/ng-flow/ng-flow.js',
+                    '<%= pkg.options.dist %>js/components/angular-growl-2/angular-growl.js',
                     '<%= pkg.options.dist %>js/components/cropper/cropper.min.js'
                 ],
                 dest: '<%= pkg.options.dist %>js/lib.min.js'

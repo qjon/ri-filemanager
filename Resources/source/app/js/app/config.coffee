@@ -7,7 +7,9 @@
  * file that was distributed with this source code.
 ###
 class Configuration extends Config
-  constructor: ($provide, flowFactoryProvider, $routeProvider, $translateProvider, initDirProviderProvider) ->
+  constructor: ($provide, flowFactoryProvider, $routeProvider, $translateProvider, initDirProviderProvider, growlProvider) ->
+
+    growlProvider.globalTimeToLive 5000
 
     $translateProvider.useStaticFilesLoader(
       prefix: '/bundles/rifilemanager/translations/lang_'

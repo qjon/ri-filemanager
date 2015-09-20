@@ -1,5 +1,12 @@
-div(id="toppage", flow-init="{query: {dirId: mainCtrl.dirStructure.currentDir.id}}", flow-file-progress="mainCtrl.fileUploadService.uploadProgress($flow, $file)", flow-file-success="mainCtrl.fileUploadService.fileUploadComplete($flow, $file, $message)", flow-files-submitted="mainCtrl.fileUploadService.openUploadFileDialog($event, $flow)", flow-complete="mainCtrl.fileUploadService.hideAndClear()")
+div(id="toppage",
+    flow-init="{query: {dirId: mainCtrl.dirStructure.currentDir.id}}",
+    flow-file-progress="mainCtrl.fileUploadService.uploadProgress($flow, $file)",
+    flow-file-success="mainCtrl.fileUploadService.fileUploadComplete($flow, $file, $message)",
+    flow-files-submitted="mainCtrl.fileUploadService.openUploadFileDialog($event, $flow)",
+    flow-file-added="mainCtrl.fileUploadService.beforeAddFile($file)",
+    flow-complete="mainCtrl.fileUploadService.hideAndClear()")
     .spinner(spinner="")
+    .growl(growl)
     .row.nav-row
         .col-sm-12.col-md-4.text-left
             .btn-group
