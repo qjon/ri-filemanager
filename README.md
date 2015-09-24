@@ -23,6 +23,10 @@ Symfony2 filemanager bundle
 ##### PHP
 * stfalcon/tinymce-bundle
 * friendsofsymfony/jsrouting-bundle
+
+## Demo
+
+Here you can find [DEMO](http://filemanager.ignaszewski.pl/filemanager/index#/dir/0).
  
 ## Instalation
 
