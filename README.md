@@ -1,5 +1,4 @@
-# ri-filemanager ![alt=""](https://travis-ci.org/qjon/ri-filemanager.svg) 
-{<img src="https://coveralls.io/repos/qjon/ri-filemanager/badge.svg?branch=version-1.1.0&service=github" alt="Coverage Status" />}
+# ri-filemanager ![alt=""](https://travis-ci.org/qjon/ri-filemanager.svg)
 
 
 Symfony2 filemanager bundle
@@ -23,6 +22,10 @@ Symfony2 filemanager bundle
 ##### PHP
 * stfalcon/tinymce-bundle
 * friendsofsymfony/jsrouting-bundle
+
+## Demo
+
+Here you can find [DEMO](http://filemanager.ignaszewski.pl/filemanager/index#/dir/0).
  
 ## Instalation
 
