@@ -13,9 +13,12 @@ class InitDir extends Provider
   getFilePath: () ->
     if top and top.tinymce and top.tinymce.activeEditor
       params = top.tinymce.activeEditor.windowManager.getParams()
-      return params.url
+      if params
+        return params.url
+      else
+        return false
     else
-      return false;
+      return false
 
   $get: =>
     getFilePath: @getFilePath
