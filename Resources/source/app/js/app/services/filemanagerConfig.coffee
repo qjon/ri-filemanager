@@ -83,6 +83,9 @@ class Config extends Provider
     types = types.concat mimeTypes.others
     @configData.availableMimeTypes = types
 
+  filesSetCallback: (cb) ->
+    @configData.filesSelectCallback = cb
+
   $get: ->
     @configData
 
