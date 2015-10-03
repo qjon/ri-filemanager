@@ -68,6 +68,16 @@
 .filemanager .breadcrumb .current {
   color: #bbb;
 }
+.filemanager .main-panel .panel-body,
+.filemanager .upload-modal .panel-body {
+  height: calc(100% - 160px);
+}
+.filemanager .main-panel .panel-body .overflow-box,
+.filemanager .upload-modal .panel-body .overflow-box {
+  height: calc(100% - 56px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .filemanager .main-panel .thumb,
 .filemanager .upload-modal .thumb {
   width: 180px;

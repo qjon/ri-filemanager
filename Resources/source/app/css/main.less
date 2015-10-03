@@ -65,6 +65,16 @@
     }
 
     .main-panel, .upload-modal {
+        .panel-body {
+            height: ~"calc(100% - 160px)";
+
+          .overflow-box {
+            height: ~"calc(100% - 56px)";
+            overflow-y: auto;
+            overflow-x: hidden;
+          }
+        }
+
         .thumb {
             width: @thumbWidth;
             height: @thumbHeight;
@@ -75,8 +85,6 @@
 
             &:hover {
                 border: 1px solid @hoverColor;
-                //				opacity: 0.7;
-
                 .menu {
                     top: 0;
 
@@ -195,16 +203,7 @@
     }
 
     .sub-view {
-//        max-height: 600px;
         overflow: hidden;
-    }
-
-    .sub-view[ui-view].ng-enter {
-        //		-webkit-transition: all linear 0.8s;
-        //		-moz-transition: all linear 0.8s;
-        //		-ms-transition: all linear 0.8s;
-        //		-o-transition: all linear 0.8s;
-        //		transition: all linear 0.8s;
     }
 
     .sub-view[ui-view].ng-enter {
@@ -293,12 +292,6 @@
 }
 
 .image-crop-window {
-//    z-index: 1000010;
-//
-//    .modal-dialog {
-//        width: 800px;
-//    }
-
     img {
         max-height: 600px;
     }
