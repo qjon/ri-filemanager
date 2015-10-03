@@ -1,11 +1,3 @@
-/*
- * This file is part of the RIFilemanagerBundle package.
- *
- * (c) Rafal Ignaszewski <https://github.com/qjon>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 angular.module('templates', []).run(['$templateCache', function($templateCache) {
   'use strict';
 
@@ -180,6 +172,7 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
     "  <div growl=\"growl\" class=\"growl\"></div>\n" +
     "  <div class=\"row nav-row\">\n" +
     "    <div class=\"col-sm-12 col-md-4 text-left\">\n" +
+    "      <button class=\"btn btn-default\"><i ng-click=\"mainCtrl.dirStructure.reload()\" class=\"fa fa-refresh\"></i></button>\n" +
     "      <div class=\"btn-group\">\n" +
     "        <button data-template=\"/templates/dir_add.html\" data-placement=\"center\" bs-modal=\"modal\" container=\"body\" backdrop=\"false\" title=\"{{ 'CREATE_DIR' | translate }}\" class=\"btn btn-default\"><i class=\"fa fa-plus\"></i><i class=\"fa fa-folder-o\"></i></button>\n" +
     "        <button type=\"file\" flow-btn=\"flow-btn\" title=\"{{ 'UPLOAD_FILES' | translate }}\" class=\"btn btn-default\"><i class=\"fa fa-plus\"></i><i class=\"fa fa-files-o\"></i></button>\n" +

@@ -9,6 +9,8 @@ div(id="toppage",
     .growl(growl)
     .row.nav-row
         .col-sm-12.col-md-4.text-left
+            button.btn.btn-default
+                i.fa.fa-refresh(ng-click="mainCtrl.dirStructure.reload()")
             .btn-group
                 button.btn.btn-default(data-template="/templates/dir_add.html", data-placement="center", bs-modal="modal", container="body", backdrop="false", title="{{ 'CREATE_DIR' | translate }}")
                     i.fa.fa-plus
