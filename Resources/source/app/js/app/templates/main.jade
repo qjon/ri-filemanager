@@ -1,5 +1,4 @@
-div(id="toppage",
-    flow-init="{query: {dirId: mainCtrl.dirStructure.currentDir.id}}",
+#toppage(flow-init="{query: {dirId: mainCtrl.dirStructure.currentDir.id}}",
     flow-file-progress="mainCtrl.fileUploadService.uploadProgress($flow, $file)",
     flow-file-success="mainCtrl.fileUploadService.fileUploadComplete($flow, $file, $message)",
     flow-files-submitted="mainCtrl.fileUploadService.openUploadFileDialog($event, $flow)",
@@ -7,6 +6,7 @@ div(id="toppage",
     flow-complete="mainCtrl.fileUploadService.hideAndClear()")
     .spinner(spinner="")
     .growl(growl)
+    preview
     .row.nav-row
         .col-sm-12.col-md-4.text-left
             button.btn.btn-default
@@ -44,7 +44,7 @@ div(id="toppage",
                 button.btn.btn-default(ng-click="mainCtrl.fileTypeFilter.setFilterName('archive')", ng-class="{'active': mainCtrl.fileTypeFilter.isActiveFilter('archive')}", title="{{'TYPE_ZIP'| translate}}")
                     i.fa.fa-archive
                 .input-group
-                    input.form-control(ng-model="mainCtrl.search", type="text", placeholder="{{'FILTER' | translate}}")
+                    input.form-control(ng-model="mainCtrl.search", ng-model-options="{debounce: 500}", type="text", placeholder="{{'FILTER' | translate}}")
                     span.btn.btn-default.input-group-addon
                         i.fa.fa-search
         .col-sm-12.col-md-1(ng-if="::mainCtrl.allowChangeLanguage")
@@ -66,6 +66,7 @@ div(id="toppage",
                     {{ parent.name }}
                 li.current.
                     {{ mainCtrl.dirStructure.currentDir.name }}
+
             .overflow-box
                 .thumb.thumb-folder.img-thumbnail(ng-repeat="dir in mainCtrl.dirStructure.currentDir.dirs | filter:{'name': mainCtrl.search } | orderBy:'name' track by dir.id", ng-click="$event.stopPropagation();mainCtrl.routingChangeService.goToFolder($event, dir.id);mainCtrl.selection.toggleFolder($event, dir)", ng-class="{selected: mainCtrl.selection.isSelectedFolder(dir.id)}")
                     i.thumb-image.fa.fa-folder-o
@@ -74,7 +75,7 @@ div(id="toppage",
                         i.fa.fa-edit(ng-click="dir.openDialogEditFolder($event, dir)", title="{{'EDIT' | translate}}")
                         i.fa.fa-trash-o(ng-click="dir.openDialogRemoveFolder($event)", title="{{'DELETE' | translate}}")
                     i.fa.fa-check.selection-mark(ng-show="mainCtrl.selection.isSelectedFolder(dir.id)")
-                .thumb.thumb-file.img-thumbnail(ng-repeat="file in mainCtrl.dirStructure.currentDir.files | fileMime:mainCtrl.fileTypeFilter.getCurrentFilterMimeList() | filter:{'name': mainCtrl.search } | orderBy:'name' track by file.id", ng-click="mainCtrl.selection.toggleFile($event, file)", ng-class="{selected: mainCtrl.selection.isSelectedFile(file.id)}")
+                .thumb.thumb-file.img-thumbnail(ng-repeat="file in mainCtrl.getFiles() track by file.id", ng-click="mainCtrl.onClick($event, file)", ng-class="{selected: mainCtrl.selection.isSelectedFile(file.id)}")
                     .thumb-image(ng-if="file.isImage()")
                         img(ng-src="{{ file.src }}")
                     img.thumb-image.thumb-icon(ng-if="!file.isImage()", ng-src="{{ file.icon }}")

@@ -226,7 +226,7 @@ module.exports = function (grunt) {
                     spawn: true
                 },
                 files: ['<%= pkg.options.temp %>js/*.coffee', '<%= pkg.options.temp %>js/**/*.coffee'],
-                tasks: ['coffee', 'uglify']
+                tasks: ['coffee', 'uglify:files']
             },
             css: {
                 options: {
@@ -247,7 +247,7 @@ module.exports = function (grunt) {
                     spawn: true
                 },
                 files: ['<%= pkg.options.src %>js/app.js', '<%= pkg.options.src %>/js/app/**/*.js', '<%= pkg.options.src %>/data/**/*.json'],
-                tasks: ['uglify']
+                tasks: ['uglify:files']
             }
         }
     });

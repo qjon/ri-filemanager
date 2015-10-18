@@ -1,27 +1,5 @@
-/*
- * This file is part of the RIFilemanagerBundle package.
- *
- * (c) Rafal Ignaszewski <https://github.com/qjon>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-@containerClass: filemanager;
-
-@thumbWidth: 180px;
-@thumbHeight: 140px;
-
-@thumbNameHeight: 30px;
-
-@hoverColor: red;
-
-@selectedColor: orange;
-
-@colorDisabled: #808080;
-@backgroundColorDisabled: #EEEEEE;
-
-@hiddenMenuBgColor: rgba(204, 204, 204, 0.6);
-
+@import "variables";
+@import "../../bower_components/lesshat/build/lesshat";
 @import "../js/modules/spinner/css";
 
 .@{containerClass} {
@@ -62,6 +40,10 @@
         .current {
             color: #bbb;
         }
+    }
+
+    #toppage {
+      position: relative;
     }
 
     .main-panel, .upload-modal {
@@ -112,7 +94,7 @@
                 height: @thumbNameHeight;
                 line-height: @thumbNameHeight;
                 background-color: #eeeeee;
-                border-radius: 3px;
+                .border-radius(@borderRadius);
                 padding: 0 3px;
                 overflow: hidden;
                 white-space: nowrap;
@@ -134,7 +116,7 @@
             &.thumb-file {
                 .thumb-image {
                     width: @thumbWidth - 10;
-                    border-radius: 3px;
+                    .border-radius(@borderRadius);
 
                     &.thumb-icon {
                         width: 80px;
@@ -304,3 +286,5 @@
 .modal-backdrop {
 	z-index: 10;
 }
+
+@import "preview";

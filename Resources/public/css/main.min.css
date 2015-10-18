@@ -68,6 +68,9 @@
 .filemanager .breadcrumb .current {
   color: #bbb;
 }
+.filemanager #toppage {
+  position: relative;
+}
 .filemanager .main-panel .panel-body,
 .filemanager .upload-modal .panel-body {
   height: calc(100% - 160px);
@@ -118,7 +121,12 @@
   height: 30px;
   line-height: 30px;
   background-color: #eeeeee;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
   border-radius: 3px;
+  background-clip: padding-box;
   padding: 0 3px;
   overflow: hidden;
   white-space: nowrap;
@@ -140,7 +148,12 @@
 .filemanager .main-panel .thumb.thumb-file .thumb-image,
 .filemanager .upload-modal .thumb.thumb-file .thumb-image {
   width: 170px;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
   border-radius: 3px;
+  background-clip: padding-box;
 }
 .filemanager .main-panel .thumb.thumb-file .thumb-image.thumb-icon,
 .filemanager .upload-modal .thumb.thumb-file .thumb-image.thumb-icon {
@@ -277,4 +290,74 @@
 }
 .modal-backdrop {
   z-index: 10;
+}
+.filemanager .preview-wrapper {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+}
+.filemanager .preview-wrapper .preview {
+  position: relative;
+  height: calc(100% - 100px);
+  margin: 50px;
+  padding: 10px;
+  border: 1px solid #000;
+  background: #ffffff;
+  -webkit-border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-border-radius: 3px;
+  -moz-background-clip: padding;
+  border-radius: 3px;
+  background-clip: padding-box;
+}
+.filemanager .preview-wrapper .preview .preview-header {
+  height: 60px;
+  padding: 10px;
+}
+.filemanager .preview-wrapper .preview .preview-header h2 {
+  margin-top: 0;
+}
+.filemanager .preview-wrapper .preview .preview-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 3px;
+}
+.filemanager .preview-wrapper .preview .preview-footer .file-name {
+  float: left;
+}
+.filemanager .preview-wrapper .preview .preview-footer .dimensions {
+  float: right;
+}
+.filemanager .preview-wrapper .preview .image {
+  box-sizing: border-box;
+  height: calc(100% - 60px);
+  text-align: center;
+  position: relative;
+}
+.filemanager .preview-wrapper .preview .image img {
+  display: inline-block;
+  vertical-align: middle;
+  max-height: 100%;
+  max-width: 100%;
+}
+.filemanager .preview-wrapper .preview .image img.img-icon {
+  width: 160px;
+  height: 160px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -80px 0 0 -80px;
 }

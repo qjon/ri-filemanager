@@ -32,6 +32,20 @@ describe 'dirStructureService', ->
           width:1023
           height:682
         }
+        {
+          id: 10
+          name: "goal_2.pdf"
+          src: "/uploads/15/02/17/4/49/24b556438274d7ca05be930bfca21770.pdf"
+          mime: "application/pdf"
+        }
+        {
+          id: 18
+          name: "goal_2.jpg"
+          src: "/uploads/15/02/17/4/49/24b556438274d7ca05be930bfca21770.jpg"
+          mime: "image/jpeg"
+          width:1023
+          height:682
+        }
       ]
 
     @$qMock =
@@ -56,6 +70,14 @@ describe 'dirStructureService', ->
       loadFolder: '/folder/load'
 
 
+    @fileTypeFilterServiceMock =
+      getFilterName: jasmine.createSpy()
+      getCurrentFilterMimeList: jasmine.createSpy()
+
+    @$filterMock = jasmine.createSpy()
+
+
+
     module('filemanager')
     module ($provide) =>
       $provide.value 'q', @$qMock
@@ -63,6 +85,8 @@ describe 'dirStructureService', ->
       $provide.value 'FileObj', @fileObjMock
       $provide.value 'SpinnerService', @spinnerServiceMock
       $provide.value 'urlProvider', @urlProviderMock
+      $provide.value 'fileTypeFilterService', @fileTypeFilterServiceMock
+      $provide.value '$filter', @$filterMock
 
       return
 
@@ -276,3 +300,91 @@ describe 'dirStructureService', ->
       @$httpBackend.flush()
 
       expect(failureCallback.calls.count()).toEqual(0)
+
+  describe 'files operation', ->
+    files = []
+    beforeEach ()->
+      files = [
+        {
+          id: 1
+          name: "goal.jpg"
+          src: "/uploads/15/02/17/4/49/asjhdfkjasdkjfhaksdhfkajs.jpg"
+          mime: "image/jpeg"
+          width:1023
+          height:682
+        }
+        {
+          id: 8
+          name: "goal.jpg"
+          src: "/uploads/15/02/17/4/49/24b556438274d7ca05be930bfca21770.jpg"
+          mime: "image/jpeg"
+          width:1023
+          height:682
+        }
+      ]
+      @dirStructureService.filteredFilesList = files
+
+
+    describe 'getPrevFile', ->
+      it 'should return first file', ->
+        expect(@dirStructureService.getPrevFile files[1]).toEqual files[0]
+
+      it 'should return false if no previous file', ->
+        expect(@dirStructureService.getPrevFile files[0]).toBeFalsy()
+
+
+    describe 'getNextFile', ->
+      it 'should return next file', ->
+        expect(@dirStructureService.getNextFile files[0]).toEqual files[1]
+
+      it 'should return false if no next file', ->
+        expect(@dirStructureService.getNextFile files[1]).toBeFalsy()
+
+    describe 'isFirstFile', ->
+      it 'should return true if file is first', ->
+        expect(@dirStructureService.isFirstFile files[0]).toBeTruthy()
+
+      it 'should return false if file is not first file', ->
+        expect(@dirStructureService.isFirstFile files[1]).toBeFalsy()
+
+    describe 'isLastFile', ->
+      it 'should return true if file is last', ->
+        expect(@dirStructureService.isLastFile files[1]).toBeTruthy()
+
+      it 'should return false if file is not last file', ->
+        expect(@dirStructureService.isLastFile files[0]).toBeFalsy()
+
+  describe 'getFilteredFiles', ->
+    filterFunction = jasmine.createSpy()
+
+    beforeEach () ->
+      @$httpBackend.whenGET('ri_filemanager_api_index').respond @resultMock
+      @dirStructureService.load(4)
+      @$httpBackend.flush()
+
+      @$filterMock.and.returnValue filterFunction
+
+    afterEach () ->
+      expect(@$filterMock).toHaveBeenCalledWith 'orderBy'
+
+
+    it 'should call $filter orderBy', ->
+      @dirStructureService.getFilteredFiles()
+      expect(filterFunction).toHaveBeenCalledWith(@dirStructureService.currentDir.files, 'name')
+
+    it 'should call $filter fileMime', ->
+      @fileTypeFilterServiceMock.getFilterName.and.returnValue 'application/pdf'
+      @fileTypeFilterServiceMock.getCurrentFilterMimeList.and.returnValue ['application/pdf']
+      @dirStructureService.getFilteredFiles()
+
+      expect(@$filterMock).toHaveBeenCalledWith 'fileMime'
+      expect(filterFunction).toHaveBeenCalledWith @dirStructureService.currentDir.files, ['application/pdf']
+
+    it 'should call $filter filter', ->
+      search = 'search'
+      @dirStructureService.getFilteredFiles search
+
+      expect(@$filterMock).toHaveBeenCalledWith 'filter'
+      expect(filterFunction).toHaveBeenCalledWith @dirStructureService.currentDir.files, {name: search}
+
+
