@@ -68,14 +68,14 @@
                     {{ mainCtrl.dirStructure.currentDir.name }}
 
             .overflow-box
-                .thumb.thumb-folder.img-thumbnail(ng-repeat="dir in mainCtrl.dirStructure.currentDir.dirs | filter:{'name': mainCtrl.search } | orderBy:'name' track by dir.id", ng-click="$event.stopPropagation();mainCtrl.routingChangeService.goToFolder($event, dir.id);mainCtrl.selection.toggleFolder($event, dir)", ng-class="{selected: mainCtrl.selection.isSelectedFolder(dir.id)}")
+                .thumb.thumb-folder(ng-repeat="dir in mainCtrl.dirStructure.currentDir.dirs | filter:{'name': mainCtrl.search } | orderBy:'name' track by dir.id", ng-click="$event.stopPropagation();mainCtrl.routingChangeService.goToFolder($event, dir.id);mainCtrl.selection.toggleFolder($event, dir)", ng-class="{selected: mainCtrl.selection.isSelectedFolder(dir.id)}")
                     i.thumb-image.fa.fa-folder-o
                     .thumb-name(data-ng-bind="dir.name")
                     .menu.folder-menu
                         i.fa.fa-edit(ng-click="dir.openDialogEditFolder($event, dir)", title="{{'EDIT' | translate}}")
                         i.fa.fa-trash-o(ng-click="dir.openDialogRemoveFolder($event)", title="{{'DELETE' | translate}}")
                     i.fa.fa-check.selection-mark(ng-show="mainCtrl.selection.isSelectedFolder(dir.id)")
-                .thumb.thumb-file.img-thumbnail(ng-repeat="file in mainCtrl.getFiles() track by file.id", ng-click="mainCtrl.onClick($event, file)", ng-class="{selected: mainCtrl.selection.isSelectedFile(file.id)}")
+                .thumb.thumb-file(ng-repeat="file in mainCtrl.getFiles() track by file.id", ng-click="mainCtrl.onClick($event, file)", ng-class="{selected: mainCtrl.selection.isSelectedFile(file.id)}")
                     .thumb-image(ng-if="file.isImage()")
                         img(ng-src="{{ file.src }}")
                     img.thumb-image.thumb-icon(ng-if="!file.isImage()", ng-src="{{ file.icon }}")
