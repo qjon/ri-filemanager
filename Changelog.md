@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3.0
+
+* scroll only folder and files list, not whole window
+* refresh button
+* preview file
+
 ## v1.2.0
 
 New features: 
