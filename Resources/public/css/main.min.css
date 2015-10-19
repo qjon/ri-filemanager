@@ -320,8 +320,10 @@
   background-clip: padding-box;
 }
 .filemanager .preview-wrapper .preview {
-  position: relative;
+  position: relative !important;
+  display: block;
   height: calc(100% - 100px);
+  width: calc(100% - 100px) !important;
   margin: 50px;
   padding: 10px;
   border: 1px solid #000;

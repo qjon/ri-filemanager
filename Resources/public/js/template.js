@@ -180,7 +180,7 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
     "  <div growl=\"growl\" class=\"growl\"></div>\n" +
     "  <preview></preview>\n" +
     "  <div class=\"row nav-row\">\n" +
-    "    <div class=\"col-sm-12 col-md-4 text-left\">\n" +
+    "    <div class=\"col-sm-12 col-md-5 text-left\">\n" +
     "      <button class=\"btn btn-default\"><i ng-click=\"mainCtrl.dirStructure.reload()\" class=\"fa fa-refresh\"></i></button>\n" +
     "      <div class=\"btn-group\">\n" +
     "        <button data-template=\"/templates/dir_add.html\" data-placement=\"center\" bs-modal=\"modal\" container=\"body\" backdrop=\"false\" title=\"{{ 'CREATE_DIR' | translate }}\" class=\"btn btn-default\"><i class=\"fa fa-plus\"></i><i class=\"fa fa-folder-o\"></i></button>\n" +
@@ -195,7 +195,7 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
     "        <button ng-click=\"mainCtrl.selection.clear()\" class=\"btn btn-warning\"><i class=\"fa fa-eraser\"></i></button>\n" +
     "      </div>\n" +
     "    </div>\n" +
-    "    <div class=\"col-sm-12 col-md-7\">\n" +
+    "    <div class=\"col-sm-12 col-md-6\">\n" +
     "      <div class=\"btn-group\">\n" +
     "        <button ng-click=\"mainCtrl.fileTypeFilter.setFilterName(false)\" ng-class=\"{'active': mainCtrl.fileTypeFilter.isActiveFilter(false)}\" title=\"{{'ALL_FILE_TYPES'| translate}}\" class=\"btn btn-default\"><i class=\"fa fa-file-o\"></i></button>\n" +
     "        <button ng-click=\"mainCtrl.fileTypeFilter.setFilterName('images')\" ng-class=\"{'active': mainCtrl.fileTypeFilter.isActiveFilter('images')}\" title=\"{{'TYPE_IMAGE'| translate}}\" class=\"btn btn-default\"><i class=\"fa fa-picture-o\"></i></button>\n" +

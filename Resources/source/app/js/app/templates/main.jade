@@ -8,7 +8,7 @@
     .growl(growl)
     preview
     .row.nav-row
-        .col-sm-12.col-md-4.text-left
+        .col-sm-12.col-md-5.text-left
             button.btn.btn-default
                 i.fa.fa-refresh(ng-click="mainCtrl.dirStructure.reload()")
             .btn-group
@@ -31,7 +31,7 @@
                     i.fa.fa-trash-o
                 button.btn.btn-warning(ng-click="mainCtrl.selection.clear()")
                     i.fa.fa-eraser
-        .col-sm-12.col-md-7
+        .col-sm-12.col-md-6
             .btn-group
                 button.btn.btn-default(ng-click="mainCtrl.fileTypeFilter.setFilterName(false)", ng-class="{'active': mainCtrl.fileTypeFilter.isActiveFilter(false)}", title="{{'ALL_FILE_TYPES'| translate}}")
                     i.fa.fa-file-o

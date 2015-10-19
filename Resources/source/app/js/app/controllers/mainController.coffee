@@ -33,7 +33,7 @@ class Main extends Controller
     return 'EN'
 
   onClick: ($event, file) ->
-    if $event.ctrl
+    if $event.ctrlKey
       this.selection.toggleFile $event, file
     else
       this.previewService.open file
