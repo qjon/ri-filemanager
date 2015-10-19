@@ -6,6 +6,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
 ###
-class filemanager extends App
-  constructor: ->
-    return ['mgcrea.ngStrap', 'riSpinner', 'ngRoute', 'flow', 'templates', 'pascalprecht.translate', 'angular-growl']
+class Preview extends Controller
+  constructor: (previewService) ->
+    @previewService = previewService

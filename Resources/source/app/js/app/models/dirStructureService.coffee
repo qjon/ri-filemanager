@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 ###
 class DirStructure extends Service
-  constructor: ($q, $http, DirObj, FileObj, SpinnerService, urlService) ->
+  constructor: ($q, $http, DirObj, FileObj, SpinnerService, urlService, $filter, fileTypeFilterService) ->
     @currentDir = false
     @$q = $q
     @$http = $http
@@ -15,6 +15,9 @@ class DirStructure extends Service
     @fileObj = FileObj
     @spinnerService = SpinnerService
     @url = urlService
+    @$filter = $filter
+    @fileTypeFilterServiceMock = fileTypeFilterService
+    @filteredFilesList = []
 
   addFolder: (name, callbackSuccess, callbackError) ->
     @spinnerService.show();
@@ -99,3 +102,37 @@ class DirStructure extends Service
         @spinnerService.hide()
         callbackError data if callbackError
         return
+
+  getPrevFile: (file) ->
+    index = @filteredFilesList.indexOf file
+    if index > 0
+      return @filteredFilesList[--index]
+    else
+      return false;
+
+
+  getNextFile: (file) ->
+    index = @filteredFilesList.indexOf file
+    if index < @filteredFilesList.length - 1
+      return @filteredFilesList[++index]
+    else
+      return false;
+
+  isFirstFile: (file) ->
+    return @filteredFilesList.indexOf(file) == 0
+
+  isLastFile: (file) ->
+    return @filteredFilesList[@filteredFilesList.length - 1] == file
+
+  getFilteredFiles: (text) ->
+    files = @currentDir.files
+    fileType = @fileTypeFilterServiceMock.getFilterName()
+    mimeTypes = @fileTypeFilterServiceMock.getCurrentFilterMimeList()
+
+    if (fileType)
+      files = @$filter('fileMime')(files, mimeTypes)
+
+    if (text && text != '')
+      files = @$filter('filter')(files, {name: text})
+
+    @filteredFilesList = @$filter('orderBy')(files, 'name')

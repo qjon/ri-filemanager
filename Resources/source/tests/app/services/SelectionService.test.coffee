@@ -18,27 +18,27 @@ describe 'SelectionService', ->
     name: 'Second folder'
 
   beforeEach ->
-    @selectionService = new Selection
+    @previewService = new Selection
 
   describe 'constructor', ->
     it 'files should be empty array by default', ->
-      expect(@selectionService.getFiles()).toEqual []
+      expect(@previewService.getFiles()).toEqual []
 
     it 'folders should be empty array by default', ->
-      expect(@selectionService.getFolders()).toEqual []
+      expect(@previewService.getFolders()).toEqual []
 
 
   describe 'files functions', ->
     beforeEach ->
-      @selectionService
-        .clear()
-        .addFile fileTwoMock
-        .addFile fileOneMock
+      @previewService
+      .clear()
+      .addFile fileTwoMock
+      .addFile fileOneMock
 
 
     describe 'addFiles', ->
       it 'should add file and return itself', ->
-        files = @selectionService.getFiles()
+        files = @previewService.getFiles()
 
         expect(files[0]).toEqual fileTwoMock
         expect(files[1]).toEqual fileOneMock
@@ -46,49 +46,49 @@ describe 'SelectionService', ->
 
     describe 'getFileById', ->
       it 'should return firstFileMock', ->
-        expect(@selectionService.getFileById 1).toEqual fileOneMock
+        expect(@previewService.getFileById 1).toEqual fileOneMock
 
       it 'should return false if file is not exist', ->
-        expect(@selectionService.getFileById 5).toBeFalsy()
+        expect(@previewService.getFileById 5).toBeFalsy()
 
 
     describe 'getFiles', ->
       it 'should return array of two eleemnts', ->
-        expect(@selectionService.getFiles().length).toBe 2
+        expect(@previewService.getFiles().length).toBe 2
 
 
     describe 'getFileIds', ->
       it 'should return proper array', ->
-        expect(@selectionService.getFilesIds()).toEqual [12, 1]
+        expect(@previewService.getFilesIds()).toEqual [12, 1]
 
       it 'should return empty array if no file is added', ->
-        @selectionService.clear();
-        expect(@selectionService.getFilesIds()).toEqual []
+        @previewService.clear();
+        expect(@previewService.getFilesIds()).toEqual []
 
 
     describe 'isSelectedFile', ->
       it 'should return true if file exist', ->
-        expect(@selectionService.isSelectedFile 12).toBeTruthy()
+        expect(@previewService.isSelectedFile 12).toBeTruthy()
 
       it 'should return false if file not exist', ->
-        expect(@selectionService.isSelectedFile 21).toBeFalsy()
+        expect(@previewService.isSelectedFile 21).toBeFalsy()
 
 
     describe 'removeFile', ->
       it 'should remove file from list', ->
-        expect(@selectionService.getFiles().length).toBe 2
-        @selectionService.removeFile 1
+        expect(@previewService.getFiles().length).toBe 2
+        @previewService.removeFile 1
 
-        expect(@selectionService.getFiles().length).toBe 1
+        expect(@previewService.getFiles().length).toBe 1
 
       it 'should not remove file from list if the file not exists', ->
-        expect(@selectionService.getFiles().length).toBe 2
-        @selectionService.removeFile 123
+        expect(@previewService.getFiles().length).toBe 2
+        @previewService.removeFile 123
 
-        expect(@selectionService.getFiles().length).toBe 2
+        expect(@previewService.getFiles().length).toBe 2
 
       it 'should return it self', ->
-        expect(@selectionService.removeFile 123).toEqual @selectionService
+        expect(@previewService.removeFile 123).toEqual @previewService
 
 
     describe 'toggleFile', ->
@@ -97,15 +97,15 @@ describe 'SelectionService', ->
         event.preventDefault = jasmine.createSpy()
 
       it 'should prevent event default action', ->
-        @selectionService.toggleFile event, fileOneMock
+        @previewService.toggleFile event, fileOneMock
 
         expect(event.preventDefault).toHaveBeenCalled()
 
       it 'should not change files selection', ->
-        expect(@selectionService.getFiles().length).toBe 2
-        @selectionService.toggleFile event, fileOneMock
+        expect(@previewService.getFiles().length).toBe 2
+        @previewService.toggleFile event, fileOneMock
 
-        expect(@selectionService.getFiles().length).toBe 2
+        expect(@previewService.getFiles().length).toBe 2
 
       it 'should add file to selection', ->
         event.ctrlKey = true
@@ -113,75 +113,75 @@ describe 'SelectionService', ->
           id: 17
           name: 'New file'
 
-        expect(@selectionService.getFiles().length).toBe 2
+        expect(@previewService.getFiles().length).toBe 2
 
-        @selectionService.toggleFile event, newFile
+        @previewService.toggleFile event, newFile
 
-        expect(@selectionService.getFiles().length).toBe 3
+        expect(@previewService.getFiles().length).toBe 3
 
       it 'should remove file from selection', ->
         event.ctrlKey = true
 
-        expect(@selectionService.getFiles().length).toBe 2
+        expect(@previewService.getFiles().length).toBe 2
 
-        @selectionService.toggleFile event, fileOneMock
+        @previewService.toggleFile event, fileOneMock
 
-        expect(@selectionService.getFiles().length).toBe 1
+        expect(@previewService.getFiles().length).toBe 1
 
 
   describe 'folders functions', ->
     beforeEach ->
-      @selectionService
-        .clear()
-        .addFolder folderOneMock
-        .addFolder folderTwoMock
+      @previewService
+      .clear()
+      .addFolder folderOneMock
+      .addFolder folderTwoMock
 
     describe 'addFolder', ->
       it 'should add folder', ->
-        expect(@selectionService.getFolders().length).toBe 2
+        expect(@previewService.getFolders().length).toBe 2
 
       it 'should return itself', ->
-        expect(@selectionService.addFolder folderOneMock).toEqual @selectionService
+        expect(@previewService.addFolder folderOneMock).toEqual @previewService
 
 
     describe 'getFolders', ->
       it 'should return proper array', ->
-        expect(@selectionService.getFolders()).toEqual [folderOneMock, folderTwoMock]
+        expect(@previewService.getFolders()).toEqual [folderOneMock, folderTwoMock]
 
 
     describe 'getFoldersIds', ->
       it 'should return array [7,10]', ->
-        expect(@selectionService.getFoldersIds()).toEqual [7,10]
+        expect(@previewService.getFoldersIds()).toEqual [7,10]
 
       it 'should return empty array', ->
-        @selectionService.clear()
+        @previewService.clear()
 
-        expect(@selectionService.getFoldersIds()).toEqual []
+        expect(@previewService.getFoldersIds()).toEqual []
 
 
     describe 'isSelectedFolder', ->
       it 'should return true if folder with givven id is add to selecetion', ->
-        expect(@selectionService.isSelectedFolder 10).toBeTruthy()
+        expect(@previewService.isSelectedFolder 10).toBeTruthy()
 
       it 'should return false if folder with givven id is not added to selecetion', ->
-        expect(@selectionService.isSelectedFolder 21).toBeFalsy()
+        expect(@previewService.isSelectedFolder 21).toBeFalsy()
 
 
     describe 'removeFolder', ->
       it 'should reduce selected folders list', ->
-        expect(@selectionService.getFolders().length).toBe 2
-        @selectionService.deleteFolder 7
+        expect(@previewService.getFolders().length).toBe 2
+        @previewService.deleteFolder 7
 
-        expect(@selectionService.getFolders().length).toBe 1
+        expect(@previewService.getFolders().length).toBe 1
 
       it 'should not reduce selected folders list if folder not found', ->
-        expect(@selectionService.getFolders().length).toBe 2
-        @selectionService.deleteFolder 17
+        expect(@previewService.getFolders().length).toBe 2
+        @previewService.deleteFolder 17
 
-        expect(@selectionService.getFolders().length).toBe 2
+        expect(@previewService.getFolders().length).toBe 2
 
       it 'should return itself', ->
-        expect(@selectionService.deleteFolder 7).toEqual @selectionService
+        expect(@previewService.deleteFolder 7).toEqual @previewService
 
 
     describe 'toggleFolder', ->
@@ -191,7 +191,7 @@ describe 'SelectionService', ->
         event.stopPropagation = jasmine.createSpy()
 
       it 'should prevent event propagation', ->
-        @selectionService.toggleFolder event, folderOneMock
+        @previewService.toggleFolder event, folderOneMock
 
         expect(event.stopPropagation).toHaveBeenCalled()
 
@@ -201,37 +201,37 @@ describe 'SelectionService', ->
           id: 31
           name: 'New folder name'
 
-        expect(@selectionService.getFolders().length).toBe 2
+        expect(@previewService.getFolders().length).toBe 2
 
-        @selectionService.toggleFolder event, newFolder
+        @previewService.toggleFolder event, newFolder
 
-        expect(@selectionService.getFolders().length).toBe 3
+        expect(@previewService.getFolders().length).toBe 3
 
       it 'should reduce folders list', ->
         event.ctrlKey = true
 
-        expect(@selectionService.getFolders().length).toBe 2
+        expect(@previewService.getFolders().length).toBe 2
 
-        @selectionService.toggleFolder event, folderOneMock
+        @previewService.toggleFolder event, folderOneMock
 
-        expect(@selectionService.getFolders().length).toBe 1
+        expect(@previewService.getFolders().length).toBe 1
 
 
     describe 'isEmptySelection', ->
 
       beforeEach ->
-        @selectionService.clear()
+        @previewService.clear()
 
       it 'should return true', ->
-        expect(@selectionService.isEmptySelection()).toBeTruthy()
+        expect(@previewService.isEmptySelection()).toBeTruthy()
 
       it 'should return false if is any file', ->
-        @selectionService.addFile fileOneMock
+        @previewService.addFile fileOneMock
 
-        expect(@selectionService.isEmptySelection()).toBeFalsy()
+        expect(@previewService.isEmptySelection()).toBeFalsy()
 
       it 'should return false if is any folder', ->
-        @selectionService.addFolder folderOneMock
+        @previewService.addFolder folderOneMock
 
-        expect(@selectionService.isEmptySelection()).toBeFalsy()
+        expect(@previewService.isEmptySelection()).toBeFalsy()
 

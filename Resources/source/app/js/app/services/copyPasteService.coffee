@@ -18,7 +18,7 @@ class CopyPaste extends Service
     @actionType = 0
     @$http = $http
     @modalService = modalService
-    @selectionService = selectionService
+    @previewService = selectionService
     @dirStructure = dirStructureService
     @spinnerService = SpinnerService
     @url = urlService
@@ -77,8 +77,8 @@ class CopyPaste extends Service
 
     @$http.put(@url.generate('ri_filemanager_api_copy_selection'), {
       destDirId: destFolderId
-      files: @selectionService.getFilesIds()
-      dirs: @selectionService.getFoldersIds()
+      files: @previewService.getFilesIds()
+      dirs: @previewService.getFoldersIds()
     }, {
       headers:
         'X-Requested-With': 'XMLHttpRequest'
@@ -92,8 +92,8 @@ class CopyPaste extends Service
    ###
   openRemoveDialog: ($event) ->
     @modalService.open $event, '/templates/selection_remove.html', {
-      dirs: @selectionService.getFolders()
-      files: @selectionService.getFiles()
+      dirs: @previewService.getFolders()
+      files: @previewService.getFiles()
     }
 
   ###*
@@ -103,8 +103,8 @@ class CopyPaste extends Service
   remove: (callback) ->
     @spinnerService.show()
     @$http.put(@url.generate('ri_filemanager_api_delete_selection'), {
-      files: @selectionService.getFilesIds()
-      dirs: @selectionService.getFoldersIds()
+      files: @previewService.getFilesIds()
+      dirs: @previewService.getFoldersIds()
     }, {
       headers:
         'X-Requested-With': 'XMLHttpRequest'
@@ -117,8 +117,8 @@ class CopyPaste extends Service
     @spinnerService.show();
     @$http.put(@url.generate('ri_filemanager_api_move_selection'), {
       destDirId: destFolderId
-      files: @selectionService.getFilesIds()
-      dirs: @selectionService.getFoldersIds()
+      files: @previewService.getFilesIds()
+      dirs: @previewService.getFoldersIds()
     }, {
       headers:
         'X-Requested-With': 'XMLHttpRequest'
@@ -135,5 +135,5 @@ class CopyPaste extends Service
     if response.success
       @dirStructure.reload()
 
-    @selectionService.clear()
+    @previewService.clear()
     @setActionType 0
