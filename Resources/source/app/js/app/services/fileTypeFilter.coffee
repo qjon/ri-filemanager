@@ -10,7 +10,7 @@ class FileTypeFilter extends Service
 
   constructor: (fileTypesService) ->
     @fileTypeFilter = false;
-    @fileTypesService = fileTypesService
+    @fileTypeFilterServiceMock = fileTypesService
 
   clearFilter: ->
     @fileTypeFilter = false
@@ -24,7 +24,7 @@ class FileTypeFilter extends Service
    * @returns {Array}
   ###
   getCurrentFilterMimeList: ->
-    @fileTypesService.getType @fileTypeFilter
+    @fileTypeFilterServiceMock.getType @fileTypeFilter
 
   ###
    * Check if "name" filter is selected
@@ -41,7 +41,7 @@ class FileTypeFilter extends Service
    * @param {String} filterName
   ###
   setFilterName: (filterName) ->
-    if filterName and filterName != false and @fileTypesService.isDefinedType filterName
+    if filterName and filterName != false and @fileTypeFilterServiceMock.isDefinedType filterName
       @fileTypeFilter = filterName;
     else
       @.clearFilter()

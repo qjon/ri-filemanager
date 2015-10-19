@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
 ###
 class Main extends Controller
-  constructor: ($scope, dirStructureService, fileTypesService, fileTypeFilterService, routingChangeService, selectionService, copyPasteService, uploadService, callbackService, $translate, configProvider) ->
+  constructor: ($scope, dirStructureService, fileTypesService, fileTypeFilterService, routingChangeService, selectionService, copyPasteService, uploadService, callbackService, $translate, configProvider, previewService) ->
     @$scope = $scope
     @dirStructure = dirStructureService
     @fileTypeFilter = fileTypeFilterService
@@ -19,6 +19,7 @@ class Main extends Controller
     @fileUploadService = uploadService
     @callbackService = callbackService
     @search = ''
+    @previewService = previewService
 
     @allowChangeLanguage = configProvider.allowChangeLanguage
 
@@ -30,3 +31,13 @@ class Main extends Controller
 
     return 'PL' if lang == 'pl_PL'
     return 'EN'
+
+  onClick: ($event, file) ->
+    if $event.ctrl
+      this.selection.toggleFile $event, file
+    else
+      this.previewService.open file
+
+
+  getFiles: () ->
+    @dirStructure.getFilteredFiles @search

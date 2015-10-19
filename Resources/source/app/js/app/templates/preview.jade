@@ -1,0 +1,18 @@
+.preview-wrapper(ng-show="previewCtrl.previewService.isOpen()")
+    .preview
+        .preview-header
+            .pull-right
+                .btn-group
+                    button.btn.btn-default(ng-click="previewCtrl.previewService.prevFile()", ng-disabled="previewCtrl.previewService.file.getDirStructure().isFirstFile(previewCtrl.previewService.file)")
+                        i.fa.fa-chevron-left
+                    button.btn.btn-default(ng-click="previewCtrl.previewService.nextFile()", ng-disabled="previewCtrl.previewService.file.getDirStructure().isLastFile(previewCtrl.previewService.file)")
+                        i.fa.fa-chevron-right
+                    button.btn.btn-default(ng-click="previewCtrl.previewService.close()")
+                        i.fa.fa-times
+            h2 {{ previewCtrl.previewService.file.name }}
+        .image
+            img(ng-if="previewCtrl.previewService.file.isImage()", ng-src="{{ previewCtrl.previewService.file.src }}")
+            img.img-icon(ng-if="!previewCtrl.previewService.file.isImage()", ng-src="{{ previewCtrl.previewService.file.icon }}")
+        .preview-footer(ng-show="previewCtrl.previewService.file.isImage()")
+            .dimensions {{ previewCtrl.previewService.file.width }} x {{ previewCtrl.previewService.file.height }}
+            .file-name {{ previewCtrl.previewService.file.name }}

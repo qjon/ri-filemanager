@@ -37,7 +37,7 @@ describe 'mainController', ->
       expect(@mainController.routingChangeService).toEqual @routingChangeServiceMock
 
     it 'should set selectionService', ->
-      expect(@mainController.selectionService).toEqual @selectionServiceMock
+      expect(@mainController.previewService).toEqual @selectionServiceMock
 
     it 'should set fileUploadService', ->
       expect(@mainController.fileUploadService).toEqual @fileUploadServiceMock

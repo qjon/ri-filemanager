@@ -178,8 +178,10 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
     "<div id=\"toppage\" flow-init=\"{query: {dirId: mainCtrl.dirStructure.currentDir.id}}\" flow-file-progress=\"mainCtrl.fileUploadService.uploadProgress($flow, $file)\" flow-file-success=\"mainCtrl.fileUploadService.fileUploadComplete($flow, $file, $message)\" flow-files-submitted=\"mainCtrl.fileUploadService.openUploadFileDialog($event, $flow)\" flow-file-added=\"mainCtrl.fileUploadService.beforeAddFile($file)\" flow-complete=\"mainCtrl.fileUploadService.hideAndClear()\">\n" +
     "  <div spinner=\"\" class=\"spinner\"></div>\n" +
     "  <div growl=\"growl\" class=\"growl\"></div>\n" +
+    "  <preview></preview>\n" +
     "  <div class=\"row nav-row\">\n" +
     "    <div class=\"col-sm-12 col-md-4 text-left\">\n" +
+    "      <button class=\"btn btn-default\"><i ng-click=\"mainCtrl.dirStructure.reload()\" class=\"fa fa-refresh\"></i></button>\n" +
     "      <div class=\"btn-group\">\n" +
     "        <button data-template=\"/templates/dir_add.html\" data-placement=\"center\" bs-modal=\"modal\" container=\"body\" backdrop=\"false\" title=\"{{ 'CREATE_DIR' | translate }}\" class=\"btn btn-default\"><i class=\"fa fa-plus\"></i><i class=\"fa fa-folder-o\"></i></button>\n" +
     "        <button type=\"file\" flow-btn=\"flow-btn\" title=\"{{ 'UPLOAD_FILES' | translate }}\" class=\"btn btn-default\"><i class=\"fa fa-plus\"></i><i class=\"fa fa-files-o\"></i></button>\n" +
@@ -201,7 +203,7 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
     "        <button ng-click=\"mainCtrl.fileTypeFilter.setFilterName('video')\" ng-class=\"{'active': mainCtrl.fileTypeFilter.isActiveFilter('video')}\" title=\"{{'TYPE_WIDEO'| translate}}\" class=\"btn btn-default\"><i class=\"fa fa-video-camera\"></i></button>\n" +
     "        <button ng-click=\"mainCtrl.fileTypeFilter.setFilterName('archive')\" ng-class=\"{'active': mainCtrl.fileTypeFilter.isActiveFilter('archive')}\" title=\"{{'TYPE_ZIP'| translate}}\" class=\"btn btn-default\"><i class=\"fa fa-archive\"></i></button>\n" +
     "        <div class=\"input-group\">\n" +
-    "          <input ng-model=\"mainCtrl.search\" type=\"text\" placeholder=\"{{'FILTER' | translate}}\" class=\"form-control\"/><span class=\"btn btn-default input-group-addon\"><i class=\"fa fa-search\"></i></span>\n" +
+    "          <input ng-model=\"mainCtrl.search\" ng-model-options=\"{debounce: 500}\" type=\"text\" placeholder=\"{{'FILTER' | translate}}\" class=\"form-control\"/><span class=\"btn btn-default input-group-addon\"><i class=\"fa fa-search\"></i></span>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +
@@ -222,17 +224,46 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
     "      <ul class=\"breadcrumb\">\n" +
     "        <li ng-if=\"mainCtrl.dirStructure.currentDir.id &gt; 0\" ng-click=\"mainCtrl.routingChangeService.goToFolder($event, 0)\" class=\"link\">{{'HOME' | translate }}</li>\n" +
     "        <li ng-repeat=\"parent in mainCtrl.dirStructure.currentDir.parentsList\" ng-click=\"mainCtrl.routingChangeService.goToFolder($event, parent.id)\" class=\"link\">{{ parent.name }}</li>\n" +
-    "        <li class=\"current\">{{ mainCtrl.dirStructure.currentDir.name }}</li>\n" +
+    "        <li class=\"current\">\n" +
+    "          {{ mainCtrl.dirStructure.currentDir.name }}\n" +
+    "          \n" +
+    "        </li>\n" +
     "      </ul>\n" +
-    "      <div ng-repeat=\"dir in mainCtrl.dirStructure.currentDir.dirs | filter:{'name': mainCtrl.search } | orderBy:'name' track by dir.id\" ng-click=\"$event.stopPropagation();mainCtrl.routingChangeService.goToFolder($event, dir.id);mainCtrl.selection.toggleFolder($event, dir)\" ng-class=\"{selected: mainCtrl.selection.isSelectedFolder(dir.id)}\" class=\"thumb thumb-folder img-thumbnail\"><i class=\"thumb-image fa fa-folder-o\"></i>\n" +
-    "        <div data-ng-bind=\"dir.name\" class=\"thumb-name\"></div>\n" +
-    "        <div class=\"menu folder-menu\"><i ng-click=\"dir.openDialogEditFolder($event, dir)\" title=\"{{'EDIT' | translate}}\" class=\"fa fa-edit\"></i><i ng-click=\"dir.openDialogRemoveFolder($event)\" title=\"{{'DELETE' | translate}}\" class=\"fa fa-trash-o\"></i></div><i ng-show=\"mainCtrl.selection.isSelectedFolder(dir.id)\" class=\"fa fa-check selection-mark\"></i>\n" +
+    "      <div class=\"overflow-box\">\n" +
+    "        <div ng-repeat=\"dir in mainCtrl.dirStructure.currentDir.dirs | filter:{'name': mainCtrl.search } | orderBy:'name' track by dir.id\" ng-click=\"$event.stopPropagation();mainCtrl.routingChangeService.goToFolder($event, dir.id);mainCtrl.selection.toggleFolder($event, dir)\" ng-class=\"{selected: mainCtrl.selection.isSelectedFolder(dir.id)}\" class=\"thumb thumb-folder\"><i class=\"thumb-image fa fa-folder-o\"></i>\n" +
+    "          <div data-ng-bind=\"dir.name\" class=\"thumb-name\"></div>\n" +
+    "          <div class=\"menu folder-menu\"><i ng-click=\"dir.openDialogEditFolder($event, dir)\" title=\"{{'EDIT' | translate}}\" class=\"fa fa-edit\"></i><i ng-click=\"dir.openDialogRemoveFolder($event)\" title=\"{{'DELETE' | translate}}\" class=\"fa fa-trash-o\"></i></div><i ng-show=\"mainCtrl.selection.isSelectedFolder(dir.id)\" class=\"fa fa-check selection-mark\"></i>\n" +
+    "        </div>\n" +
+    "        <div ng-repeat=\"file in mainCtrl.getFiles() track by file.id\" ng-click=\"mainCtrl.onClick($event, file)\" ng-class=\"{selected: mainCtrl.selection.isSelectedFile(file.id)}\" class=\"thumb thumb-file\">\n" +
+    "          <div ng-if=\"file.isImage()\" class=\"thumb-image\"><img ng-src=\"{{ file.src }}\"/></div><img ng-if=\"!file.isImage()\" ng-src=\"{{ file.icon }}\" class=\"thumb-image thumb-icon\"/>\n" +
+    "          <div data-ng-bind=\"file.name\" class=\"thumb-name\"></div>\n" +
+    "          <div class=\"menu file-menu\"><i ng-click=\"mainCtrl.routingChangeService.downloadFile(file, $event)\" class=\"fa fa-download\"></i><i ng-show=\"file.isImage()\" ng-click=\"file.openEditDialog($event)\" class=\"fa fa-edit\"></i><i ng-show=\"file.isImage() &amp;&amp; mainCtrl.callbackService.isFileCallback() &amp;&amp; mainCtrl.selection.isEmptySelection()\" ng-click=\"mainCtrl.callbackService.fileCallback($event, file)\" class=\"fa fa-image\"></i><i ng-show=\"!file.isImage() &amp;&amp; mainCtrl.callbackService.isFileCallback() &amp;&amp; mainCtrl.selection.isEmptySelection()\" ng-click=\"mainCtrl.callbackService.fileCallback($event, file)\" class=\"fa fa-link\"></i><i ng-click=\"file.openRemoveDialog($event)\" class=\"fa fa-trash-o\"></i></div><i ng-show=\"mainCtrl.selection.isSelectedFile(file.id)\" class=\"fa fa-check selection-mark\"></i>\n" +
+    "        </div>\n" +
     "      </div>\n" +
-    "      <div ng-repeat=\"file in mainCtrl.dirStructure.currentDir.files | fileMime:mainCtrl.fileTypeFilter.getCurrentFilterMimeList() | filter:{'name': mainCtrl.search } | orderBy:'name' track by file.id\" ng-click=\"mainCtrl.selection.toggleFile($event, file)\" ng-class=\"{selected: mainCtrl.selection.isSelectedFile(file.id)}\" class=\"thumb thumb-file img-thumbnail\">\n" +
-    "        <div ng-if=\"file.isImage()\" class=\"thumb-image\"><img ng-src=\"{{ file.src }}\"/></div><img ng-if=\"!file.isImage()\" ng-src=\"{{ file.icon }}\" class=\"thumb-image thumb-icon\"/>\n" +
-    "        <div data-ng-bind=\"file.name\" class=\"thumb-name\"></div>\n" +
-    "        <div class=\"menu file-menu\"><i ng-click=\"mainCtrl.routingChangeService.downloadFile(file, $event)\" class=\"fa fa-download\"></i><i ng-show=\"file.isImage()\" ng-click=\"file.openEditDialog($event)\" class=\"fa fa-edit\"></i><i ng-show=\"file.isImage() &amp;&amp; mainCtrl.callbackService.isFileCallback() &amp;&amp; mainCtrl.selection.isEmptySelection()\" ng-click=\"mainCtrl.callbackService.fileCallback($event, file)\" class=\"fa fa-image\"></i><i ng-show=\"!file.isImage() &amp;&amp; mainCtrl.callbackService.isFileCallback() &amp;&amp; mainCtrl.selection.isEmptySelection()\" ng-click=\"mainCtrl.callbackService.fileCallback($event, file)\" class=\"fa fa-link\"></i><i ng-click=\"file.openRemoveDialog($event)\" class=\"fa fa-trash-o\"></i></div><i ng-show=\"mainCtrl.selection.isSelectedFile(file.id)\" class=\"fa fa-check selection-mark\"></i>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('/templates/preview.html',
+    "\n" +
+    "<div ng-show=\"previewCtrl.previewService.isOpen()\" class=\"preview-wrapper\">\n" +
+    "  <div class=\"preview\">\n" +
+    "    <div class=\"preview-header\">\n" +
+    "      <div class=\"pull-right\">\n" +
+    "        <div class=\"btn-group\">\n" +
+    "          <button ng-click=\"previewCtrl.previewService.prevFile()\" ng-disabled=\"previewCtrl.previewService.file.getDirStructure().isFirstFile(previewCtrl.previewService.file)\" class=\"btn btn-default\"><i class=\"fa fa-chevron-left\"></i></button>\n" +
+    "          <button ng-click=\"previewCtrl.previewService.nextFile()\" ng-disabled=\"previewCtrl.previewService.file.getDirStructure().isLastFile(previewCtrl.previewService.file)\" class=\"btn btn-default\"><i class=\"fa fa-chevron-right\"></i></button>\n" +
+    "          <button ng-click=\"previewCtrl.previewService.close()\" class=\"btn btn-default\"><i class=\"fa fa-times\"></i></button>\n" +
+    "        </div>\n" +
     "      </div>\n" +
+    "      <h2>{{ previewCtrl.previewService.file.name }}</h2>\n" +
+    "    </div>\n" +
+    "    <div class=\"image\"><img ng-if=\"previewCtrl.previewService.file.isImage()\" ng-src=\"{{ previewCtrl.previewService.file.src }}\"/><img ng-if=\"!previewCtrl.previewService.file.isImage()\" ng-src=\"{{ previewCtrl.previewService.file.icon }}\" class=\"img-icon\"/></div>\n" +
+    "    <div ng-show=\"previewCtrl.previewService.file.isImage()\" class=\"preview-footer\">\n" +
+    "      <div class=\"dimensions\">{{ previewCtrl.previewService.file.width }} x {{ previewCtrl.previewService.file.height }}</div>\n" +
+    "      <div class=\"file-name\">{{ previewCtrl.previewService.file.name }}</div>\n" +
     "    </div>\n" +
     "  </div>\n" +
     "</div>"
