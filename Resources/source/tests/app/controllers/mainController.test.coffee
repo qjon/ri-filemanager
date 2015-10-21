@@ -7,7 +7,9 @@ describe 'mainController', ->
     @fileTypesMock = {}
     @routingChangeServiceMock = {}
     @pluginMock = {}
-    @selectionMock = {}
+    @selectionServiceMock =
+      toggleFile: jasmine.createSpy()
+
     @copyPasteMock = {}
     @fileUploadServiceMock = {}
     @callbackServiceMock = {}
@@ -18,7 +20,10 @@ describe 'mainController', ->
       allowChangeLanguage: true
     }
 
-    @mainController = new Main @scopeMock, @dirStructureMock, @fileTypesMock, @fileTypeFilterMock, @routingChangeServiceMock, @selectionServiceMock, @copyPasteServiceMock, @fileUploadServiceMock, @callbackServiceMock, @$translateMock, @configProviderMock
+    @previewServiceMock =
+      open: jasmine.createSpy()
+
+    @mainController = new Main @scopeMock, @dirStructureMock, @fileTypesMock, @fileTypeFilterMock, @routingChangeServiceMock, @selectionServiceMock, @copyPasteServiceMock, @fileUploadServiceMock, @callbackServiceMock, @$translateMock, @configProviderMock, @previewServiceMock
 
   describe 'constructor', ->
     it 'should set $scope', ->
@@ -37,7 +42,7 @@ describe 'mainController', ->
       expect(@mainController.routingChangeService).toEqual @routingChangeServiceMock
 
     it 'should set selectionService', ->
-      expect(@mainController.previewService).toEqual @selectionServiceMock
+      expect(@mainController.selection).toEqual @selectionServiceMock
 
     it 'should set fileUploadService', ->
       expect(@mainController.fileUploadService).toEqual @fileUploadServiceMock
@@ -77,4 +82,29 @@ describe 'mainController', ->
 
       expect(@mainController.getLanguageSymbol()).toEqual 'EN'
       expect(@$translateMock.use).toHaveBeenCalled()
+
+
+  describe 'onClick', ->
+    it 'should call selection.toggleFile', ->
+      $event =
+        type: 'click'
+      file =
+        id: 7
+
+      @mainController.onClick file, $event
+
+      expect(@selectionServiceMock.toggleFile).toHaveBeenCalledWith file, $event
+
+  describe 'openPreview', ->
+    it 'should call previewService.open', ->
+      $event =
+        type: 'click'
+        stopPropagation: jasmine.createSpy()
+      file =
+        id: 7
+
+      @mainController.openPreview $event, file
+
+      expect($event.stopPropagation).toHaveBeenCalled()
+      expect(@previewServiceMock.open).toHaveBeenCalledWith file
 

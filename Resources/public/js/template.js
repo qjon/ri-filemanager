@@ -1,11 +1,3 @@
-/*
- * This file is part of the RIFilemanagerBundle package.
- *
- * (c) Rafal Ignaszewski <https://github.com/qjon>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 angular.module('templates', []).run(['$templateCache', function($templateCache) {
   'use strict';
 
@@ -237,7 +229,7 @@ angular.module('templates', []).run(['$templateCache', function($templateCache) 
     "        <div ng-repeat=\"file in mainCtrl.getFiles() track by file.id\" ng-click=\"mainCtrl.onClick($event, file)\" ng-class=\"{selected: mainCtrl.selection.isSelectedFile(file.id)}\" class=\"thumb thumb-file\">\n" +
     "          <div ng-if=\"file.isImage()\" class=\"thumb-image\"><img ng-src=\"{{ file.src }}\"/></div><img ng-if=\"!file.isImage()\" ng-src=\"{{ file.icon }}\" class=\"thumb-image thumb-icon\"/>\n" +
     "          <div data-ng-bind=\"file.name\" class=\"thumb-name\"></div>\n" +
-    "          <div class=\"menu file-menu\"><i ng-click=\"mainCtrl.routingChangeService.downloadFile(file, $event)\" class=\"fa fa-download\"></i><i ng-show=\"file.isImage()\" ng-click=\"file.openEditDialog($event)\" class=\"fa fa-edit\"></i><i ng-show=\"file.isImage() &amp;&amp; mainCtrl.callbackService.isFileCallback() &amp;&amp; mainCtrl.selection.isEmptySelection()\" ng-click=\"mainCtrl.callbackService.fileCallback($event, file)\" class=\"fa fa-image\"></i><i ng-show=\"!file.isImage() &amp;&amp; mainCtrl.callbackService.isFileCallback() &amp;&amp; mainCtrl.selection.isEmptySelection()\" ng-click=\"mainCtrl.callbackService.fileCallback($event, file)\" class=\"fa fa-link\"></i><i ng-click=\"file.openRemoveDialog($event)\" class=\"fa fa-trash-o\"></i></div><i ng-show=\"mainCtrl.selection.isSelectedFile(file.id)\" class=\"fa fa-check selection-mark\"></i>\n" +
+    "          <div class=\"menu file-menu\"><i ng-click=\"mainCtrl.openPreview($event, file)\" class=\"fa fa-search-plus\"></i><i ng-click=\"mainCtrl.routingChangeService.downloadFile(file, $event)\" class=\"fa fa-download\"></i><i ng-show=\"file.isImage()\" ng-click=\"file.openEditDialog($event)\" class=\"fa fa-edit\"></i><i ng-show=\"file.isImage() &amp;&amp; mainCtrl.callbackService.isFileCallback() &amp;&amp; mainCtrl.selection.isEmptySelection()\" ng-click=\"mainCtrl.callbackService.fileCallback($event, file)\" class=\"fa fa-image\"></i><i ng-show=\"!file.isImage() &amp;&amp; mainCtrl.callbackService.isFileCallback() &amp;&amp; mainCtrl.selection.isEmptySelection()\" ng-click=\"mainCtrl.callbackService.fileCallback($event, file)\" class=\"fa fa-link\"></i><i ng-click=\"file.openRemoveDialog($event)\" class=\"fa fa-trash-o\"></i></div><i ng-show=\"mainCtrl.selection.isSelectedFile(file.id)\" class=\"fa fa-check selection-mark\"></i>\n" +
     "        </div>\n" +
     "      </div>\n" +
     "    </div>\n" +

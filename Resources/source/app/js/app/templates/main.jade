@@ -81,6 +81,7 @@
                     img.thumb-image.thumb-icon(ng-if="!file.isImage()", ng-src="{{ file.icon }}")
                     .thumb-name(data-ng-bind="file.name")
                     .menu.file-menu
+                        i.fa.fa-search-plus(ng-click="mainCtrl.openPreview($event, file)")
                         i.fa.fa-download(ng-click="mainCtrl.routingChangeService.downloadFile(file, $event)")
                         i.fa.fa-edit(ng-show="file.isImage()", ng-click="file.openEditDialog($event)")
                         i.fa.fa-image(ng-show="file.isImage() && mainCtrl.callbackService.isFileCallback() && mainCtrl.selection.isEmptySelection()", ng-click="mainCtrl.callbackService.fileCallback($event, file)")
