@@ -81,12 +81,12 @@
       }
 
       .thumb-image {
-        height: @thumbHeight - @thumbNameHeight - 10;
+        width: 100%;
+        height: @thumbHeight - @thumbNameHeight - 2;
         text-align: center;
 
         img {
-          width: 100%;
-          max-height: 100px;
+          max-height: 108px;
         }
 
         .fa {
@@ -123,7 +123,7 @@
 
       &.thumb-file {
         .thumb-image {
-          width: @thumbWidth - 10;
+          width: @thumbWidth;
           .border-radius(@borderRadius);
 
           &.thumb-icon {
